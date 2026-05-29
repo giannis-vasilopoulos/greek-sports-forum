@@ -137,3 +137,4 @@ See [reference.md](reference.md) for installed components and doc links.
 | Native `<select>` for styled dropdowns | shadcn Select |
 | Mix icon libraries | Lucide only |
 | Skip FormField wrapper | FormField + FormItem + FormLabel + FormControl |
+| Ship custom components without tests | Co-locate Vitest tests per [testing](../testing/SKILL.md) skill |

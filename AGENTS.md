@@ -110,6 +110,10 @@ Docker Compose defaults (`docker-compose.yml`):
 | `pnpm build` | Production build |
 | `pnpm start` | Run production server |
 | `pnpm lint` | ESLint (Next.js core-web-vitals + TypeScript) |
+| `pnpm test` | Run unit tests (Vitest) |
+| `pnpm test:watch` | Unit tests in watch mode |
+| `pnpm test:e2e` | Playwright e2e tests |
+| `pnpm test:e2e:ui` | Playwright UI mode |
 | `pnpm db:generate` | Generate Drizzle migration from schema changes |
 | `pnpm db:migrate` | Apply migrations |
 | `pnpm db:push` | Push schema directly (dev/prototyping only) |
@@ -121,10 +125,11 @@ Run these when touching app code:
 
 ```bash
 pnpm lint
+pnpm test
 pnpm build
 ```
 
-Both must pass before claiming work is complete.
+All three must pass before claiming work is complete. Run `pnpm test:e2e` when the change touches pages, auth, or full request flows (requires Docker Postgres and `.env.local`). One-time Playwright browser install: `pnpm exec playwright install`.
 
 ---
 
@@ -147,6 +152,9 @@ lib/
   auth-client.ts        # Better Auth React client
   utils.ts              # cn() helper for class merging
 proxy.ts                # Route protection (Next.js 16 proxy convention)
+vitest.config.ts        # Vitest unit test config
+playwright.config.ts    # Playwright e2e config
+e2e/                    # Feature-scoped Playwright specs
 drizzle.config.ts       # Drizzle Kit config
 docker-compose.yml      # Local PostgreSQL
 components.json         # shadcn/ui config
@@ -186,6 +194,14 @@ Follow `.cursor/skills/tailwind-styling/SKILL.md` for Tailwind v4, tokens, and d
 ### shadcn/ui
 
 Follow `.cursor/skills/shadcn-ui/SKILL.md` for adding and extending components.
+
+### Testing
+
+Follow `.cursor/skills/testing/SKILL.md` for Vitest unit tests and Playwright e2e tests.
+
+- Co-locate unit tests: `components/foo.tsx` → `components/foo.test.tsx`, `lib/bar.ts` → `lib/bar.test.ts`
+- Organize e2e by feature: `e2e/<feature>/<feature>.spec.ts`
+- Skip tests for unmodified shadcn `components/ui/*` primitives
 
 ### Database (Drizzle)
 
@@ -273,10 +289,11 @@ Subject: imperative mood, lowercase, no trailing period.
 1. **Read before writing** — inspect surrounding files and match conventions.
 2. **Minimize scope** — smallest correct change; no drive-by refactors.
 3. **Check Next.js docs** — for routing, caching, fetching, or navigation changes.
-4. **Verify** — run `pnpm lint` and `pnpm build`.
+4. **Verify** — run `pnpm lint`, `pnpm test`, and `pnpm build`; run `pnpm test:e2e` for page/auth changes.
 5. **Database changes** — always generate and apply migrations; update `db/schema.ts` first.
 6. **New UI primitives** — use shadcn CLI; extend existing components before creating duplicates.
 7. **Auth-sensitive routes** — update `proxy.ts` matcher when protecting new paths.
+8. **Feature tests** — add co-located Vitest tests in `components/` or `lib/` where behavior is non-trivial; add or update a Playwright spec under `e2e/<feature>/` per the testing skill.
 
 ### Avoid
 
