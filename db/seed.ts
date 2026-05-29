@@ -1,42 +1,57 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import "dotenv/config";
 import { pathToFileURL } from "node:url";
-import { db } from "./index";
+
 import { leagues, teams } from "./schema";
 import { seedUsers } from "./seed/users";
+
+import { db } from "./index";
 
 type LeagueSeed = {
   slug: string;
   name: string;
   displayOrder: number;
-  provider: "football-data" | "thesportsdb";
+  provider: "football-data" | "api-football" | "api-basketball" | "thesportsdb";
   externalId: string;
+  apiSportsSeason?: string;
+  thesportsdbSearchName?: string;
   sport: "football" | "basketball";
   type?: "league" | "tournament";
 };
 
 const FOOTBALL_DATA_API_KEY = process.env.FOOTBALL_DATA_API_KEY;
+const API_SPORTS_KEY = process.env.API_SPORTS_KEY;
 
+const FOOTBALL_SEASON = "2024"; //footballSeasonStartYear();
+const BASKETBALL_SEASON = "2024-2025"; // basketballSeasonString();
+
+/**
+ * Team data sources (see fetchTeamsForLeague):
+ *
+ * | Provider        | Env var               | Leagues                                      | Endpoint |
+ * |-----------------|-----------------------|----------------------------------------------|----------|
+ * | api-football    | API_SPORTS_KEY        | Super League (197)                           | GET v3.football.api-sports.io/teams?league=&season= |
+ * | api-basketball  | API_SPORTS_KEY        | Euroleague (120), NBA (12)                   | GET v1.basketball.api-sports.io/teams?league=&season= |
+ * | football-data   | FOOTBALL_DATA_API_KEY | Champions League, PL, La Liga, Bundesliga,   | GET api.football-data.org/v4/competitions/{id}/teams |
+ * |                 |                       | Serie A, World Cup, Euro                     |          |
+ * | thesportsdb     | (none — public key)   | Basket League (4452)                         | GET thesportsdb.com/.../search_all_teams.php?l= |
+ */
 const LEAGUE_SEEDS: LeagueSeed[] = [
+  // api-football (API_SPORTS_KEY) — v3.football.api-sports.io
   {
     slug: "super-league",
     name: "Super League",
     displayOrder: 1,
-    provider: "football-data",
-    externalId: "318",
+    provider: "api-football",
+    externalId: "197",
+    apiSportsSeason: FOOTBALL_SEASON,
     sport: "football",
   },
-  {
-    slug: "super-league-2",
-    name: "Super League 2",
-    displayOrder: 2,
-    provider: "thesportsdb",
-    externalId: "4640",
-    sport: "football",
-  },
+  // football-data.org (FOOTBALL_DATA_API_KEY) — free tier, 7s delay between calls
   {
     slug: "champions-league",
     name: "Champions League",
-    displayOrder: 3,
+    displayOrder: 2,
     provider: "football-data",
     externalId: "2001",
     sport: "football",
@@ -44,7 +59,7 @@ const LEAGUE_SEEDS: LeagueSeed[] = [
   {
     slug: "premier-league",
     name: "Premier League",
-    displayOrder: 4,
+    displayOrder: 3,
     provider: "football-data",
     externalId: "2021",
     sport: "football",
@@ -52,7 +67,7 @@ const LEAGUE_SEEDS: LeagueSeed[] = [
   {
     slug: "la-liga",
     name: "La Liga",
-    displayOrder: 5,
+    displayOrder: 4,
     provider: "football-data",
     externalId: "2014",
     sport: "football",
@@ -60,7 +75,7 @@ const LEAGUE_SEEDS: LeagueSeed[] = [
   {
     slug: "bundesliga",
     name: "Bundesliga",
-    displayOrder: 6,
+    displayOrder: 5,
     provider: "football-data",
     externalId: "2002",
     sport: "football",
@@ -68,39 +83,45 @@ const LEAGUE_SEEDS: LeagueSeed[] = [
   {
     slug: "serie-a",
     name: "Serie A",
-    displayOrder: 7,
+    displayOrder: 6,
     provider: "football-data",
     externalId: "2019",
     sport: "football",
   },
+  // api-basketball (API_SPORTS_KEY) — v1.basketball.api-sports.io
   {
     slug: "euroleague",
     name: "Euroleague",
-    displayOrder: 8,
-    provider: "thesportsdb",
-    externalId: "4546",
+    displayOrder: 7,
+    provider: "api-basketball",
+    externalId: "120",
+    apiSportsSeason: BASKETBALL_SEASON,
     sport: "basketball",
   },
   {
     slug: "nba",
     name: "NBA",
-    displayOrder: 9,
-    provider: "thesportsdb",
-    externalId: "4387",
+    displayOrder: 8,
+    provider: "api-basketball",
+    externalId: "12",
+    apiSportsSeason: BASKETBALL_SEASON,
     sport: "basketball",
   },
+  // thesportsdb (no key) — search_all_teams.php?l=Greek_Basket_League
   {
     slug: "basket-league",
     name: "Basket League",
-    displayOrder: 10,
+    displayOrder: 9,
     provider: "thesportsdb",
     externalId: "4452",
+    thesportsdbSearchName: "Greek_Basket_League",
     sport: "basketball",
   },
+  // football-data.org — tournaments
   {
     slug: "world-cup",
     name: "Παγκόσμιο Κύπελλο",
-    displayOrder: 11,
+    displayOrder: 10,
     provider: "football-data",
     externalId: "2000",
     sport: "football",
@@ -109,7 +130,7 @@ const LEAGUE_SEEDS: LeagueSeed[] = [
   {
     slug: "euro",
     name: "Euro",
-    displayOrder: 12,
+    displayOrder: 11,
     provider: "football-data",
     externalId: "2018",
     sport: "football",
@@ -123,6 +144,28 @@ type SeedTeam = {
   logoUrl: string | null;
 };
 
+type ApiSportsResponse = {
+  errors?: Record<string, string> | string[];
+  response?: Array<{ team: { name: string; logo?: string | null } }>;
+};
+
+function footballSeasonStartYear(): string {
+  const now = new Date();
+  const year = now.getFullYear();
+  // European football seasons start in August
+  return String(now.getMonth() >= 7 ? year : year - 1);
+}
+
+function basketballSeasonString(): string {
+  const now = new Date();
+  const year = now.getFullYear();
+  // Basketball seasons start in October
+  if (now.getMonth() >= 9) {
+    return `${year}-${year + 1}`;
+  }
+  return `${year - 1}-${year}`;
+}
+
 function slugify(text: string): string {
   return text
     .toLowerCase()
@@ -134,6 +177,31 @@ function slugify(text: string): string {
 
 function teamSlug(leagueSlug: string, name: string): string {
   return `${leagueSlug}-${slugify(name)}`;
+}
+
+function assertApiSportsKey(): string {
+  if (!API_SPORTS_KEY) {
+    throw new Error("API_SPORTS_KEY is required for API-Sports leagues");
+  }
+  return API_SPORTS_KEY;
+}
+
+function parseApiSportsErrors(
+  provider: string,
+  leagueId: string,
+  data: ApiSportsResponse,
+): void {
+  const { errors } = data;
+  if (!errors) return;
+
+  const messages =
+    typeof errors === "object" && !Array.isArray(errors)
+      ? Object.values(errors)
+      : errors;
+
+  if (messages.length > 0) {
+    throw new Error(`${provider} ${leagueId}: ${JSON.stringify(messages)}`);
+  }
 }
 
 async function fetchFootballDataTeams(
@@ -183,17 +251,83 @@ async function fetchFootballDataTeams(
   });
 }
 
-async function fetchSportsDbTeams(
+async function fetchApiFootballTeams(
   leagueSlug: string,
-  externalId: string,
+  leagueId: string,
+  season: string,
 ): Promise<SeedTeam[]> {
+  const apiKey = assertApiSportsKey();
+
   const res = await fetch(
-    `https://www.thesportsdb.com/api/v1/json/3/lookup_all_teams.php?id=${externalId}`,
+    `https://v3.football.api-sports.io/teams?league=${leagueId}&season=${season}`,
+    { headers: { "x-apisports-key": apiKey } },
   );
 
   if (!res.ok) {
     const body = await res.text();
-    throw new Error(`TheSportsDB ${externalId}: HTTP ${res.status} — ${body}`);
+    throw new Error(`API-Football ${leagueId}: HTTP ${res.status} — ${body}`);
+  }
+
+  const data = (await res.json()) as ApiSportsResponse;
+  parseApiSportsErrors("API-Football", leagueId, data);
+
+  if (!Array.isArray(data.response)) {
+    throw new TypeError(
+      `API-Football ${leagueId}: unexpected response (no response array)`,
+    );
+  }
+
+  return data.response.map(({ team }) => ({
+    name: team.name,
+    slug: teamSlug(leagueSlug, team.name),
+    logoUrl: team.logo ?? null,
+  }));
+}
+
+async function fetchApiBasketballTeams(
+  leagueSlug: string,
+  leagueId: string,
+  season: string,
+): Promise<SeedTeam[]> {
+  const apiKey = assertApiSportsKey();
+
+  const res = await fetch(
+    `https://v1.basketball.api-sports.io/teams?league=${leagueId}&season=${season}`,
+    { headers: { "x-apisports-key": apiKey } },
+  );
+
+  if (!res.ok) {
+    const body = await res.text();
+    throw new Error(`API-Basketball ${leagueId}: HTTP ${res.status} — ${body}`);
+  }
+
+  const data = (await res.json()) as ApiSportsResponse;
+  parseApiSportsErrors("API-Basketball", leagueId, data);
+
+  if (!Array.isArray(data.response)) {
+    throw new TypeError(
+      `API-Basketball ${leagueId}: unexpected response (no response array)`,
+    );
+  }
+  console.log(data.response);
+  return data.response.map(({ team }) => ({
+    name: team.name,
+    slug: teamSlug(leagueSlug, team.name),
+    logoUrl: team.logo ?? null,
+  }));
+}
+
+async function fetchSportsDbTeams(
+  leagueSlug: string,
+  searchName: string,
+): Promise<SeedTeam[]> {
+  const res = await fetch(
+    `https://www.thesportsdb.com/api/v1/json/3/search_all_teams.php?l=${encodeURIComponent(searchName)}`,
+  );
+
+  if (!res.ok) {
+    const body = await res.text();
+    throw new Error(`TheSportsDB ${searchName}: HTTP ${res.status} — ${body}`);
   }
 
   const data = (await res.json()) as {
@@ -202,7 +336,7 @@ async function fetchSportsDbTeams(
 
   if (!Array.isArray(data.teams)) {
     throw new TypeError(
-      `TheSportsDB ${externalId}: unexpected response (no teams array)`,
+      `TheSportsDB ${searchName}: unexpected response (no teams array)`,
     );
   }
 
@@ -221,7 +355,32 @@ async function fetchTeamsForLeague(l: LeagueSeed): Promise<SeedTeam[]> {
   if (l.provider === "football-data") {
     return fetchFootballDataTeams(l.slug, l.externalId);
   }
-  return fetchSportsDbTeams(l.slug, l.externalId);
+
+  if (l.provider === "api-football") {
+    if (!l.apiSportsSeason) {
+      throw new Error(
+        `API-Football league ${l.slug} is missing apiSportsSeason`,
+      );
+    }
+    return fetchApiFootballTeams(l.slug, l.externalId, l.apiSportsSeason);
+  }
+
+  if (l.provider === "api-basketball") {
+    if (!l.apiSportsSeason) {
+      throw new Error(
+        `API-Basketball league ${l.slug} is missing apiSportsSeason`,
+      );
+    }
+    return fetchApiBasketballTeams(l.slug, l.externalId, l.apiSportsSeason);
+  }
+
+  if (!l.thesportsdbSearchName) {
+    throw new Error(
+      `TheSportsDB league ${l.slug} is missing thesportsdbSearchName`,
+    );
+  }
+
+  return fetchSportsDbTeams(l.slug, l.thesportsdbSearchName);
 }
 
 export async function seed() {
@@ -241,7 +400,7 @@ export async function seed() {
       })
       .onConflictDoUpdate({
         target: leagues.slug,
-        set: { name: l.name },
+        set: { name: l.name, displayOrder: l.displayOrder },
       })
       .returning();
 
@@ -263,6 +422,11 @@ export async function seed() {
     // football-data.org free tier: 10 req/min
     if (l.provider === "football-data") {
       await new Promise((r) => setTimeout(r, 7000));
+    }
+
+    // API-Sports free tier: 10 req/min
+    if (l.provider === "api-football" || l.provider === "api-basketball") {
+      await new Promise((r) => setTimeout(r, 1000));
     }
   }
 
