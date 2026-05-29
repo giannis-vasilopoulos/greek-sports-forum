@@ -203,6 +203,11 @@ import { cn } from "@/lib/utils";
 - Co-locate route-specific components under the route directory when they are not shared.
 - Use `next/image` for images and `next/link` for internal navigation.
 
+### Copy & language
+
+- All user-facing text in the frontend must be in **Greek** — labels, headings, buttons, links, placeholders, validation and error messages, empty states, toasts, and accessible names (`aria-label`, `title`, etc.).
+- Keep code identifiers, comments, commit messages, and server-side logs in English unless a task says otherwise.
+
 ### Styling
 
 Follow `.cursor/skills/tailwind-styling/SKILL.md` for Tailwind v4, tokens, and dark mode.

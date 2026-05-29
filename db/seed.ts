@@ -23,7 +23,7 @@ const FOOTBALL_DATA_API_KEY = process.env.FOOTBALL_DATA_API_KEY;
 const API_SPORTS_KEY = process.env.API_SPORTS_KEY;
 
 const FOOTBALL_SEASON = "2024"; //footballSeasonStartYear();
-const BASKETBALL_SEASON = "2024-2025"; // basketballSeasonString();
+const BASKETBALL_SEASON = basketballSeasonString();
 
 /**
  * Team data sources (see fetchTeamsForLeague):
@@ -149,6 +149,25 @@ type ApiSportsResponse = {
   response?: Array<{ team: { name: string; logo?: string | null } }>;
 };
 
+type ApiBasketballTeam = {
+  id: number;
+  name: string;
+  logo?: string | null;
+};
+
+type ApiBasketballResponse<T> = {
+  errors?: Record<string, string> | string[];
+  response?: T;
+};
+
+type ApiBasketballLeagueSeason = {
+  season: string | number;
+  start?: string;
+  end?: string;
+};
+
+const API_BASKETBALL_FREE_TIER_MAX_START_YEAR = 2024;
+
 function footballSeasonStartYear(): string {
   const now = new Date();
   const year = now.getFullYear();
@@ -186,22 +205,236 @@ function assertApiSportsKey(): string {
   return API_SPORTS_KEY;
 }
 
+function getApiSportsErrorMessages(data: {
+  errors?: Record<string, string> | string[];
+}): string[] {
+  const { errors } = data;
+  if (!errors) return [];
+
+  return typeof errors === "object" && !Array.isArray(errors)
+    ? Object.values(errors)
+    : errors;
+}
+
 function parseApiSportsErrors(
   provider: string,
   leagueId: string,
-  data: ApiSportsResponse,
+  data: { errors?: Record<string, string> | string[] },
 ): void {
-  const { errors } = data;
-  if (!errors) return;
-
-  const messages =
-    typeof errors === "object" && !Array.isArray(errors)
-      ? Object.values(errors)
-      : errors;
+  const messages = getApiSportsErrorMessages(data);
 
   if (messages.length > 0) {
     throw new Error(`${provider} ${leagueId}: ${JSON.stringify(messages)}`);
   }
+}
+
+function basketballSeasonStartYear(season: string | number): number {
+  if (typeof season === "number") {
+    return season;
+  }
+  return Number.parseInt(season.split("-")[0] ?? "", 10);
+}
+
+function isFreeTierBasketballSeason(season: string | number): boolean {
+  const startYear = basketballSeasonStartYear(season);
+  return (
+    !Number.isNaN(startYear) &&
+    startYear <= API_BASKETBALL_FREE_TIER_MAX_START_YEAR
+  );
+}
+
+function formatBasketballSeason(season: string | number): string {
+  return String(season);
+}
+
+function mapApiBasketballTeams(
+  leagueSlug: string,
+  teams: ApiBasketballTeam[],
+): SeedTeam[] {
+  return teams.map((t) => ({
+    name: t.name,
+    slug: teamSlug(leagueSlug, t.name),
+    logoUrl: t.logo ?? null,
+  }));
+}
+
+async function fetchApiBasketballJson<T>(
+  path: string,
+  leagueId: string,
+): Promise<T> {
+  const apiKey = assertApiSportsKey();
+  const res = await fetch(`https://v1.basketball.api-sports.io/${path}`, {
+    headers: { "x-apisports-key": apiKey },
+  });
+
+  if (!res.ok) {
+    const body = await res.text();
+    throw new Error(`API-Basketball ${leagueId}: HTTP ${res.status} — ${body}`);
+  }
+
+  return (await res.json()) as T;
+}
+
+function isSeasonAccessError(error: unknown): boolean {
+  return (
+    error instanceof Error &&
+    error.message.includes("Free plans do not have access to this season")
+  );
+}
+
+async function fetchApiBasketballTeamsRaw(
+  leagueId: string,
+  season: string,
+): Promise<ApiBasketballTeam[]> {
+  const data = await fetchApiBasketballJson<
+    ApiBasketballResponse<ApiBasketballTeam[]>
+  >(`teams?league=${leagueId}&season=${season}`, leagueId);
+
+  parseApiSportsErrors("API-Basketball", leagueId, data);
+
+  if (!Array.isArray(data.response)) {
+    throw new TypeError(
+      `API-Basketball ${leagueId}: unexpected response (no response array)`,
+    );
+  }
+
+  return data.response;
+}
+
+async function tryFetchApiBasketballTeamsRaw(
+  leagueId: string,
+  season: string,
+): Promise<ApiBasketballTeam[]> {
+  try {
+    return await fetchApiBasketballTeamsRaw(leagueId, season);
+  } catch (error) {
+    if (isSeasonAccessError(error)) {
+      return [];
+    }
+    throw error;
+  }
+}
+
+async function resolveBasketballSeason(
+  leagueId: string,
+  preferredSeason: string,
+): Promise<string> {
+  const data = await fetchApiBasketballJson<
+    ApiBasketballResponse<
+      Array<{ seasons?: ApiBasketballLeagueSeason[] | null }>
+    >
+  >(`leagues?id=${leagueId}`, leagueId);
+
+  parseApiSportsErrors("API-Basketball", leagueId, data);
+
+  const seasons = data.response?.[0]?.seasons;
+  if (!Array.isArray(seasons) || seasons.length === 0) {
+    return preferredSeason;
+  }
+
+  const available = seasons.filter((s) => isFreeTierBasketballSeason(s.season));
+  if (available.length === 0) {
+    return formatBasketballSeason(seasons.at(-1)!.season);
+  }
+
+  const preferred = available.find(
+    (s) => formatBasketballSeason(s.season) === preferredSeason,
+  );
+  if (preferred) {
+    return formatBasketballSeason(preferred.season);
+  }
+
+  const preferredStartYear = basketballSeasonStartYear(preferredSeason);
+  const sameStartYear = available.find(
+    (s) => basketballSeasonStartYear(s.season) === preferredStartYear,
+  );
+  if (sameStartYear) {
+    return formatBasketballSeason(sameStartYear.season);
+  }
+
+  const sorted = [...available].sort((a, b) => {
+    const aEnd = a.end ? new Date(a.end).getTime() : 0;
+    const bEnd = b.end ? new Date(b.end).getTime() : 0;
+    return bEnd - aEnd;
+  });
+
+  return formatBasketballSeason(sorted[0]!.season);
+}
+
+function extractTeamFromStandingRow(row: unknown): ApiBasketballTeam | null {
+  if (!row || typeof row !== "object") return null;
+
+  const record = row as Record<string, unknown>;
+  const nested = record.team;
+
+  if (nested && typeof nested === "object") {
+    const team = nested as Record<string, unknown>;
+    if (typeof team.name === "string") {
+      return {
+        id: typeof team.id === "number" ? team.id : 0,
+        name: team.name,
+        logo: typeof team.logo === "string" ? team.logo : null,
+      };
+    }
+  }
+
+  if (typeof record.name === "string") {
+    return {
+      id: typeof record.id === "number" ? record.id : 0,
+      name: record.name,
+      logo: typeof record.logo === "string" ? record.logo : null,
+    };
+  }
+
+  return null;
+}
+
+async function fetchApiBasketballTeamsFromStandings(
+  leagueSlug: string,
+  leagueId: string,
+  season: string,
+): Promise<SeedTeam[]> {
+  let data: ApiBasketballResponse<unknown[]>;
+  try {
+    data = await fetchApiBasketballJson<ApiBasketballResponse<unknown[]>>(
+      `standings?league=${leagueId}&season=${season}`,
+      leagueId,
+    );
+  } catch (error) {
+    if (isSeasonAccessError(error)) {
+      return [];
+    }
+    throw error;
+  }
+
+  const messages = getApiSportsErrorMessages(data);
+  if (
+    messages.some((message) =>
+      message.includes("Free plans do not have access to this season"),
+    )
+  ) {
+    return [];
+  }
+
+  parseApiSportsErrors("API-Basketball", leagueId, data);
+
+  if (!Array.isArray(data.response)) {
+    return [];
+  }
+
+  const byName = new Map<string, ApiBasketballTeam>();
+
+  for (const entry of data.response) {
+    const rows = Array.isArray(entry) ? entry : [entry];
+    for (const row of rows) {
+      const team = extractTeamFromStandingRow(row);
+      if (team) {
+        byName.set(team.name, team);
+      }
+    }
+  }
+
+  return mapApiBasketballTeams(leagueSlug, [...byName.values()]);
 }
 
 async function fetchFootballDataTeams(
@@ -289,32 +522,31 @@ async function fetchApiBasketballTeams(
   leagueId: string,
   season: string,
 ): Promise<SeedTeam[]> {
-  const apiKey = assertApiSportsKey();
+  const resolvedSeason = await resolveBasketballSeason(leagueId, season);
+  const attemptedSeasons = [season];
+  if (resolvedSeason !== season) {
+    attemptedSeasons.push(resolvedSeason);
+  }
 
-  const res = await fetch(
-    `https://v1.basketball.api-sports.io/teams?league=${leagueId}&season=${season}`,
-    { headers: { "x-apisports-key": apiKey } },
+  const teams = await tryFetchApiBasketballTeamsRaw(leagueId, resolvedSeason);
+
+  if (teams.length > 0) {
+    return mapApiBasketballTeams(leagueSlug, teams);
+  }
+
+  const fromStandings = await fetchApiBasketballTeamsFromStandings(
+    leagueSlug,
+    leagueId,
+    resolvedSeason,
   );
-
-  if (!res.ok) {
-    const body = await res.text();
-    throw new Error(`API-Basketball ${leagueId}: HTTP ${res.status} — ${body}`);
+  if (fromStandings.length > 0) {
+    return fromStandings;
   }
 
-  const data = (await res.json()) as ApiSportsResponse;
-  parseApiSportsErrors("API-Basketball", leagueId, data);
-
-  if (!Array.isArray(data.response)) {
-    throw new TypeError(
-      `API-Basketball ${leagueId}: unexpected response (no response array)`,
-    );
-  }
-  console.log(data.response);
-  return data.response.map(({ team }) => ({
-    name: team.name,
-    slug: teamSlug(leagueSlug, team.name),
-    logoUrl: team.logo ?? null,
-  }));
+  console.warn(
+    `API-Basketball ${leagueId}: no teams found for seasons [${attemptedSeasons.join(", ")}]`,
+  );
+  return [];
 }
 
 async function fetchSportsDbTeams(
