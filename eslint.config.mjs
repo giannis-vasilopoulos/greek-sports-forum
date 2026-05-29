@@ -17,6 +17,20 @@ const eslintConfig = defineConfig([
     "playwright-report/**",
   ]),
   prettier,
+  {
+    rules: {
+      "@typescript-eslint/no-explicit-any": "error",
+      "@typescript-eslint/consistent-type-imports": "error",
+      "import/order": [
+        "error",
+        {
+          groups: ["builtin", "external", "internal", "parent", "sibling"],
+          "newlines-between": "always",
+        },
+      ],
+      "no-console": ["warn", { allow: ["warn", "error"] }],
+    },
+  },
 ]);
 
 export default eslintConfig;

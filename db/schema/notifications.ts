@@ -10,6 +10,7 @@ import {
   index,
   jsonb,
 } from "drizzle-orm/pg-core";
+
 import { user } from "./auth";
 
 export const notifTypeEnum = pgEnum("notif_type", [

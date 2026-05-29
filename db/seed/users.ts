@@ -1,5 +1,6 @@
 import { hashPassword } from "better-auth/crypto";
 import { and, eq } from "drizzle-orm";
+
 import { db } from "../index";
 import { account, user } from "../schema";
 

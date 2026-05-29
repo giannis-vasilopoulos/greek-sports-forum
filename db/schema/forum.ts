@@ -10,6 +10,7 @@ import {
   index,
   primaryKey,
 } from "drizzle-orm/pg-core";
+
 import { fanProfiles } from "./profiles";
 import { leagues } from "./leagues";
 

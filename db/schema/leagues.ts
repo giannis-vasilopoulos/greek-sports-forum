@@ -9,6 +9,7 @@ import {
   integer,
   index,
 } from "drizzle-orm/pg-core";
+
 import { fanProfiles } from "./profiles";
 import { threads } from "./forum";
 

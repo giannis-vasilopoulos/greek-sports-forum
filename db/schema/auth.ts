@@ -7,6 +7,7 @@ import {
   boolean,
   index,
 } from "drizzle-orm/pg-core";
+
 import { fanProfiles } from "./profiles";
 import { notifications } from "./notifications";
 

@@ -9,6 +9,7 @@ import {
   index,
   unique,
 } from "drizzle-orm/pg-core";
+
 import { user } from "./auth";
 import { leagues, teams } from "./leagues";
 import { threads, posts, postLikes } from "./forum";
