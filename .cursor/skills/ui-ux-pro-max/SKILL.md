@@ -1,6 +1,28 @@
+---
+name: ui-ux-pro-max
+description: >-
+  Design research for UI/UX work — design systems, palettes, typography,
+  landing patterns via searchable CSV data. Use for landing pages, visual
+  design exploration, or when the user asks for design polish beyond
+  project tokens.
+---
+
 # ui-ux-pro-max
 
 Comprehensive design guide for web and mobile applications. Contains 67 styles, 96 color palettes, 57 font pairings, 99 UX guidelines, and 25 chart types across 13 technology stacks. Searchable database with priority-based recommendations.
+
+## Greek Sports Forum context
+
+This repo has dedicated skills for day-to-day implementation:
+
+- **Tokens, Tailwind, dark mode** → [tailwind-styling](../tailwind-styling/SKILL.md)
+- **shadcn/ui components, CLI, forms** → [shadcn-ui](../shadcn-ui/SKILL.md)
+
+When using this skill for design research:
+
+1. Default stack flags to **`nextjs`** and **`shadcn`** (not `html-tailwind`)
+2. **Map design recommendations to existing semantic tokens** in `app/globals.css` — do not introduce parallel color systems
+3. Implement components via [shadcn-ui](../shadcn-ui/SKILL.md); apply classes via [tailwind-styling](../tailwind-styling/SKILL.md)
 
 ## Prerequisites
 
@@ -35,18 +57,20 @@ When user requests UI/UX work (design, build, create, implement, review, fix, im
 
 ### Step 1: Analyze User Requirements
 
+Read [tailwind-styling](../tailwind-styling/SKILL.md) and [shadcn-ui](../shadcn-ui/SKILL.md) first if implementing in this repo.
+
 Extract key information from user request:
 - **Product type**: SaaS, e-commerce, portfolio, dashboard, landing page, etc.
 - **Style keywords**: minimal, playful, professional, elegant, dark mode, etc.
 - **Industry**: healthcare, fintech, gaming, education, etc.
-- **Stack**: React, Vue, Next.js, or default to `html-tailwind`
+- **Stack**: For this repo, use **`nextjs`** and **`shadcn`**; otherwise default to `html-tailwind`
 
 ### Step 2: Generate Design System (REQUIRED)
 
 **Always start with `--design-system`** to get comprehensive recommendations with reasoning:
 
 ```bash
-python3 skills/ui-ux-pro-max/scripts/search.py "<product_type> <industry> <keywords>" --design-system [-p "Project Name"]
+python3 .cursor/skills/ui-ux-pro-max/scripts/search.py "<product_type> <industry> <keywords>" --design-system [-p "Project Name"]
 ```
 
 This command:
@@ -57,7 +81,12 @@ This command:
 
 **Example:**
 ```bash
-python3 skills/ui-ux-pro-max/scripts/search.py "beauty spa wellness service" --design-system -p "Serenity Spa"
+python3 .cursor/skills/ui-ux-pro-max/scripts/search.py "beauty spa wellness service" --design-system -p "Serenity Spa"
+```
+
+For Greek Sports Forum:
+```bash
+python3 .cursor/skills/ui-ux-pro-max/scripts/search.py "sports community forum" --design-system -p "Greek Sports Forum"
 ```
 
 ### Step 2b: Persist Design System (Master + Overrides Pattern)
@@ -65,7 +94,7 @@ python3 skills/ui-ux-pro-max/scripts/search.py "beauty spa wellness service" --d
 To save the design system for hierarchical retrieval across sessions, add `--persist`:
 
 ```bash
-python3 skills/ui-ux-pro-max/scripts/search.py "<query>" --design-system --persist -p "Project Name"
+python3 .cursor/skills/ui-ux-pro-max/scripts/search.py "<query>" --design-system --persist -p "Project Name"
 ```
 
 This creates:
@@ -74,7 +103,7 @@ This creates:
 
 **With page-specific override:**
 ```bash
-python3 skills/ui-ux-pro-max/scripts/search.py "<query>" --design-system --persist -p "Project Name" --page "dashboard"
+python3 .cursor/skills/ui-ux-pro-max/scripts/search.py "<query>" --design-system --persist -p "Project Name" --page "dashboard"
 ```
 
 This also creates:
@@ -90,7 +119,7 @@ This also creates:
 After getting the design system, use domain searches to get additional details:
 
 ```bash
-python3 skills/ui-ux-pro-max/scripts/search.py "<keyword>" --domain <domain> [-n <max_results>]
+python3 .cursor/skills/ui-ux-pro-max/scripts/search.py "<keyword>" --domain <domain> [-n <max_results>]
 ```
 
 **When to use detailed searches:**
@@ -103,12 +132,19 @@ python3 skills/ui-ux-pro-max/scripts/search.py "<keyword>" --domain <domain> [-n
 | Alternative fonts | `typography` | `--domain typography "elegant luxury"` |
 | Landing structure | `landing` | `--domain landing "hero social-proof"` |
 
-### Step 4: Stack Guidelines (Default: html-tailwind)
+### Step 4: Stack Guidelines
 
-Get implementation-specific best practices. If user doesn't specify a stack, **default to `html-tailwind`**.
+For **Greek Sports Forum**, run both stack searches:
 
 ```bash
-python3 skills/ui-ux-pro-max/scripts/search.py "<keyword>" --stack html-tailwind
+python3 .cursor/skills/ui-ux-pro-max/scripts/search.py "<keyword>" --stack nextjs
+python3 .cursor/skills/ui-ux-pro-max/scripts/search.py "<keyword>" --stack shadcn
+```
+
+For other projects without shadcn, default to `html-tailwind`:
+
+```bash
+python3 .cursor/skills/ui-ux-pro-max/scripts/search.py "<keyword>" --stack html-tailwind
 ```
 
 Available stacks: `html-tailwind`, `react`, `nextjs`, `vue`, `svelte`, `swiftui`, `react-native`, `flutter`, `shadcn`, `jetpack-compose`
@@ -136,7 +172,7 @@ Available stacks: `html-tailwind`, `react`, `nextjs`, `vue`, `svelte`, `swiftui`
 
 | Stack | Focus |
 |-------|-------|
-| `html-tailwind` | Tailwind utilities, responsive, a11y (DEFAULT) |
+| `html-tailwind` | Tailwind utilities, responsive, a11y (default for non-shadcn projects) |
 | `react` | State, hooks, performance, patterns |
 | `nextjs` | SSR, routing, images, API routes |
 | `vue` | Composition API, Pinia, Vue Router |
@@ -157,12 +193,12 @@ Available stacks: `html-tailwind`, `react`, `nextjs`, `vue`, `svelte`, `swiftui`
 - Product type: Beauty/Spa service
 - Style keywords: elegant, professional, soft
 - Industry: Beauty/Wellness
-- Stack: html-tailwind (default)
+- Stack: html-tailwind (generic example; use nextjs + shadcn for Greek Sports Forum)
 
 ### Step 2: Generate Design System (REQUIRED)
 
 ```bash
-python3 skills/ui-ux-pro-max/scripts/search.py "beauty spa wellness service elegant" --design-system -p "Serenity Spa"
+python3 .cursor/skills/ui-ux-pro-max/scripts/search.py "beauty spa wellness service elegant" --design-system -p "Serenity Spa"
 ```
 
 **Output:** Complete design system with pattern, style, colors, typography, effects, and anti-patterns.
@@ -171,19 +207,19 @@ python3 skills/ui-ux-pro-max/scripts/search.py "beauty spa wellness service eleg
 
 ```bash
 # Get UX guidelines for animation and accessibility
-python3 skills/ui-ux-pro-max/scripts/search.py "animation accessibility" --domain ux
+python3 .cursor/skills/ui-ux-pro-max/scripts/search.py "animation accessibility" --domain ux
 
 # Get alternative typography options if needed
-python3 skills/ui-ux-pro-max/scripts/search.py "elegant luxury serif" --domain typography
+python3 .cursor/skills/ui-ux-pro-max/scripts/search.py "elegant luxury serif" --domain typography
 ```
 
 ### Step 4: Stack Guidelines
 
 ```bash
-python3 skills/ui-ux-pro-max/scripts/search.py "layout responsive form" --stack html-tailwind
+python3 .cursor/skills/ui-ux-pro-max/scripts/search.py "layout responsive form" --stack html-tailwind
 ```
 
-**Then:** Synthesize design system + detailed searches and implement the design.
+**Then:** Synthesize design system + detailed searches and implement the design. For Greek Sports Forum, map colors to `app/globals.css` tokens and follow [shadcn-ui](../shadcn-ui/SKILL.md) + [tailwind-styling](../tailwind-styling/SKILL.md).
 
 ---
 
@@ -193,10 +229,10 @@ The `--design-system` flag supports two output formats:
 
 ```bash
 # ASCII box (default) - best for terminal display
-python3 skills/ui-ux-pro-max/scripts/search.py "fintech crypto" --design-system
+python3 .cursor/skills/ui-ux-pro-max/scripts/search.py "fintech crypto" --design-system
 
 # Markdown - best for documentation
-python3 skills/ui-ux-pro-max/scripts/search.py "fintech crypto" --design-system -f markdown
+python3 .cursor/skills/ui-ux-pro-max/scripts/search.py "fintech crypto" --design-system -f markdown
 ```
 
 ---

@@ -181,22 +181,11 @@ import { cn } from "@/lib/utils";
 
 ### Styling
 
-- Tailwind CSS v4 with CSS variables defined in `app/globals.css`.
-- Use semantic tokens (`bg-background`, `text-foreground`, `border-border`, etc.) instead of hard-coded colors where possible.
-- Merge classes with `cn()` from `@/lib/utils`.
-- Dark mode uses the `.dark` class variant (`@custom-variant dark` in globals.css).
+Follow `.cursor/skills/tailwind-styling/SKILL.md` for Tailwind v4, tokens, and dark mode.
 
 ### shadcn/ui
 
-- Style: **radix-nova**, base color: **neutral**, RSC enabled.
-- Add components via CLI — do not copy-paste from external sources:
-
-```bash
-pnpm dlx shadcn@latest add <component-name>
-```
-
-- Place shared UI in `components/ui/`.
-- `components.json` aliases: `@/components`, `@/components/ui`, `@/lib/utils`, `@/hooks`.
+Follow `.cursor/skills/shadcn-ui/SKILL.md` for adding and extending components.
 
 ### Database (Drizzle)
 
@@ -257,9 +246,7 @@ Unauthenticated requests to matched paths redirect to `/sign-in`. Extend `matche
 
 ## UI/UX work
 
-For design-heavy features (layouts, landing pages, component polish), read and follow:
-
-`.cursor/skills/ui-ux-pro-max/SKILL.md`
+For design-heavy features (layouts, landing pages, visual exploration), follow `.cursor/skills/ui-ux-pro-max/SKILL.md` after reading the styling and shadcn skills above.
 
 That skill uses searchable design data and Python scripts under `.cursor/skills/ui-ux-pro-max/scripts/`.
 
