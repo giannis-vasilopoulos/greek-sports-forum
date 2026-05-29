@@ -1,7 +1,7 @@
 import { eq } from "drizzle-orm";
 
 import { db } from "@/db";
-import { leagues, teams, user } from "@/db/schema";
+import { teams } from "@/db/schema";
 import { runDbOrThrow } from "@/lib/db/run";
 
 export const dynamic = "force-dynamic";
