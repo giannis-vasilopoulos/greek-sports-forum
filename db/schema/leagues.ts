@@ -1,4 +1,3 @@
-// src/db/schema/leagues.ts
 import { relations } from "drizzle-orm";
 import {
   pgTable,
@@ -15,7 +14,6 @@ import { threads } from "./forum";
 
 export const sportEnum = pgEnum("sport", ["football", "basketball"]);
 
-// src/db/schema/leagues.ts — updated
 export const leagueTypeEnum = pgEnum("league_type", [
   "league", // κανονικό πρωτάθλημα, τρέχει κάθε χρόνο
   "tournament", // World Cup, Euro — περιοδικό

@@ -1,5 +1,3 @@
-// src/db/schema/auth.ts
-// Better Auth tables — επεκτείνουμε τον user με username + role
 import { relations } from "drizzle-orm";
 import {
   pgTable,

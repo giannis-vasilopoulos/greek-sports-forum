@@ -2,6 +2,7 @@ import "dotenv/config";
 import { pathToFileURL } from "node:url";
 import { db } from "./index";
 import { leagues, teams } from "./schema";
+import { seedUsers } from "./seed/users";
 
 type LeagueSeed = {
   slug: string;
@@ -224,6 +225,8 @@ async function fetchTeamsForLeague(l: LeagueSeed): Promise<SeedTeam[]> {
 }
 
 export async function seed() {
+  await seedUsers();
+
   console.log("Seeding leagues and teams...");
 
   for (const l of LEAGUE_SEEDS) {
