@@ -209,6 +209,19 @@ Access the database through `db` from `@/db/index.ts`. Schema and relations live
 
 Current tables: `user`, `session`, `account`, `verification` (Better Auth).
 
+### Database errors
+
+Thin helpers in `lib/db/` — do **not** wrap the exported `db` client (Better Auth uses it directly).
+
+| Helper | Use when |
+| --- | --- |
+| `runDbOrThrow(fn)` | RSC or routes where infra failure should hit `error.tsx` or a caught 500 |
+| `runDbResult(fn, { onUnique, onFk })` | Server actions/forms where duplicate key or FK is expected |
+| `notFound()` (Next.js) | Required row missing in RSC — empty query result is not a DB error |
+| `ok` / `err` / `notFound()` / `conflict()` from `@/lib/db/result` | Building `Result` values |
+
+Unexpected connection or SQL errors throw `DbError` from `@/lib/db/errors`. Constraint codes `23505` / `23503` map to `Result` errors via `runDbResult` (defaults to `conflict()` if handlers omitted).
+
 ### Authentication (Better Auth)
 
 **Server** — import `auth` from `@/lib/auth`:
