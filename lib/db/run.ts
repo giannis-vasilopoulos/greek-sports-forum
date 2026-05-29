@@ -1,12 +1,25 @@
-import { classifyPgError, DbError, isForeignKeyViolation, isUniqueViolation } from "@/lib/db/errors";
-import { conflict, err, ok, type AppDbError, type Result } from "@/lib/db/result";
+import {
+  classifyPgError,
+  DbError,
+  isForeignKeyViolation,
+  isUniqueViolation,
+} from "@/lib/db/errors";
+import {
+  conflict,
+  err,
+  ok,
+  type AppDbError,
+  type Result,
+} from "@/lib/db/result";
 
 export type RunDbResultOptions<T> = {
   onUnique?: (cause: unknown) => Result<T, AppDbError> | AppDbError;
   onFk?: (cause: unknown) => Result<T, AppDbError> | AppDbError;
 };
 
-function toResult<T>(value: Result<T, AppDbError> | AppDbError): Result<T, AppDbError> {
+function toResult<T>(
+  value: Result<T, AppDbError> | AppDbError,
+): Result<T, AppDbError> {
   return "ok" in value ? value : err(value);
 }
 

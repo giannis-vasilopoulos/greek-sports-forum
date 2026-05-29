@@ -1,0 +1,13 @@
+.next/
+node_modules/
+coverage/
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
+out/
+build/
+pnpm-lock.yaml
+*.tsbuildinfo
+next-env.d.ts
+db/migrations/meta/

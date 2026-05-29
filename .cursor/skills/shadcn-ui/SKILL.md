@@ -14,13 +14,13 @@ Project component library conventions. For Tailwind tokens and dark mode, see [t
 
 From `components.json`:
 
-| Setting | Value |
-| --- | --- |
-| Style | `radix-nova` |
-| Base color | `neutral` |
-| RSC | `true` |
-| Icons | `lucide` |
-| CSS entry | `app/globals.css` |
+| Setting    | Value             |
+| ---------- | ----------------- |
+| Style      | `radix-nova`      |
+| Base color | `neutral`         |
+| RSC        | `true`            |
+| Icons      | `lucide`          |
+| CSS entry  | `app/globals.css` |
 
 **Path aliases:**
 
@@ -48,11 +48,11 @@ After adding, update [reference.md](reference.md) if the component inventory cha
 
 ## File placement
 
-| Type | Location |
-| --- | --- |
-| Shared primitives | `components/ui/` |
+| Type                      | Location                    |
+| ------------------------- | --------------------------- |
+| Shared primitives         | `components/ui/`            |
 | Route-specific composites | `app/<route>/` (co-located) |
-| Shared non-primitive UI | `components/` (not `ui/`) |
+| Shared non-primitive UI   | `components/` (not `ui/`)   |
 
 ## Extend, don't fork
 
@@ -66,9 +66,9 @@ After adding, update [reference.md](reference.md) if the component inventory cha
 Follow existing code in `components/ui/button.tsx`:
 
 ```tsx
-import { cva, type VariantProps } from "class-variance-authority"
-import { Slot } from "radix-ui"
-import { cn } from "@/lib/utils"
+import { cva, type VariantProps } from "class-variance-authority";
+import { Slot } from "radix-ui";
+import { cn } from "@/lib/utils";
 
 // cva variants with semantic token classes (bg-primary, border-border, etc.)
 // data-slot, data-variant, data-size attributes for styling hooks
@@ -111,14 +111,14 @@ Do not hand-roll validation UI with raw `<input>` and manual error spans.
 
 ## Common compositions
 
-| Pattern | Components |
-| --- | --- |
-| Content block | `Card` + `CardHeader` + `CardTitle` + `CardContent` |
-| Modal | `Dialog` + `DialogContent` + `DialogHeader` + `DialogTitle` |
-| Side panel | `Sheet` + `SheetContent` (set `side` prop) |
-| Form page | `Form` + `FormField` + `Input` / `Select` / `Textarea` |
-| Data list | `Table` or `DataTable` (TanStack Table for sort/filter) |
-| Tabs | `Tabs` + `TabsList` + `TabsTrigger` + `TabsContent` |
+| Pattern       | Components                                                  |
+| ------------- | ----------------------------------------------------------- |
+| Content block | `Card` + `CardHeader` + `CardTitle` + `CardContent`         |
+| Modal         | `Dialog` + `DialogContent` + `DialogHeader` + `DialogTitle` |
+| Side panel    | `Sheet` + `SheetContent` (set `side` prop)                  |
+| Form page     | `Form` + `FormField` + `Input` / `Select` / `Textarea`      |
+| Data list     | `Table` or `DataTable` (TanStack Table for sort/filter)     |
+| Tabs          | `Tabs` + `TabsList` + `TabsTrigger` + `TabsContent`         |
 
 See [reference.md](reference.md) for installed components and doc links.
 
@@ -129,12 +129,12 @@ See [reference.md](reference.md) for installed components and doc links.
 
 ## Anti-patterns
 
-| Don't | Do instead |
-| --- | --- |
-| Copy component source from shadcn docs | `pnpm dlx shadcn@latest add` |
-| Hard-coded colors in variants | Semantic token classes |
-| Custom tab/dialog implementations | Use shadcn Dialog, Sheet, Tabs |
-| Native `<select>` for styled dropdowns | shadcn Select |
-| Mix icon libraries | Lucide only |
-| Skip FormField wrapper | FormField + FormItem + FormLabel + FormControl |
-| Ship custom components without tests | Co-locate Vitest tests per [testing](../testing/SKILL.md) skill |
+| Don't                                  | Do instead                                                      |
+| -------------------------------------- | --------------------------------------------------------------- |
+| Copy component source from shadcn docs | `pnpm dlx shadcn@latest add`                                    |
+| Hard-coded colors in variants          | Semantic token classes                                          |
+| Custom tab/dialog implementations      | Use shadcn Dialog, Sheet, Tabs                                  |
+| Native `<select>` for styled dropdowns | shadcn Select                                                   |
+| Mix icon libraries                     | Lucide only                                                     |
+| Skip FormField wrapper                 | FormField + FormItem + FormLabel + FormControl                  |
+| Ship custom components without tests   | Co-locate Vitest tests per [testing](../testing/SKILL.md) skill |

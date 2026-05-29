@@ -2,9 +2,9 @@
 
 ## Installed components
 
-| Component | Path |
-| --- | --- |
-| Button | `components/ui/button.tsx` |
+| Component | Path                       |
+| --------- | -------------------------- |
+| Button    | `components/ui/button.tsx` |
 
 Update this table when adding components via CLI.
 
@@ -34,7 +34,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from "@/components/ui/card";
 
 <Card>
   <CardHeader>
@@ -42,13 +42,13 @@ import {
     <CardDescription>Subtitle</CardDescription>
   </CardHeader>
   <CardContent>{/* content */}</CardContent>
-</Card>
+</Card>;
 ```
 
 ### Dialog
 
 ```tsx
-"use client"
+"use client";
 
 import {
   Dialog,
@@ -57,7 +57,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
+} from "@/components/ui/dialog";
 
 <Dialog>
   <DialogTrigger asChild>
@@ -70,17 +70,17 @@ import {
     </DialogHeader>
     {/* body */}
   </DialogContent>
-</Dialog>
+</Dialog>;
 ```
 
 ### Form (requires form, input, label)
 
 ```tsx
-"use client"
+"use client";
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 import {
   Form,
   FormControl,
@@ -88,14 +88,17 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
-const schema = z.object({ email: z.string().email() })
+const schema = z.object({ email: z.string().email() });
 
 function MyForm() {
-  const form = useForm({ resolver: zodResolver(schema), defaultValues: { email: "" } })
+  const form = useForm({
+    resolver: zodResolver(schema),
+    defaultValues: { email: "" },
+  });
 
   return (
     <Form {...form}>
@@ -116,6 +119,6 @@ function MyForm() {
         <Button type="submit">Submit</Button>
       </form>
     </Form>
-  )
+  );
 }
 ```

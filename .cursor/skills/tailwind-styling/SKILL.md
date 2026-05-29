@@ -22,18 +22,18 @@ Project-specific styling rules for Greek Sports Forum. For adding UI components,
 
 Prefer semantic utilities over hard-coded colors. Tokens are defined in `:root` and `.dark` in `app/globals.css` and mapped in `@theme inline`.
 
-| Utility | Use for |
-| --- | --- |
-| `bg-background` / `text-foreground` | Page surfaces and body text |
-| `bg-card` / `text-card-foreground` | Card containers |
-| `bg-primary` / `text-primary-foreground` | Primary actions, emphasis |
-| `bg-secondary` / `text-secondary-foreground` | Secondary actions |
-| `bg-muted` / `text-muted-foreground` | Subtle backgrounds, helper text |
-| `bg-accent` / `text-accent-foreground` | Hover/highlight states |
-| `bg-destructive` / `text-destructive` | Errors, destructive actions |
-| `border-border` | Default borders |
-| `ring-ring` | Focus rings |
-| `bg-popover` / `text-popover-foreground` | Dropdowns, popovers |
+| Utility                                      | Use for                         |
+| -------------------------------------------- | ------------------------------- |
+| `bg-background` / `text-foreground`          | Page surfaces and body text     |
+| `bg-card` / `text-card-foreground`           | Card containers                 |
+| `bg-primary` / `text-primary-foreground`     | Primary actions, emphasis       |
+| `bg-secondary` / `text-secondary-foreground` | Secondary actions               |
+| `bg-muted` / `text-muted-foreground`         | Subtle backgrounds, helper text |
+| `bg-accent` / `text-accent-foreground`       | Hover/highlight states          |
+| `bg-destructive` / `text-destructive`        | Errors, destructive actions     |
+| `border-border`                              | Default borders                 |
+| `ring-ring`                                  | Focus rings                     |
+| `bg-popover` / `text-popover-foreground`     | Dropdowns, popovers             |
 
 For sidebar and chart tokens, see [reference.md](reference.md).
 
@@ -69,13 +69,13 @@ Do not introduce ad-hoc font stacks without updating both `app/layout.tsx` and `
 
 ## Anti-patterns
 
-| Don't | Do instead |
-| --- | --- |
-| `bg-slate-900`, `text-blue-500`, raw hex | `bg-background`, `text-primary`, semantic tokens |
-| `style={{ color: 'var(--primary)' }}` or `bg-[var(--primary)]` | `bg-primary`, `text-primary-foreground` |
-| Hard-coded light/dark classes on every element | Semantic tokens that switch via `.dark` |
-| Editing `components/ui/*` for one-off colors | `className` override or wrapper component |
-| Emoji as UI icons | Lucide icons (`lucide-react`) |
+| Don't                                                          | Do instead                                       |
+| -------------------------------------------------------------- | ------------------------------------------------ |
+| `bg-slate-900`, `text-blue-500`, raw hex                       | `bg-background`, `text-primary`, semantic tokens |
+| `style={{ color: 'var(--primary)' }}` or `bg-[var(--primary)]` | `bg-primary`, `text-primary-foreground`          |
+| Hard-coded light/dark classes on every element                 | Semantic tokens that switch via `.dark`          |
+| Editing `components/ui/*` for one-off colors                   | `className` override or wrapper component        |
+| Emoji as UI icons                                              | Lucide icons (`lucide-react`)                    |
 
 ## Customizing the theme
 

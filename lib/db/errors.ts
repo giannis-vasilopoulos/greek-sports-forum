@@ -76,10 +76,7 @@ export function classifyPgError(cause: unknown): DbError {
     return new DbError(message, { code: "connection", pgCode, cause });
   }
 
-  if (
-    pgCode === PG_UNIQUE_VIOLATION ||
-    pgCode === PG_FOREIGN_KEY_VIOLATION
-  ) {
+  if (pgCode === PG_UNIQUE_VIOLATION || pgCode === PG_FOREIGN_KEY_VIOLATION) {
     return new DbError(message, { code: "constraint", pgCode, cause });
   }
 

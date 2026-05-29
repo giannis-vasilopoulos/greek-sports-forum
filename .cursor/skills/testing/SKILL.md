@@ -12,12 +12,12 @@ Unit tests run with **Vitest** + React Testing Library. End-to-end tests run wit
 
 ## Commands
 
-| Command | Purpose |
-| --- | --- |
-| `pnpm test` | Run unit tests once |
-| `pnpm test:watch` | Unit tests in watch mode |
-| `pnpm test:e2e` | Playwright e2e (starts or reuses dev server) |
-| `pnpm test:e2e:ui` | Playwright UI mode |
+| Command            | Purpose                                      |
+| ------------------ | -------------------------------------------- |
+| `pnpm test`        | Run unit tests once                          |
+| `pnpm test:watch`  | Unit tests in watch mode                     |
+| `pnpm test:e2e`    | Playwright e2e (starts or reuses dev server) |
+| `pnpm test:e2e:ui` | Playwright UI mode                           |
 
 One-time Playwright browser install: `pnpm exec playwright install`
 
@@ -27,12 +27,12 @@ E2e requires PostgreSQL (`docker compose up -d`) and `.env.local`.
 
 ### File placement
 
-| Source | Test file | When required |
-| --- | --- | --- |
-| `lib/**/*.ts` | `lib/**/*.test.ts` (same folder) | Non-trivial pure logic, helpers, error mapping |
-| `components/**/*.tsx` (shared) | `components/**/*.test.tsx` (co-located) | Client components with state, interaction, or conditional UI |
-| `app/<route>/_components/*.tsx` | co-located `*.test.tsx` | Route-specific client components with isolatable behavior |
-| `components/ui/*` (shadcn CLI) | skip | Do not test unmodified shadcn primitives |
+| Source                          | Test file                               | When required                                                |
+| ------------------------------- | --------------------------------------- | ------------------------------------------------------------ |
+| `lib/**/*.ts`                   | `lib/**/*.test.ts` (same folder)        | Non-trivial pure logic, helpers, error mapping               |
+| `components/**/*.tsx` (shared)  | `components/**/*.test.tsx` (co-located) | Client components with state, interaction, or conditional UI |
+| `app/<route>/_components/*.tsx` | co-located `*.test.tsx`                 | Route-specific client components with isolatable behavior    |
+| `components/ui/*` (shadcn CLI)  | skip                                    | Do not test unmodified shadcn primitives                     |
 
 ### What to unit-test in `components/`
 

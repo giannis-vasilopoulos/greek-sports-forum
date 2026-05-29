@@ -17,6 +17,7 @@ Prefer minimal, focused changes. Match existing patterns before introducing new 
 ---
 
 <!-- BEGIN:nextjs-agent-rules -->
+
 ## This is NOT the Next.js you know
 
 This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
@@ -33,17 +34,17 @@ Key Next.js 16 specifics for this repo:
 
 ## Tech stack
 
-| Layer | Choice |
-| --- | --- |
-| Framework | Next.js 16 (App Router) |
-| UI | React 19, Tailwind CSS v4, shadcn/ui (`radix-nova`) |
-| Language | TypeScript (strict) |
-| Package manager | **pnpm** (not npm/yarn) |
-| Node.js | 22.22.0 (see `.nvmrc`) |
-| Database | PostgreSQL 16 (Docker) |
-| ORM | Drizzle ORM + drizzle-kit |
-| Auth | Better Auth with Drizzle adapter |
-| Icons | Lucide React |
+| Layer           | Choice                                              |
+| --------------- | --------------------------------------------------- |
+| Framework       | Next.js 16 (App Router)                             |
+| UI              | React 19, Tailwind CSS v4, shadcn/ui (`radix-nova`) |
+| Language        | TypeScript (strict)                                 |
+| Package manager | **pnpm** (not npm/yarn)                             |
+| Node.js         | 22.22.0 (see `.nvmrc`)                              |
+| Database        | PostgreSQL 16 (Docker)                              |
+| ORM             | Drizzle ORM + drizzle-kit                           |
+| Auth            | Better Auth with Drizzle adapter                    |
+| Icons           | Lucide React                                        |
 
 ---
 
@@ -104,20 +105,34 @@ Docker Compose defaults (`docker-compose.yml`):
 
 ## Commands
 
-| Command | Purpose |
-| --- | --- |
-| `pnpm dev` | Start Next.js dev server |
-| `pnpm build` | Production build |
-| `pnpm start` | Run production server |
-| `pnpm lint` | ESLint (Next.js core-web-vitals + TypeScript) |
-| `pnpm test` | Run unit tests (Vitest) |
-| `pnpm test:watch` | Unit tests in watch mode |
-| `pnpm test:e2e` | Playwright e2e tests |
-| `pnpm test:e2e:ui` | Playwright UI mode |
-| `pnpm db:generate` | Generate Drizzle migration from schema changes |
-| `pnpm db:migrate` | Apply migrations |
-| `pnpm db:push` | Push schema directly (dev/prototyping only) |
-| `pnpm db:studio` | Open Drizzle Studio |
+| Command             | Purpose                                        |
+| ------------------- | ---------------------------------------------- |
+| `pnpm dev`          | Start Next.js dev server                       |
+| `pnpm build`        | Production build                               |
+| `pnpm start`        | Run production server                          |
+| `pnpm lint`         | ESLint (Next.js core-web-vitals + TypeScript)  |
+| `pnpm typecheck`    | TypeScript check (`tsc --noEmit`)              |
+| `pnpm format`       | Prettier write                                 |
+| `pnpm format:check` | Prettier check (CI)                            |
+| `pnpm test`         | Run unit tests (Vitest)                        |
+| `pnpm test:watch`   | Unit tests in watch mode                       |
+| `pnpm test:e2e`     | Playwright e2e tests                           |
+| `pnpm test:e2e:ui`  | Playwright UI mode                             |
+| `pnpm db:generate`  | Generate Drizzle migration from schema changes |
+| `pnpm db:migrate`   | Apply migrations                               |
+| `pnpm db:push`      | Push schema directly (dev/prototyping only)    |
+| `pnpm db:studio`    | Open Drizzle Studio                            |
+
+### Git hooks
+
+Husky runs on every commit:
+
+| Hook       | Runs                                                   |
+| ---------- | ------------------------------------------------------ |
+| pre-commit | ESLint fix, Prettier write, typecheck (when TS staged) |
+| commit-msg | commitlint (Conventional Commits)                      |
+
+CI (`.github/workflows/ci.yml`) runs lint, typecheck, format check, unit tests, build, and e2e on every push to `main` and on pull requests.
 
 ### Verification before finishing work
 
@@ -125,11 +140,12 @@ Run these when touching app code:
 
 ```bash
 pnpm lint
+pnpm typecheck
 pnpm test
 pnpm build
 ```
 
-All three must pass before claiming work is complete. Run `pnpm test:e2e` when the change touches pages, auth, or full request flows (requires Docker Postgres and `.env.local`). One-time Playwright browser install: `pnpm exec playwright install`.
+All four must pass before claiming work is complete. Run `pnpm test:e2e` when the change touches pages, auth, or full request flows (requires Docker Postgres and `.env.local`). One-time Playwright browser install: `pnpm exec playwright install`.
 
 ---
 
@@ -218,12 +234,12 @@ Current tables: `user`, `session`, `account`, `verification` (Better Auth).
 
 Thin helpers in `lib/db/` — do **not** wrap the exported `db` client (Better Auth uses it directly).
 
-| Helper | Use when |
-| --- | --- |
-| `runDbOrThrow(fn)` | RSC or routes where infra failure should hit `error.tsx` or a caught 500 |
-| `runDbResult(fn, { onUnique, onFk })` | Server actions/forms where duplicate key or FK is expected |
-| `notFound()` (Next.js) | Required row missing in RSC — empty query result is not a DB error |
-| `ok` / `err` / `notFound()` / `conflict()` from `@/lib/db/result` | Building `Result` values |
+| Helper                                                            | Use when                                                                 |
+| ----------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| `runDbOrThrow(fn)`                                                | RSC or routes where infra failure should hit `error.tsx` or a caught 500 |
+| `runDbResult(fn, { onUnique, onFk })`                             | Server actions/forms where duplicate key or FK is expected               |
+| `notFound()` (Next.js)                                            | Required row missing in RSC — empty query result is not a DB error       |
+| `ok` / `err` / `notFound()` / `conflict()` from `@/lib/db/result` | Building `Result` values                                                 |
 
 Unexpected connection or SQL errors throw `DbError` from `@/lib/db/errors`. Constraint codes `23505` / `23503` map to `Result` errors via `runDbResult` (defaults to `conflict()` if handlers omitted).
 
