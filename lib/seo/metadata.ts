@@ -86,6 +86,15 @@ export interface ThreadMetadataInput {
   openGraphImage?: string;
 }
 
+export function buildPrivacyMetadata(): Metadata {
+  return buildPageMetadata({
+    title: "Πολιτική απορρήτου | ΚΕΡΚΙΔΑ",
+    description:
+      "Πώς η ΚΕΡΚΙΔΑ συλλέγει και προστατεύει τα προσωπικά σας δεδομένα.",
+    path: "/privacy",
+  });
+}
+
 export function buildThreadMetadata({
   title,
   description,

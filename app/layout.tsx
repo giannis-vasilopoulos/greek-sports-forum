@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
-import { Barlow, Barlow_Condensed } from "next/font/google";
-import { Geist_Mono } from "next/font/google";
+import { Barlow, Barlow_Condensed, Geist_Mono } from "next/font/google";
 
+import { AdsenseScript } from "@/components/ads/adsense-script";
+import { ConsentModeBootstrap } from "@/components/ads/consent-mode-bootstrap";
+import { CookieConsent } from "@/components/ads/cookie-consent";
 import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
 import {
@@ -79,6 +81,7 @@ export default function RootLayout({
       className={`${barlow.variable} ${barlowCondensed.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">
+        <ConsentModeBootstrap />
         {/* Mock data — replace when header is wired to Better Auth session / API */}
         <Header
           user={mockUser}
@@ -89,6 +92,8 @@ export default function RootLayout({
         />
         <main className="flex-1">{children}</main>
         <Footer />
+        <CookieConsent />
+        <AdsenseScript />
       </body>
     </html>
   );
