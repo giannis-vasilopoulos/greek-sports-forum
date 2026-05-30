@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { threadPath } from "./paths";
+import { threadPath } from "@/lib/seo/paths";
 
 describe("threadPath", () => {
   it("builds id-slug thread URL", () => {

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { slugify, uniqueSlug } from "./slug";
+import { slugify, uniqueSlug } from "@/lib/seo/slug";
 
 describe("slugify", () => {
   it("slugifies latin titles", () => {

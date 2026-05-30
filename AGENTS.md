@@ -225,7 +225,7 @@ Follow `.cursor/skills/shadcn-ui/SKILL.md` for adding and extending components.
 
 Follow `.cursor/skills/testing/SKILL.md` for Vitest unit tests and Playwright e2e tests.
 
-- Co-locate unit tests: `components/foo.tsx` → `components/foo.test.tsx`, `lib/bar.ts` → `lib/bar.test.ts`
+- Place unit tests under `__tests__/`, mirroring source paths: `lib/bar.ts` → `__tests__/lib/bar.test.ts`, `components/foo.tsx` → `__tests__/components/foo.test.tsx`
 - Organize e2e by feature: `e2e/<feature>/<feature>.spec.ts`
 - Skip tests for unmodified shadcn `components/ui/*` primitives
 
@@ -319,7 +319,7 @@ Subject: imperative mood, lowercase, no trailing period.
 5. **Database changes** — always generate and apply migrations; update `db/schema.ts` first.
 6. **New UI primitives** — use shadcn CLI; extend existing components before creating duplicates.
 7. **Auth-sensitive routes** — update `proxy.ts` matcher when protecting new paths.
-8. **Feature tests** — add co-located Vitest tests in `components/` or `lib/` where behavior is non-trivial; add or update a Playwright spec under `e2e/<feature>/` per the testing skill.
+8. **Feature tests** — add Vitest tests under `__tests__/` (mirroring source paths) where behavior is non-trivial; add or update a Playwright spec under `e2e/<feature>/` per the testing skill.
 9. **New or changed routes** — before `app/**/page.tsx`:
    - Read [`seo/README.md`](seo/README.md) and the page spec in `seo/pages/{type}.md` (create from `seo/pages/_template.md` if missing)
    - Register URL in [`seo/urls.md`](seo/urls.md) if new

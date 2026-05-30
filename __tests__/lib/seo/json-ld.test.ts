@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { buildHomeJsonLd } from "./json-ld";
+import { buildHomeJsonLd } from "@/lib/seo/json-ld";
 
 describe("buildHomeJsonLd", () => {
   it("returns a graph with organization, website, and webpage", () => {

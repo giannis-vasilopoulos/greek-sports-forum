@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
-import { buildHomeMetadata, buildPageMetadata } from "./metadata";
-import { absoluteUrl } from "./site";
+import { buildHomeMetadata, buildPageMetadata } from "@/lib/seo/metadata";
+import { absoluteUrl } from "@/lib/seo/site";
 
 describe("buildPageMetadata", () => {
   it("sets canonical and Greek description", () => {

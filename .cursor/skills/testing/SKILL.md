@@ -27,12 +27,12 @@ E2e requires PostgreSQL (`docker compose up -d`) and `.env.local`.
 
 ### File placement
 
-| Source                          | Test file                               | When required                                                |
-| ------------------------------- | --------------------------------------- | ------------------------------------------------------------ |
-| `lib/**/*.ts`                   | `lib/**/*.test.ts` (same folder)        | Non-trivial pure logic, helpers, error mapping               |
-| `components/**/*.tsx` (shared)  | `components/**/*.test.tsx` (co-located) | Client components with state, interaction, or conditional UI |
-| `app/<route>/_components/*.tsx` | co-located `*.test.tsx`                 | Route-specific client components with isolatable behavior    |
-| `components/ui/*` (shadcn CLI)  | skip                                    | Do not test unmodified shadcn primitives                     |
+| Source                          | Test file                                      | When required                                                |
+| ------------------------------- | ---------------------------------------------- | ------------------------------------------------------------ |
+| `lib/**/*.ts`                   | `__tests__/lib/**/*.test.ts` (mirrored path)   | Non-trivial pure logic, helpers, error mapping               |
+| `components/**/*.tsx` (shared)  | `__tests__/components/**/*.test.tsx`           | Client components with state, interaction, or conditional UI |
+| `app/<route>/_components/*.tsx` | `__tests__/app/<route>/_components/*.test.tsx` | Route-specific client components with isolatable behavior    |
+| `components/ui/*` (shadcn CLI)  | skip                                           | Do not test unmodified shadcn primitives                     |
 
 ### What to unit-test in `components/`
 
@@ -73,6 +73,6 @@ e2e/
 
 When implementing a feature:
 
-1. Add Vitest tests for logic in `lib/` and client components in `components/` (or route `_components/`) where behavior is non-trivial
+1. Add Vitest tests under `__tests__/` (mirroring source paths) for logic in `lib/` and client components in `components/` (or route `_components/`) where behavior is non-trivial
 2. Add or update a Playwright spec under `e2e/<feature>/` for the happy path and one meaningful edge case
 3. Run `pnpm test`; run `pnpm test:e2e` when the feature touches pages, auth, or full request flows
