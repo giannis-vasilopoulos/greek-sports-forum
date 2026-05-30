@@ -6,12 +6,12 @@ import { ChevronDownIcon } from "lucide-react";
 import { HeaderNav } from "@/components/layout/header-nav";
 import { MobileNav } from "@/components/layout/mobile-nav";
 import { Notifications } from "@/components/layout/notifications";
+import { mockNotifications } from "@/components/layout/site-mock-data";
 import type { HeaderProps } from "@/components/layout/site-data";
 import {
   getInitials,
   getLeagueHref,
   getLeagueSlug,
-  mockNotifications,
 } from "@/components/layout/site-data";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -84,6 +84,7 @@ export function Header({
           )}
 
           <div className="hidden md:block">
+            {/* Mock data — replace when notifications are wired to API */}
             <Notifications
               unreadCount={unreadNotifications}
               items={mockNotifications}

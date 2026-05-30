@@ -10,7 +10,7 @@ import {
   mockHasLiveMatches,
   mockUnreadNotifications,
   mockUser,
-} from "@/components/layout/site-data";
+} from "@/components/layout/site-mock-data";
 
 import "./globals.css";
 
@@ -47,6 +47,7 @@ export default function RootLayout({
       className={`${barlow.variable} ${barlowCondensed.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">
+        {/* Mock data — replace when header is wired to Better Auth session / API */}
         <Header
           user={mockUser}
           activeFanProfile={mockActiveFanProfile}

@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { MenuIcon } from "lucide-react";
 import { useState } from "react";
 
+import { mockNotifications } from "@/components/layout/site-mock-data";
 import type { FanProfile, HeaderProps } from "@/components/layout/site-data";
 import {
   LEAGUES,
@@ -12,7 +13,6 @@ import {
   getInitials,
   getLeagueHref,
   getLeagueSlug,
-  mockNotifications,
 } from "@/components/layout/site-data";
 import { Notifications } from "@/components/layout/notifications";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -52,6 +52,7 @@ export function MobileNav({
 
   return (
     <div className="flex items-center gap-1 md:hidden">
+      {/* Mock data — replace when notifications are wired to API */}
       <Notifications
         unreadCount={unreadNotifications}
         items={mockNotifications}
