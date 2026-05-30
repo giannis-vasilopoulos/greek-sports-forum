@@ -1,3 +1,6 @@
+/** SEO spec: seo/pages/home.md */
+import type { Metadata } from "next";
+
 import { ActiveMembersSection } from "@/components/home/active-members-section";
 import { HeroSection } from "@/components/home/hero-section";
 import {
@@ -7,10 +10,16 @@ import {
 } from "@/components/home/home-mock-data";
 import { JoinCtaSection } from "@/components/home/join-cta-section";
 import { PopularLeaguesSection } from "@/components/home/popular-leagues-section";
+import { JsonLd } from "@/components/seo/json-ld";
+import { buildHomeJsonLd } from "@/lib/seo/json-ld";
+import { buildHomeMetadata } from "@/lib/seo/metadata";
+
+export const metadata: Metadata = buildHomeMetadata();
 
 export default function Home() {
   return (
     <>
+      <JsonLd data={buildHomeJsonLd()} />
       {/* Mock data — replace when home is wired to DB/API */}
       <HeroSection stats={mockCommunityStats} />
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-12 px-4 py-12 md:gap-16 md:py-16">

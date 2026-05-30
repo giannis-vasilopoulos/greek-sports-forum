@@ -85,6 +85,10 @@ Create `.env.local` in the project root (never commit secrets):
 # Required
 DATABASE_URL=postgresql://kerkida:kerkida@localhost:5432/kerkida_dev
 
+# SEO — canonical base for metadata, Open Graph, sitemap (required in production)
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
+NEXT_PUBLIC_SITE_NAME=ΚΕΡΚΙΔΑ
+
 # Better Auth (generate a random secret for local dev)
 BETTER_AUTH_SECRET=your-random-secret-at-least-32-chars
 BETTER_AUTH_URL=http://localhost:3000
@@ -174,6 +178,7 @@ e2e/                    # Feature-scoped Playwright specs
 drizzle.config.ts       # Drizzle Kit config
 docker-compose.yml      # Local PostgreSQL
 components.json         # shadcn/ui config
+seo/                    # SEO specs (URLs, metadata, JSON-LD) — read before new routes
 ```
 
 ### Path aliases
@@ -315,6 +320,12 @@ Subject: imperative mood, lowercase, no trailing period.
 6. **New UI primitives** — use shadcn CLI; extend existing components before creating duplicates.
 7. **Auth-sensitive routes** — update `proxy.ts` matcher when protecting new paths.
 8. **Feature tests** — add co-located Vitest tests in `components/` or `lib/` where behavior is non-trivial; add or update a Playwright spec under `e2e/<feature>/` per the testing skill.
+9. **New or changed routes** — before `app/**/page.tsx`:
+   - Read [`seo/README.md`](seo/README.md) and the page spec in `seo/pages/{type}.md` (create from `seo/pages/_template.md` if missing)
+   - Register URL in [`seo/urls.md`](seo/urls.md) if new
+   - Implement via `lib/seo/metadata.ts` + `components/seo/json-ld.tsx`; update `app/sitemap.ts` if indexable
+   - For UI routes, also check `design-system/kerkida/pages/{page}.md`
+   - Add `/** SEO spec: seo/pages/{type}.md */` comment at top of the page file
 
 ### Avoid
 
@@ -324,6 +335,8 @@ Subject: imperative mood, lowercase, no trailing period.
 - Raw SQL outside Drizzle migrations unless explicitly required
 - Committing generated secrets or `.env.local`
 - Assuming Next.js 14/15 patterns without checking `node_modules/next/dist/docs/`
+- Shipping routes without SEO spec + `generateMetadata` + JSON-LD aligned to `seo/pages/*.md`
+- Hardcoding titles/descriptions/canonicals in page files instead of `lib/seo/*` builders
 
 ---
 
@@ -333,3 +346,4 @@ Subject: imperative mood, lowercase, no trailing period.
 - `README.md` — generic create-next-app readme (not project-specific yet)
 - `components.json` — shadcn/ui configuration
 - `docker-compose.yml` — local PostgreSQL service
+- `seo/` — SEO URL taxonomy, metadata, JSON-LD specs (read before adding routes)

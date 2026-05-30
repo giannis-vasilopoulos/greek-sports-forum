@@ -32,6 +32,7 @@ export const threads = pgTable(
       .references(() => leagues.id)
       .notNull(),
     title: text("title").notNull(),
+    slug: text("slug").notNull(),
     type: threadTypeEnum("type").default("discussion").notNull(),
     isPinned: boolean("is_pinned").default(false).notNull(),
     isLocked: boolean("is_locked").default(false).notNull(),
@@ -40,7 +41,10 @@ export const threads = pgTable(
     lastActivityAt: timestamp("last_activity_at").defaultNow().notNull(),
     createdAt: timestamp("created_at").defaultNow().notNull(),
   },
-  (t) => [index("thread_league_activity_idx").on(t.leagueId, t.lastActivityAt)],
+  (t) => [
+    index("thread_league_activity_idx").on(t.leagueId, t.lastActivityAt),
+    index("thread_league_slug_idx").on(t.leagueId, t.slug),
+  ],
 );
 
 export const posts = pgTable(

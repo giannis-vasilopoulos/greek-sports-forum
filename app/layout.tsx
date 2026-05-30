@@ -11,6 +11,16 @@ import {
   mockUnreadNotifications,
   mockUser,
 } from "@/components/layout/site-mock-data";
+import {
+  DEFAULT_DESCRIPTION,
+  DEFAULT_OG_IMAGE,
+  DEFAULT_TITLE,
+  OG_LOCALE,
+  SITE_NAME,
+  TITLE_TEMPLATE,
+  TWITTER_SITE,
+  getSiteUrl,
+} from "@/lib/seo/site";
 
 import "./globals.css";
 
@@ -32,8 +42,30 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "ΚΕΡΚΙΔΑ — Greek Sports Forum",
-  description: "Η κερκίδα σου για κάθε league",
+  metadataBase: getSiteUrl(),
+  title: {
+    default: DEFAULT_TITLE,
+    template: TITLE_TEMPLATE,
+  },
+  description: DEFAULT_DESCRIPTION,
+  openGraph: {
+    type: "website",
+    locale: OG_LOCALE,
+    siteName: SITE_NAME,
+    title: DEFAULT_TITLE,
+    description: DEFAULT_DESCRIPTION,
+    images: [
+      { url: DEFAULT_OG_IMAGE, width: 1200, height: 630, alt: SITE_NAME },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    site: TWITTER_SITE,
+    title: DEFAULT_TITLE,
+    description: DEFAULT_DESCRIPTION,
+    images: [DEFAULT_OG_IMAGE],
+  },
+  robots: { index: true, follow: true },
 };
 
 export default function RootLayout({

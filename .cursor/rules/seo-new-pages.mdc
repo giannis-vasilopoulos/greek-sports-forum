@@ -1,0 +1,27 @@
+---
+description: Read seo/ specs before creating or editing App Router pages
+globs: app/**/page.tsx
+alwaysApply: false
+---
+
+# SEO — new or changed routes
+
+Before editing or creating `app/**/page.tsx`, read in order:
+
+1. `seo/README.md`
+2. `seo/urls.md` — confirm or register the URL
+3. `seo/globals.md`
+4. `seo/pages/{page-type}.md` — create from `seo/pages/_template.md` if missing
+5. `seo/indexing.md`
+6. `seo/json-ld/` — schemas listed in the page spec
+7. `seo/security-and-referrers.md` — if page has outbound links
+
+## Requirements
+
+- Add `/** SEO spec: seo/pages/{type}.md */` at top of the page file
+- Use `buildPageMetadata()` / dedicated builders from `lib/seo/metadata.ts`
+- Render JSON-LD via `<JsonLd data={...} />` from `components/seo/json-ld.tsx`
+- Update `seo/urls.md` and `app/sitemap.ts` when adding indexable routes
+- Do not hardcode titles, descriptions, or canonical URLs in page files
+
+For UI work, also read `design-system/kerkida/pages/{page}.md` when it exists.

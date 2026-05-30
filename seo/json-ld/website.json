@@ -1,0 +1,12 @@
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "{SITE_NAME}",
+  "url": "{SITE_URL}",
+  "inLanguage": "el-GR",
+  "publisher": {
+    "@type": "Organization",
+    "name": "{SITE_NAME}",
+    "url": "{SITE_URL}"
+  }
+}

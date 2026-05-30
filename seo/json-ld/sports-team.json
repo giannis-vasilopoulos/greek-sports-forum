@@ -1,0 +1,11 @@
+{
+  "@context": "https://schema.org",
+  "@type": "SportsTeam",
+  "name": "{TEAM_NAME}",
+  "url": "{PAGE_URL}",
+  "sport": "{SPORT}",
+  "memberOf": {
+    "@type": "SportsOrganization",
+    "name": "{LEAGUE_NAME}"
+  }
+}

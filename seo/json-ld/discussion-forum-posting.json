@@ -1,0 +1,22 @@
+{
+  "@context": "https://schema.org",
+  "@type": "DiscussionForumPosting",
+  "headline": "{THREAD_TITLE}",
+  "url": "{PAGE_URL}",
+  "datePublished": "{DATE_PUBLISHED}",
+  "dateModified": "{DATE_MODIFIED}",
+  "author": {
+    "@type": "Person",
+    "name": "{AUTHOR_NAME}"
+  },
+  "interactionStatistic": {
+    "@type": "InteractionCounter",
+    "interactionType": "https://schema.org/CommentAction",
+    "userInteractionCount": "{REPLY_COUNT}"
+  },
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "{SITE_NAME}",
+    "url": "{SITE_URL}"
+  }
+}
