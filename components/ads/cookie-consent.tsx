@@ -80,7 +80,7 @@ function CookieSettingsSheet({
 }) {
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent side="bottom" className="max-h-[85vh] overflow-y-auto">
+      <SheetContent side="bottom" className="max-h-[85vh] p-4 overflow-y-auto">
         <SheetHeader>
           <SheetTitle>Ρυθμίσεις cookies</SheetTitle>
           <SheetDescription>{description}</SheetDescription>
