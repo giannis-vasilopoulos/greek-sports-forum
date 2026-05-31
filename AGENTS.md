@@ -96,6 +96,9 @@ BETTER_AUTH_URL=http://localhost:3000
 # Optional — GitHub OAuth (warns at build/runtime if missing)
 GITHUB_CLIENT_ID=
 GITHUB_CLIENT_SECRET=
+
+# Optional — Google Analytics 4 (omit in dev to disable; Consent Mode gates storage)
+NEXT_PUBLIC_GA4_ID=
 ```
 
 Docker Compose defaults (`docker-compose.yml`):

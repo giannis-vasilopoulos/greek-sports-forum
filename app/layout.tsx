@@ -3,6 +3,7 @@ import { Barlow, Barlow_Condensed, Geist_Mono } from "next/font/google";
 
 import { AdsenseScript } from "@/components/ads/adsense-script";
 import { ConsentModeBootstrap } from "@/components/ads/consent-mode-bootstrap";
+import { Ga4Analytics } from "@/components/ads/ga4-analytics";
 import { CookieConsent } from "@/components/ads/cookie-consent";
 import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
@@ -93,6 +94,7 @@ export default function RootLayout({
         <main className="flex-1">{children}</main>
         <Footer />
         <CookieConsent />
+        <Ga4Analytics />
         <AdsenseScript />
       </body>
     </html>

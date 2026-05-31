@@ -22,6 +22,7 @@
     "db:seed": "tsx db/seed.ts"
   },
   "dependencies": {
+    "@next/third-parties": "16.2.6",
     "better-auth": "^1.6.11",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",

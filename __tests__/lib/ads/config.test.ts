@@ -3,6 +3,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import {
   AD_SLOT_REGISTRY,
   getAdsProvider,
+  getGa4MeasurementId,
   getSlotReservedHeight,
   isAdSlotConfigured,
   isAdsEnabled,
@@ -29,6 +30,13 @@ describe("ads config", () => {
     expect(isAdsEnabled()).toBe(true);
     expect(getAdsProvider()).toBe("house");
     expect(isAdSlotConfigured("home-leaderboard")).toBe(true);
+  });
+
+  it("reads GA4 measurement id from env", () => {
+    expect(getGa4MeasurementId()).toBeUndefined();
+
+    vi.stubEnv("NEXT_PUBLIC_GA4_ID", "  G-TEST123  ");
+    expect(getGa4MeasurementId()).toBe("G-TEST123");
   });
 
   it("requires AdSense ids when provider is adsense", () => {
