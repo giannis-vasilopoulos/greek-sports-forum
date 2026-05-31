@@ -66,6 +66,7 @@ function CookieSettingsSheet({
   onDraftMarketingChange,
   onSave,
   onRejectAll,
+  onAcceptAll,
   description,
 }: {
   open: boolean;
@@ -76,6 +77,7 @@ function CookieSettingsSheet({
   onDraftMarketingChange: (value: boolean) => void;
   onSave: () => void;
   onRejectAll: () => void;
+  onAcceptAll: () => void;
   description: string;
 }) {
   return (
@@ -111,6 +113,9 @@ function CookieSettingsSheet({
         <div className="mt-6 flex flex-wrap gap-2">
           <Button type="button" onClick={onSave}>
             Αποθήκευση
+          </Button>
+          <Button type="button" variant="outline" onClick={onAcceptAll}>
+            Αποδοχή όλων
           </Button>
           <Button type="button" variant="outline" onClick={onRejectAll}>
             Απόρριψη όλων
@@ -196,6 +201,7 @@ export function CookieConsent() {
           onDraftMarketingChange={setDraftMarketing}
           onSave={saveSettings}
           onRejectAll={rejectAll}
+          onAcceptAll={acceptAll}
           description="Διαχειριστείτε τις προτιμήσεις σας για cookies και διαφημίσεις."
         />
       </>
@@ -253,6 +259,7 @@ export function CookieConsent() {
         onDraftMarketingChange={setDraftMarketing}
         onSave={saveSettings}
         onRejectAll={rejectAll}
+        onAcceptAll={acceptAll}
         description="Επιλέξτε ποιες κατηγορίες cookies επιτρέπετε."
       />
     </>
