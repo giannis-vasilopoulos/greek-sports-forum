@@ -6,7 +6,6 @@ import { UserPill } from "@/components/feed/user-pill";
 import { HeaderNav } from "@/components/layout/header-nav";
 import { MobileNav } from "@/components/layout/mobile-nav";
 import { Notifications } from "@/components/layout/notifications";
-import { mockNotifications } from "@/components/layout/site-mock-data";
 import type { HeaderProps } from "@/components/layout/site-data";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -17,6 +16,7 @@ export function Header({
   fanProfiles = [],
   unreadNotifications = 0,
   hasLiveMatches = false,
+  leagues = [],
 }: HeaderProps) {
   return (
     <header
@@ -33,17 +33,14 @@ export function Header({
         </Link>
 
         <div className="hidden flex-1 justify-center md:flex">
-          <HeaderNav hasLiveMatches={hasLiveMatches} />
+          <HeaderNav leagues={leagues} hasLiveMatches={hasLiveMatches} />
         </div>
 
         <div className="ml-auto flex items-center gap-1 md:gap-2">
           {user ? (
             <>
               <div className="hidden md:block">
-                <Notifications
-                  unreadCount={unreadNotifications}
-                  items={mockNotifications}
-                />
+                <Notifications unreadCount={unreadNotifications} items={[]} />
               </div>
               <div className="hidden md:block">
                 <UserPill
@@ -70,6 +67,7 @@ export function Header({
             fanProfiles={fanProfiles}
             unreadNotifications={unreadNotifications}
             hasLiveMatches={hasLiveMatches}
+            leagues={leagues}
           />
         </div>
       </div>

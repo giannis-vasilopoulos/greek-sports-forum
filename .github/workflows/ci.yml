@@ -87,6 +87,14 @@ jobs:
       - name: Apply migrations
         run: pnpm db:migrate
 
+      - name: Seed mock fixtures
+        run: pnpm db:seed:mock-fixtures
+        env:
+          SEED_ADMIN_EMAIL: admin@test.local
+          SEED_ADMIN_PASSWORD: testpassword123
+          SEED_USER_EMAIL: user@test.local
+          SEED_USER_PASSWORD: testpassword123
+
       - name: Install Playwright browsers
         run: pnpm exec playwright install --with-deps chromium
 
@@ -94,3 +102,5 @@ jobs:
         run: pnpm test:e2e
         env:
           CI: true
+          SEED_USER_EMAIL: user@test.local
+          SEED_USER_PASSWORD: testpassword123

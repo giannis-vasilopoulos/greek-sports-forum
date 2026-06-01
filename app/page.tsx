@@ -4,26 +4,31 @@ import type { Metadata } from "next";
 import { MatchBar } from "@/components/feed/match-bar";
 import { MatchThreadsContent } from "@/components/feed/match-threads-content";
 import {
-  mockFeedLeagues,
   mockFeedMatches,
-  mockFeedThreads,
   mockStandings,
-  mockTrendingThreads,
   mockUpcomingMatches,
 } from "@/components/feed/feed-mock-data";
-import {
-  mockActiveFanProfile,
-  mockUser,
-} from "@/components/layout/site-mock-data";
 import { JsonLd } from "@/components/seo/json-ld";
+import { getFeedThreads, getTrendingThreads } from "@/lib/feed/queries";
+import { getFeedLeagues } from "@/lib/leagues/queries";
+import { getSessionFanContext } from "@/lib/layout/get-header-data";
 import { buildHomeJsonLd } from "@/lib/seo/json-ld";
 import { buildHomeMetadata } from "@/lib/seo/metadata";
 import { threadPath } from "@/lib/seo/paths";
 
 export const metadata: Metadata = buildHomeMetadata();
 
-export default function Home() {
-  const jsonLdThreads = mockFeedThreads.slice(0, 10);
+export default async function Home() {
+  const [leagues, threads, trendingThreads, sessionContext] = await Promise.all(
+    [
+      getFeedLeagues(),
+      getFeedThreads(),
+      getTrendingThreads(),
+      getSessionFanContext(),
+    ],
+  );
+
+  const jsonLdThreads = threads.slice(0, 10);
 
   return (
     <>
@@ -35,16 +40,16 @@ export default function Home() {
           ),
         })}
       />
-      {/* Mock data — replace when feed is wired to DB/API */}
+      {/* Match bar — keep mock until live scores API exists */}
       <MatchBar matches={mockFeedMatches} />
       <MatchThreadsContent
-        leagues={mockFeedLeagues}
-        threads={mockFeedThreads}
+        leagues={leagues}
+        threads={threads}
         standings={mockStandings}
         upcomingMatches={mockUpcomingMatches}
-        trendingThreads={mockTrendingThreads}
-        user={mockUser}
-        activeFanProfile={mockActiveFanProfile}
+        trendingThreads={trendingThreads}
+        user={sessionContext.user}
+        activeFanProfile={sessionContext.activeFanProfile}
       />
     </>
   );

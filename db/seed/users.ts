@@ -40,9 +40,15 @@ function getSeedUsers(): SeedUser[] {
 }
 
 async function upsertSeedUser(seedUser: SeedUser) {
-  const existing = await db.query.user.findFirst({
+  const existingByEmail = await db.query.user.findFirst({
     where: eq(user.email, seedUser.email),
   });
+  const existingByUsername = existingByEmail
+    ? null
+    : await db.query.user.findFirst({
+        where: eq(user.username, seedUser.username),
+      });
+  const existing = existingByEmail ?? existingByUsername ?? null;
 
   const hashedPassword = await hashPassword(seedUser.password);
 
@@ -50,6 +56,7 @@ async function upsertSeedUser(seedUser: SeedUser) {
     await db
       .update(user)
       .set({
+        email: seedUser.email,
         name: seedUser.name,
         username: seedUser.username,
         role: seedUser.role,

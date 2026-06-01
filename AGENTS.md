@@ -8,7 +8,7 @@ Instructions for AI coding agents working in this repository.
 
 - A default landing page (`app/page.tsx`)
 - PostgreSQL persistence via Drizzle ORM
-- Authentication scaffolding with Better Auth (email/password + GitHub OAuth)
+- Authentication scaffolding with Better Auth (email/password + Google OAuth)
 - shadcn/ui components (Radix Nova style) on Tailwind CSS v4
 - Route protection via `proxy.ts` for `/dashboard` (route not yet implemented)
 
@@ -93,9 +93,9 @@ NEXT_PUBLIC_SITE_NAME=ΚΕΡΚΙΔΑ
 BETTER_AUTH_SECRET=your-random-secret-at-least-32-chars
 BETTER_AUTH_URL=http://localhost:3000
 
-# Optional — GitHub OAuth (warns at build/runtime if missing)
-GITHUB_CLIENT_ID=
-GITHUB_CLIENT_SECRET=
+# Optional — Google OAuth (warns at build/runtime if missing)
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
 
 # Optional — Google Analytics 4 (omit in dev to disable; Consent Mode gates storage)
 NEXT_PUBLIC_GA4_ID=
@@ -262,7 +262,7 @@ Unexpected connection or SQL errors throw `DbError` from `@/lib/db/errors`. Cons
 
 - Drizzle adapter with PostgreSQL
 - Email/password enabled
-- GitHub OAuth configured (requires env vars)
+- Google OAuth configured (requires env vars)
 
 **Client** — import `authClient` from `@/lib/auth-client`:
 

@@ -104,6 +104,33 @@ export function buildMatchThreadsMetadata(): Metadata {
   });
 }
 
+export function buildSignInMetadata(): Metadata {
+  return buildPageMetadata({
+    title: "Σύνδεση | ΚΕΡΚΙΔΑ",
+    description: "Σύνδεση στον λογαριασμό σου στην ΚΕΡΚΙΔΑ.",
+    path: "/sign-in",
+    robots: ROBOTS_NOINDEX_FOLLOW,
+  });
+}
+
+export function buildSignUpMetadata(): Metadata {
+  return buildPageMetadata({
+    title: "Εγγραφή | ΚΕΡΚΙΔΑ",
+    description: "Δημιούργησε δωρεάν λογαριασμό στην ΚΕΡΚΙΔΑ.",
+    path: "/sign-up",
+    robots: ROBOTS_NOINDEX_FOLLOW,
+  });
+}
+
+export function buildOnboardingMetadata(): Metadata {
+  return buildPageMetadata({
+    title: "Fan profile | ΚΕΡΚΙΔΑ",
+    description: "Δημιούργησε το fan profile σου στην ΚΕΡΚΙΔΑ.",
+    path: "/onboarding",
+    robots: ROBOTS_NOINDEX_FOLLOW,
+  });
+}
+
 export function buildThreadMetadata({
   title,
   description,

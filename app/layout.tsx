@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist_Mono, Inter } from "next/font/google";
+import { headers } from "next/headers";
 
 import { AdsenseScript } from "@/components/ads/adsense-script";
 import { ConsentModeBootstrap } from "@/components/ads/consent-mode-bootstrap";
@@ -7,13 +8,7 @@ import { Ga4Analytics } from "@/components/ads/ga4-analytics";
 import { CookieConsent } from "@/components/ads/cookie-consent";
 import { Footer } from "@/components/layout/footer";
 import { Header } from "@/components/layout/header";
-import {
-  mockActiveFanProfile,
-  mockFanProfiles,
-  mockHasLiveMatches,
-  mockUnreadNotifications,
-  mockUser,
-} from "@/components/layout/site-mock-data";
+import { getHeaderData } from "@/lib/layout/get-header-data";
 import {
   DEFAULT_DESCRIPTION,
   DEFAULT_OG_IMAGE,
@@ -65,11 +60,14 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  await headers();
+  const headerData = await getHeaderData();
+
   return (
     <html
       lang="el"
@@ -77,16 +75,9 @@ export default function RootLayout({
     >
       <body className="flex min-h-full flex-col">
         <ConsentModeBootstrap />
-        {/* Mock data — replace when header is wired to Better Auth session / API */}
-        <Header
-          user={mockUser}
-          activeFanProfile={mockActiveFanProfile}
-          fanProfiles={mockFanProfiles}
-          unreadNotifications={mockUnreadNotifications}
-          hasLiveMatches={mockHasLiveMatches}
-        />
+        <Header {...headerData} />
         <main className="flex-1">{children}</main>
-        <Footer />
+        <Footer leagues={headerData.leagues} />
         <CookieConsent />
         <Ga4Analytics />
         <AdsenseScript />

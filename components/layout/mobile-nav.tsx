@@ -5,10 +5,9 @@ import { usePathname } from "next/navigation";
 import { MenuIcon } from "lucide-react";
 import { useState } from "react";
 
-import { mockNotifications } from "@/components/layout/site-mock-data";
+import { SignOutButton } from "@/components/auth/sign-out-button";
 import type { FanProfile, HeaderProps } from "@/components/layout/site-data";
 import {
-  LEAGUES,
   NAV_LINKS,
   getInitials,
   getLeagueHref,
@@ -33,6 +32,7 @@ interface MobileNavProps {
   fanProfiles?: FanProfile[];
   unreadNotifications?: number;
   hasLiveMatches?: boolean;
+  leagues?: Array<{ slug: string; name: string; emoji: string }>;
 }
 
 export function MobileNav({
@@ -41,6 +41,7 @@ export function MobileNav({
   fanProfiles = [],
   unreadNotifications = 0,
   hasLiveMatches = false,
+  leagues = [],
 }: MobileNavProps) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
@@ -52,11 +53,7 @@ export function MobileNav({
 
   return (
     <div className="flex items-center gap-1 md:hidden">
-      {/* Mock data — replace when notifications are wired to API */}
-      <Notifications
-        unreadCount={unreadNotifications}
-        items={mockNotifications}
-      />
+      <Notifications unreadCount={unreadNotifications} items={[]} />
       <Sheet open={open} onOpenChange={setOpen}>
         <SheetTrigger asChild>
           <Button variant="ghost" size="icon" aria-label="Άνοιγμα μενού">
@@ -109,7 +106,7 @@ export function MobileNav({
             <p className="mb-1 text-xs font-medium text-muted-foreground">
               Leagues
             </p>
-            {LEAGUES.map((league) => (
+            {leagues.map((league) => (
               <Link
                 key={league.slug}
                 href={getLeagueHref(league.slug)}
@@ -192,12 +189,10 @@ export function MobileNav({
                   >
                     Ρυθμίσεις
                   </Link>
-                  <button
-                    type="button"
-                    className="rounded-lg px-2 py-1.5 text-left text-sm hover:bg-muted"
-                  >
-                    Αποσύνδεση
-                  </button>
+                  <SignOutButton
+                    variant="ghost"
+                    className="w-full justify-start rounded-lg px-2 py-1.5 text-sm font-normal"
+                  />
                 </nav>
               </div>
             ) : (

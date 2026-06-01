@@ -4,6 +4,8 @@ import {
   buildHomeMetadata,
   buildMatchThreadsMetadata,
   buildPageMetadata,
+  buildSignInMetadata,
+  buildSignUpMetadata,
 } from "@/lib/seo/metadata";
 import { absoluteUrl } from "@/lib/seo/site";
 
@@ -38,5 +40,23 @@ describe("buildMatchThreadsMetadata", () => {
       "Ζωντανές και επερχόμενες συζητήσεις αγώνων από όλα τα πρωτάθληματα.",
     );
     expect(metadata.title).toBe("Match Threads | ΚΕΡΚΙΔΑ");
+  });
+});
+
+describe("buildSignInMetadata", () => {
+  it("is noindex with sign-in canonical", () => {
+    const metadata = buildSignInMetadata();
+    expect(metadata.alternates?.canonical).toBe(absoluteUrl("/sign-in"));
+    expect(metadata.robots).toEqual({ index: false, follow: true });
+    expect(metadata.title).toBe("Σύνδεση | ΚΕΡΚΙΔΑ");
+  });
+});
+
+describe("buildSignUpMetadata", () => {
+  it("is noindex with sign-up canonical", () => {
+    const metadata = buildSignUpMetadata();
+    expect(metadata.alternates?.canonical).toBe(absoluteUrl("/sign-up"));
+    expect(metadata.robots).toEqual({ index: false, follow: true });
+    expect(metadata.title).toBe("Εγγραφή | ΚΕΡΚΙΔΑ");
   });
 });

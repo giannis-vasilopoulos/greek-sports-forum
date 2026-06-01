@@ -88,7 +88,7 @@ export function MatchThreadsContent({
               Δεν βρέθηκαν threads με αυτά τα φίλτρα.
             </p>
           ) : (
-            <>
+            <div role="region" aria-label="Λίστα συζητήσεων">
               <ThreadRowList threads={filteredThreads.slice(0, midIndex)} />
               {filteredThreads.length > midIndex && (
                 <>
@@ -96,7 +96,7 @@ export function MatchThreadsContent({
                   <ThreadRowList threads={filteredThreads.slice(midIndex)} />
                 </>
               )}
-            </>
+            </div>
           )}
         </div>
       }

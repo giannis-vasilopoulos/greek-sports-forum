@@ -2,11 +2,14 @@ import Link from "next/link";
 
 import {
   FOOTER_INFO_LINKS,
-  LEAGUES,
   getLeagueHref,
 } from "@/components/layout/site-data";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+
+interface FooterProps {
+  leagues?: Array<{ slug: string; name: string; emoji: string }>;
+}
 
 function InstagramIcon({ className }: { className?: string }) {
   return (
@@ -56,7 +59,7 @@ function XIcon({ className }: { className?: string }) {
   );
 }
 
-export function Footer() {
+export function Footer({ leagues = [] }: FooterProps) {
   return (
     <footer className="border-t border-border bg-background">
       <div className="mx-auto max-w-7xl px-4 py-8 md:py-12">
@@ -108,7 +111,7 @@ export function Footer() {
           <div>
             <h2 className="mb-3 text-sm font-medium">Leagues</h2>
             <ul className="flex flex-col gap-2">
-              {LEAGUES.map((league) => (
+              {leagues.map((league) => (
                 <li key={league.slug}>
                   <Link
                     href={getLeagueHref(league.slug)}

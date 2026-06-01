@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { ChevronDownIcon } from "lucide-react";
 
+import { SignOutButton } from "@/components/auth/sign-out-button";
 import type { FanProfile } from "@/components/layout/site-data";
 import {
   getInitials,
@@ -105,7 +106,12 @@ export function UserPill({
           </>
         )}
         <DropdownMenuSeparator />
-        <DropdownMenuItem>Αποσύνδεση</DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <SignOutButton
+            variant="ghost"
+            className="h-auto w-full justify-start px-2 py-1.5 text-sm font-normal"
+          />
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

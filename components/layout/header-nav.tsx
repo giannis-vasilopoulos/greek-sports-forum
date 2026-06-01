@@ -12,18 +12,15 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import {
-  LEAGUES,
-  NAV_LINKS,
-  getLeagueHref,
-} from "@/components/layout/site-data";
+import { NAV_LINKS, getLeagueHref } from "@/components/layout/site-data";
 import { cn } from "@/lib/utils";
 
 interface HeaderNavProps {
+  leagues: Array<{ slug: string; name: string; emoji: string }>;
   hasLiveMatches?: boolean;
 }
 
-export function HeaderNav({ hasLiveMatches = false }: HeaderNavProps) {
+export function HeaderNav({ leagues, hasLiveMatches = false }: HeaderNavProps) {
   const pathname = usePathname();
 
   const isActive = (href: string) =>
@@ -42,7 +39,7 @@ export function HeaderNav({ hasLiveMatches = false }: HeaderNavProps) {
           </NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid w-56 gap-1 p-1">
-              {LEAGUES.map((league) => (
+              {leagues.map((league) => (
                 <li key={league.slug}>
                   <NavigationMenuLink asChild>
                     <Link

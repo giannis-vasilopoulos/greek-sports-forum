@@ -31,6 +31,7 @@ export interface HeaderProps {
   fanProfiles?: FanProfile[];
   unreadNotifications?: number;
   hasLiveMatches?: boolean;
+  leagues?: Array<{ slug: string; name: string; emoji: string }>;
 }
 
 export interface NotificationItem {

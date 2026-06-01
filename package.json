@@ -19,7 +19,8 @@
     "db:migrate": "drizzle-kit migrate",
     "db:studio": "drizzle-kit studio",
     "db:push": "drizzle-kit push",
-    "db:seed": "tsx db/seed.ts"
+    "db:seed": "tsx db/seed.ts",
+    "db:seed:mock-fixtures": "tsx db/seed-mock-fixtures.ts"
   },
   "dependencies": {
     "@next/third-parties": "16.2.6",
