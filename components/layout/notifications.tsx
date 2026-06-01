@@ -5,7 +5,6 @@ import { BellIcon } from "lucide-react";
 
 import type { NotificationItem } from "@/components/layout/site-data";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Popover,
@@ -36,12 +35,10 @@ export function Notifications({
         >
           <BellIcon />
           {unreadCount > 0 && (
-            <Badge
-              variant="destructive"
-              className="absolute -top-1 -right-1 size-4 min-w-4 justify-center rounded-full p-0 text-[10px]"
-            >
-              {unreadCount > 9 ? "9+" : unreadCount}
-            </Badge>
+            <span
+              className="absolute top-1.5 right-1.5 size-2 rounded-full bg-destructive live-pulse"
+              aria-hidden="true"
+            />
           )}
         </Button>
       </PopoverTrigger>

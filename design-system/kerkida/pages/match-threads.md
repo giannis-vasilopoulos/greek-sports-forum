@@ -1,7 +1,7 @@
-# Home Page Overrides
+# Match Threads Page Overrides
 
 > **PROJECT:** ΚΕΡΚΙΔΑ
-> **Page Type:** Community feed (home)
+> **Page Type:** Feed / match threads list
 
 > Rules here **override** `design-system/kerkida/MASTER.md` where noted.
 
@@ -16,7 +16,7 @@
 
 ## Typography
 
-- Page H1: sr-only "Match Threads" (brand title comes from metadata)
+- Page title (visually hidden or sr-only): per SEO spec
 - Section labels: `.section-label` (11px uppercase, 0.06em tracking)
 - Thread list uses `ThreadRow` component specs from MASTER
 

@@ -46,9 +46,9 @@ For sidebar and chart tokens, see [reference.md](reference.md).
 
 ## Fonts
 
-Geist sans and mono are loaded in `app/layout.tsx`:
+Inter and Geist Mono are loaded in `app/layout.tsx`:
 
-- `--font-geist-sans` → body/UI (`font-sans`)
+- `--font-inter` → body/UI (`font-sans`)
 - `--font-geist-mono` → code (`font-mono`)
 
 Do not introduce ad-hoc font stacks without updating both `app/layout.tsx` and `@theme inline` in `globals.css`.

@@ -95,6 +95,15 @@ export function buildPrivacyMetadata(): Metadata {
   });
 }
 
+export function buildMatchThreadsMetadata(): Metadata {
+  return buildPageMetadata({
+    title: "Match Threads | ΚΕΡΚΙΔΑ",
+    description:
+      "Ζωντανές και επερχόμενες συζητήσεις αγώνων από όλα τα πρωτάθληματα.",
+    path: "/match-threads",
+  });
+}
+
 export function buildThreadMetadata({
   title,
   description,

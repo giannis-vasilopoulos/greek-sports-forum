@@ -40,6 +40,7 @@
 | WebSite      | [`../json-ld/website.json`](../json-ld/website.json)           |
 | Organization | [`../json-ld/organization.json`](../json-ld/organization.json) |
 | WebPage      | [`../json-ld/web-page.json`](../json-ld/web-page.json)         |
+| ItemList     | Top thread rows on home feed (optional, via `buildHomeJsonLd`) |
 
 Use `@graph` via `buildHomeJsonLd()`.
 
@@ -55,10 +56,12 @@ None (home is root).
 
 ## Internal links
 
-- Hero CTAs: `/sign-up`, `/sign-in`
-- Popular leagues: `/leagues/{slug}`
+- Header: `/sign-up`, `/sign-in` (guests)
+- Thread rows: `/leagues/{slug}/threads/{id}-{slug}`
+- League nav: `/leagues/{slug}`
+- Standings sidebar: `/standings`
 
 ## Implementation
 
 - Spec comment: `/** SEO spec: seo/pages/home.md */`
-- Builder: `buildHomeMetadata()`, `buildHomeJsonLd()`
+- Builder: `buildHomeMetadata()`, `buildHomeJsonLd({ threadTitles, threadPaths })`

@@ -15,7 +15,7 @@ export function ListSidebarAd() {
   return <AdSlot id="list-sidebar" className="hidden lg:block" />;
 }
 
-/** Top slot for /match-threads list page. */
+/** Top slot for home and /match-threads feed list. */
 export function MatchThreadsTopAd() {
   return <AdSlot id="match-threads-top" className="mb-8" />;
 }

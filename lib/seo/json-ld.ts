@@ -82,17 +82,77 @@ export function buildBreadcrumbJsonLd(items: BreadcrumbItem[]): JsonLd {
   };
 }
 
-export function buildHomeJsonLd(): JsonLd {
+export interface HomeJsonLdInput {
+  threadTitles?: string[];
+  threadPaths?: string[];
+}
+
+export function buildHomeJsonLd(input: HomeJsonLdInput = {}): JsonLd {
+  const graph: JsonLd[] = [
+    buildOrganizationJsonLd(),
+    buildWebSiteJsonLd(),
+    buildWebPageJsonLd({
+      name: DEFAULT_TITLE,
+      description: DEFAULT_DESCRIPTION,
+      path: "/",
+    }),
+  ];
+
+  const { threadTitles = [], threadPaths = [] } = input;
+
+  if (threadTitles.length > 0) {
+    graph.push({
+      "@type": "ItemList",
+      name: "Match Threads",
+      itemListElement: threadTitles.map((title, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: title,
+        url: absoluteUrl(threadPaths[index] ?? "/"),
+      })),
+    });
+  }
+
+  return {
+    "@context": "https://schema.org",
+    "@graph": graph,
+  };
+}
+
+export interface MatchThreadsJsonLdInput {
+  threadTitles: string[];
+  threadPaths: string[];
+}
+
+export function buildMatchThreadsJsonLd(
+  input: MatchThreadsJsonLdInput,
+): JsonLd {
+  const pageName = "Match Threads | ΚΕΡΚΙΔΑ";
+  const pageDescription =
+    "Ζωντανές και επερχόμενες συζητήσεις αγώνων από όλα τα πρωτάθληματα.";
+
   return {
     "@context": "https://schema.org",
     "@graph": [
-      buildOrganizationJsonLd(),
-      buildWebSiteJsonLd(),
       buildWebPageJsonLd({
-        name: DEFAULT_TITLE,
-        description: DEFAULT_DESCRIPTION,
-        path: "/",
+        name: pageName,
+        description: pageDescription,
+        path: "/match-threads",
       }),
+      {
+        "@type": "ItemList",
+        name: "Match Threads",
+        itemListElement: input.threadTitles.map((title, index) => ({
+          "@type": "ListItem",
+          position: index + 1,
+          name: title,
+          url: absoluteUrl(input.threadPaths[index] ?? "/match-threads"),
+        })),
+      },
+      buildBreadcrumbJsonLd([
+        { name: "Αρχική", path: "/" },
+        { name: "Match Threads", path: "/match-threads" },
+      ]),
     ],
   };
 }

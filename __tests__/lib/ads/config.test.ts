@@ -15,13 +15,13 @@ describe("ads config", () => {
   });
 
   it("exposes slot registry dimensions", () => {
-    expect(AD_SLOT_REGISTRY["home-leaderboard"].minHeight).toBe(90);
-    expect(AD_SLOT_REGISTRY["home-mid"].format).toBe("rectangle");
+    expect(AD_SLOT_REGISTRY["match-threads-top"].minHeight).toBe(90);
+    expect(AD_SLOT_REGISTRY["match-threads-mid"].format).toBe("rectangle");
   });
 
   it("computes reserved height including chrome", () => {
-    expect(getSlotReservedHeight("home-leaderboard")).toBe(118);
-    expect(getSlotReservedHeight("home-mid")).toBe(278);
+    expect(getSlotReservedHeight("match-threads-top")).toBe(118);
+    expect(getSlotReservedHeight("match-threads-mid")).toBe(278);
   });
 
   it("reads feature flags from env", () => {
@@ -29,7 +29,7 @@ describe("ads config", () => {
     vi.stubEnv("NEXT_PUBLIC_ADS_PROVIDER", "house");
     expect(isAdsEnabled()).toBe(true);
     expect(getAdsProvider()).toBe("house");
-    expect(isAdSlotConfigured("home-leaderboard")).toBe(true);
+    expect(isAdSlotConfigured("match-threads-top")).toBe(true);
   });
 
   it("reads GA4 measurement id from env", () => {
@@ -42,10 +42,10 @@ describe("ads config", () => {
   it("requires AdSense ids when provider is adsense", () => {
     vi.stubEnv("NEXT_PUBLIC_ADS_ENABLED", "true");
     vi.stubEnv("NEXT_PUBLIC_ADS_PROVIDER", "adsense");
-    expect(isAdSlotConfigured("home-leaderboard")).toBe(false);
+    expect(isAdSlotConfigured("match-threads-top")).toBe(false);
 
     vi.stubEnv("NEXT_PUBLIC_ADSENSE_CLIENT", "ca-pub-test");
-    vi.stubEnv("NEXT_PUBLIC_ADSENSE_SLOT_HOME_LEADERBOARD", "1234567890");
-    expect(isAdSlotConfigured("home-leaderboard")).toBe(true);
+    vi.stubEnv("NEXT_PUBLIC_ADSENSE_SLOT_MATCH_THREADS_TOP", "1234567890");
+    expect(isAdSlotConfigured("match-threads-top")).toBe(true);
   });
 });

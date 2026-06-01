@@ -9,7 +9,7 @@ import {
 describe("normalizePathname", () => {
   it("normalizes trailing slashes and query strings", () => {
     expect(normalizePathname("/leagues/")).toBe("/leagues");
-    expect(normalizePathname("/match-threads?page=2")).toBe("/match-threads");
+    expect(normalizePathname("/?page=2")).toBe("/");
   });
 });
 

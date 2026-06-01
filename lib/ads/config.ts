@@ -1,7 +1,4 @@
 export const AD_SLOT_IDS = [
-  "home-leaderboard",
-  "home-mid",
-  "home-footer",
   "thread-top",
   "thread-in-content",
   "list-sidebar",
@@ -22,24 +19,6 @@ export interface AdSlotDefinition {
 }
 
 export const AD_SLOT_REGISTRY: Record<AdSlotId, AdSlotDefinition> = {
-  "home-leaderboard": {
-    id: "home-leaderboard",
-    minHeight: 90,
-    format: "leaderboard",
-    lazy: false,
-  },
-  "home-mid": {
-    id: "home-mid",
-    minHeight: 250,
-    format: "rectangle",
-    lazy: true,
-  },
-  "home-footer": {
-    id: "home-footer",
-    minHeight: 90,
-    format: "leaderboard",
-    lazy: true,
-  },
   "thread-top": {
     id: "thread-top",
     minHeight: 90,

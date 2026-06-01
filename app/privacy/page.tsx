@@ -23,7 +23,7 @@ export default function PrivacyPage() {
       />
       <div className="mx-auto w-full max-w-3xl px-4 py-12 md:py-16">
         <header className="mb-10 space-y-3">
-          <h1 className="font-heading text-3xl font-bold tracking-tight text-foreground md:text-4xl">
+          <h1 className="text-3xl font-medium tracking-tight text-foreground md:text-4xl">
             Πολιτική απορρήτου
           </h1>
           <p className="text-sm text-muted-foreground">
@@ -33,9 +33,7 @@ export default function PrivacyPage() {
 
         <div className="prose prose-neutral dark:prose-invert max-w-none space-y-8 text-foreground">
           <section className="space-y-3">
-            <h2 className="font-heading text-xl font-semibold">
-              1. Ποιοι είμαστε
-            </h2>
+            <h2 className="text-xl font-medium">1. Ποιοι είμαστε</h2>
             <p className="text-muted-foreground">
               Η ΚΕΡΚΙΔΑ («εμείς», «η πλατφόρμα») είναι μια ελληνική διαδικτυακή
               κοινότητα φιλάθλων. Η παρούσα πολιτική εξηγεί πώς συλλέγουμε,
@@ -45,9 +43,7 @@ export default function PrivacyPage() {
           </section>
 
           <section className="space-y-3">
-            <h2 className="font-heading text-xl font-semibold">
-              2. Δεδομένα που συλλέγουμε
-            </h2>
+            <h2 className="text-xl font-medium">2. Δεδομένα που συλλέγουμε</h2>
             <ul className="list-disc space-y-2 pl-5 text-muted-foreground">
               <li>
                 Στοιχεία λογαριασμού (όνομα, email, όνομα χρήστη) όταν
@@ -69,9 +65,7 @@ export default function PrivacyPage() {
           </section>
 
           <section className="space-y-3">
-            <h2 className="font-heading text-xl font-semibold">
-              3. Cookies και κατηγορίες
-            </h2>
+            <h2 className="text-xl font-medium">3. Cookies και κατηγορίες</h2>
             <p className="text-muted-foreground">
               Χρησιμοποιούμε cookies για να λειτουργεί ο ιστότοπος και, με τη
               συγκατάθεσή σας, για αναλυτικά στοιχεία και διαφημίσεις.
@@ -99,9 +93,7 @@ export default function PrivacyPage() {
           </section>
 
           <section className="space-y-3">
-            <h2 className="font-heading text-xl font-semibold">
-              4. Διαφημιστικοί συνεργάτες
-            </h2>
+            <h2 className="text-xl font-medium">4. Διαφημιστικοί συνεργάτες</h2>
             <p className="text-muted-foreground">
               Για την προβολή διαφημίσεων ενδέχεται να συνεργαζόμαστε με τον
               Google AdSense. Ο Google ενδέχεται να χρησιμοποιεί cookies και
@@ -124,9 +116,7 @@ export default function PrivacyPage() {
           </section>
 
           <section className="space-y-3">
-            <h2 className="font-heading text-xl font-semibold">
-              5. Νομική βάση και σκοπός
-            </h2>
+            <h2 className="text-xl font-medium">5. Νομική βάση και σκοπός</h2>
             <p className="text-muted-foreground">
               Επεξεργαζόμαστε δεδομένα για την παροχή της υπηρεσίας (σύμβαση),
               έννομα συμφέροντα (ασφάλεια, βελτίωση πλατφόρμας) και, όπου
@@ -136,9 +126,7 @@ export default function PrivacyPage() {
           </section>
 
           <section className="space-y-3">
-            <h2 className="font-heading text-xl font-semibold">
-              6. Διατήρηση δεδομένων
-            </h2>
+            <h2 className="text-xl font-medium">6. Διατήρηση δεδομένων</h2>
             <p className="text-muted-foreground">
               Διατηρούμε τα δεδομένα λογαριασμού όσο ο λογαριασμός σας είναι
               ενεργός. Τεχνικά logs διατηρούνται για περιορισμένο χρονικό
@@ -148,9 +136,7 @@ export default function PrivacyPage() {
           </section>
 
           <section className="space-y-3">
-            <h2 className="font-heading text-xl font-semibold">
-              7. Τα δικαιώματά σας
-            </h2>
+            <h2 className="text-xl font-medium">7. Τα δικαιώματά σας</h2>
             <p className="text-muted-foreground">
               Σύμφωνα με τον GDPR, έχετε δικαίωμα πρόσβασης, διόρθωσης,
               διαγραφής, περιορισμού, φορητότητας και εναντίωσης. Μπορείτε
@@ -160,9 +146,7 @@ export default function PrivacyPage() {
           </section>
 
           <section className="space-y-3">
-            <h2 className="font-heading text-xl font-semibold">
-              8. Επικοινωνία
-            </h2>
+            <h2 className="text-xl font-medium">8. Επικοινωνία</h2>
             <p className="text-muted-foreground">
               Για ερωτήσεις σχετικά με την προστασία δεδομένων, επικοινωνήστε
               στο{" "}

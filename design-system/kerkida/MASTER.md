@@ -1,102 +1,66 @@
-# Design System Master File
+# KERKIDA — Design System
 
-> **LOGIC:** When building a specific page, first check `design-system/kerkida/pages/[page-name].md`.
-> If that file exists, its rules **override** this Master file.
-> If not, strictly follow the rules below.
+## Brand
 
----
+- Name: ΚΕΡΚΙΔΑ (letter-spacing: 0.08em, font-weight: 500)
+- Accent: `#1D9E75` (teal — sport-neutral, works for all teams)
+- Accent bg: `#E1F5EE` / text: `#085041`
+- Live/danger: `#E24B4A` / bg: `#FCEBEB` / text: `#791F1F`
 
-**Project:** ΚΕΡΚΙΔΑ
-**Updated:** 2026-05-29
-**Category:** Sports community forum
-**Style:** Vibrant & block-based — Stadium Electric
+## Typography
 
----
+- Font: system-ui via shadcn (Inter)
+- Sizes: 10px hints · 11px labels/meta · 12px secondary · 13px body · 15px titles · 18px headings
+- Weights: 400 regular · 500 medium (ONLY these two)
+- Letter spacing: 0.06em for SECTION LABELS (uppercase)
 
-## Global Rules
+## Spacing
 
-### Color Palette (Stadium Electric)
+- Component gap: 4px · 6px · 8px · 10px · 12px · 14px · 16px
+- Section padding: 12px–16px
+- Card padding: 10px–14px
 
-| Role            | Hex       | Token          | Usage                          |
-| --------------- | --------- | -------------- | ------------------------------ |
-| Primary         | `#4F46E5` | `--primary`    | Brand, links, emphasis         |
-| Secondary       | `#818CF8` | `--secondary`  | Highlights, secondary actions  |
-| CTA             | `#F97316` | `--cta`        | Sign up, join, conversion      |
-| Live / activity | `#22C55E` | `--chart-2`    | LIVE badges, online indicators |
-| Background      | `#EEF2FF` | `--background` | Page surface                   |
-| Text            | `#1E1B4B` | `--foreground` | Headings, body                 |
+## Components
 
-**Color notes:** Energetic indigo forum + orange conversion CTAs. Green reserved for live/online only (not signup buttons).
+### Thread Row
 
-### Typography
+- Avatar 28px circle · title 13px/500 · meta 11px muted
+- Hover: bg-secondary · right chevron icon
+- Badges: live (pulse red) · type (muted gray pill)
 
-- **Heading:** Barlow Condensed (`font-heading`)
-- **Body:** Barlow (`font-sans`)
-- **Mood:** sports, athletic, condensed headlines, readable body
-- **Scale:** Hero H1 40–48px desktop, section H2 24–28px, body 16–18px
+### Match Chip
 
-### Spacing
+- Min-width: 160px · border-radius: lg
+- Live state: 1.5px teal/red border
+- Score: 15px/500 · team names: 12px/500
 
-| Token        | Value                         | Usage                     |
-| ------------ | ----------------------------- | ------------------------- |
-| Section gap  | `48px` / `3rem`               | Between homepage sections |
-| Hero padding | `64px` / `4rem` vertical      | Hero block                |
-| Container    | `max-w-6xl` (1152px)          | Main content width        |
-| Page padding | `16px` mobile, `24px` desktop | Horizontal gutters        |
+### League Tab (feed filter)
 
-### Shadows
+- Active: bg-foreground text-background
+- Inactive: transparent text-muted
+- Border-radius: md
 
-Use semantic elevation via borders + `shadow-sm` on cards — avoid layout-shifting `translateY` hovers.
+### League Nav Item (sidebar)
 
----
+- Active: bg-secondary text-primary
+- Icon 14px + label 12px
+- Padding: 7px 8px
 
-## Component Specs
+### User Pill (header)
 
-### Buttons
+- Avatar 28px + username 12px + league badge
+- Border: 0.5px · border-radius: 20px
 
-- **Primary action (join/sign up):** `variant="cta"` — orange
-- **Secondary:** `variant="outline"` or `ghost`
-- **Default brand:** `variant="default"` — indigo
-- Transitions: `transition-colors duration-200`, no scale on cards
+## Layout (desktop)
 
-### Cards
+- Left sidebar: 168px (league nav + profile)
+- Main content: flex-1
+- Right sidebar: 200px (standings + upcoming + trending)
+- Header: 52px sticky
+- Match bar: auto height, horizontal scroll
 
-- White/card surface on tinted background
-- `border-border`, optional `border-l-4 border-l-primary` for league blocks
-- Hover: `hover:bg-muted/60`, `hover:border-primary/30` — no transform
+## States
 
-### LIVE badge
-
-- `bg-chart-2 text-primary-foreground` with pulse dot
-- Never use emoji for status icons — Lucide or CSS dot only
-
----
-
-## Page Pattern
-
-**Community/Forum Landing**
-
-1. Hero — value prop, stats, dual CTA
-2. Popular leagues — grid of topic cards
-3. Active members — social proof
-4. Join CTA — conversion block
-
----
-
-## Anti-Patterns (Do NOT Use)
-
-- Emojis as UI icons (league list uses Lucide via `LeagueIcon`)
-- Purple-on-lavender low-contrast body text
-- Layout-shifting scale hovers on cards
-- Missing `cursor-pointer` on interactive cards
-- Instant state changes without 150–300ms transitions
-
----
-
-## Pre-Delivery Checklist
-
-- [ ] Semantic tokens only in components
-- [ ] Light + dark mode tested
-- [ ] `font-heading` on H1/H2
-- [ ] Responsive 375px–1440px
-- [ ] Greek copy for all user-facing strings
+- Live match: red badge pulse + 1.5px border on chip
+- Active league: teal bg pill on user pill
+- Unread notification: 8px red dot on bell icon

@@ -64,7 +64,7 @@ export function Footer() {
           <div className="flex flex-col gap-4">
             <Link
               href="/"
-              className="font-heading text-lg font-bold tracking-wide text-foreground"
+              className="text-[15px] font-medium tracking-[0.08em] text-foreground"
             >
               ΚΕΡΚΙΔΑ
             </Link>
@@ -106,7 +106,7 @@ export function Footer() {
           </div>
 
           <div>
-            <h2 className="mb-3 text-sm font-semibold">Leagues</h2>
+            <h2 className="mb-3 text-sm font-medium">Leagues</h2>
             <ul className="flex flex-col gap-2">
               {LEAGUES.map((league) => (
                 <li key={league.slug}>
@@ -125,7 +125,7 @@ export function Footer() {
           </div>
 
           <div>
-            <h2 className="mb-3 text-sm font-semibold">Πληροφορίες</h2>
+            <h2 className="mb-3 text-sm font-medium">Πληροφορίες</h2>
             <ul className="flex flex-col gap-2">
               {FOOTER_INFO_LINKS.map((link) => (
                 <li key={link.href}>

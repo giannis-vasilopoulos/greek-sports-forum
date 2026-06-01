@@ -1,6 +1,10 @@
 import { describe, expect, it } from "vitest";
 
-import { buildHomeMetadata, buildPageMetadata } from "@/lib/seo/metadata";
+import {
+  buildHomeMetadata,
+  buildMatchThreadsMetadata,
+  buildPageMetadata,
+} from "@/lib/seo/metadata";
 import { absoluteUrl } from "@/lib/seo/site";
 
 describe("buildPageMetadata", () => {
@@ -23,5 +27,16 @@ describe("buildHomeMetadata", () => {
   it("uses root path canonical", () => {
     const metadata = buildHomeMetadata();
     expect(metadata.alternates?.canonical).toBe(absoluteUrl("/"));
+  });
+});
+
+describe("buildMatchThreadsMetadata", () => {
+  it("sets match-threads canonical and Greek description", () => {
+    const metadata = buildMatchThreadsMetadata();
+    expect(metadata.alternates?.canonical).toBe(absoluteUrl("/match-threads"));
+    expect(metadata.description).toBe(
+      "Ζωντανές και επερχόμενες συζητήσεις αγώνων από όλα τα πρωτάθληματα.",
+    );
+    expect(metadata.title).toBe("Match Threads | ΚΕΡΚΙΔΑ");
   });
 });
