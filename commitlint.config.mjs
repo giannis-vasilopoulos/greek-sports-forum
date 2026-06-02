@@ -21,6 +21,7 @@ const config = {
     "subject-case": [2, "never", ["start-case", "pascal-case", "upper-case"]],
     "subject-full-stop": [2, "never", "."],
     "body-max-line-length": [0],
+    "header-max-length": [0],
   },
 };
 
