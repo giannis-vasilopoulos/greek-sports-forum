@@ -11,7 +11,7 @@ test.describe("authentication", () => {
 
     await expect(page.getByRole("heading", { name: "Εγγραφή" })).toBeVisible();
 
-    await page.getByLabel("Όνομα", { exact: true }).fill(TEST_NAME);
+    await page.getByLabel("Ονοματεπώνυμο", { exact: true }).fill(TEST_NAME);
     await page.getByLabel("Όνομα χρήστη").fill(TEST_USERNAME);
     await page.getByLabel("Email").fill(TEST_EMAIL);
     await page.getByLabel("Κωδικός", { exact: true }).fill(TEST_PASSWORD);

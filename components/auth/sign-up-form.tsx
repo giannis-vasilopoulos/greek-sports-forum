@@ -100,6 +100,7 @@ export function SignUpForm() {
           <FieldGroup>
             <Field data-invalid={!!errors.name}>
               <FieldLabel htmlFor="name">{t.nameLabel}</FieldLabel>
+              <FieldDescription>{t.nameHint}</FieldDescription>
               <Input
                 id="name"
                 type="text"
