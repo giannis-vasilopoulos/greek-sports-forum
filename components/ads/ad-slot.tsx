@@ -18,6 +18,7 @@ import {
   type AdSlotId,
 } from "@/lib/ads/config";
 import { shouldShowAds } from "@/lib/ads/should-show-ads";
+import { copy } from "@/lib/copy";
 import { cn } from "@/lib/utils";
 
 interface AdSlotProps {
@@ -127,7 +128,7 @@ export function AdSlot({ id, className }: AdSlotProps) {
     <aside
       ref={ref}
       className={cn("mx-auto w-full max-w-6xl", className)}
-      aria-label={marketingGranted ? "Διαφήμιση" : undefined}
+      aria-label={marketingGranted ? copy.ads.aria.ad : undefined}
       aria-hidden={!marketingGranted}
       data-ad-slot={id}
       data-ad-slot-active={marketingGranted ? "true" : "false"}

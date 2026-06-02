@@ -24,7 +24,10 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { copy } from "@/lib/copy";
 import { cn } from "@/lib/utils";
+
+const l = copy.layout;
 
 interface MobileNavProps {
   user?: HeaderProps["user"];
@@ -56,7 +59,7 @@ export function MobileNav({
       <Notifications unreadCount={unreadNotifications} items={[]} />
       <Sheet open={open} onOpenChange={setOpen}>
         <SheetTrigger asChild>
-          <Button variant="ghost" size="icon" aria-label="Άνοιγμα μενού">
+          <Button variant="ghost" size="icon" aria-label={l.nav.openMenuAria}>
             <MenuIcon />
           </Button>
         </SheetTrigger>
@@ -68,7 +71,7 @@ export function MobileNav({
                 onClick={closeAndNavigate}
                 className="text-base font-bold tracking-wide"
               >
-                ΚΕΡΚΙΔΑ
+                {l.brand}
               </Link>
             </SheetTitle>
           </SheetHeader>
@@ -76,7 +79,7 @@ export function MobileNav({
           {activeFanProfile && fanProfiles.length > 0 && (
             <div className="px-4">
               <p className="mb-2 text-xs font-medium text-muted-foreground">
-                Ενεργό fan profile
+                {l.mobileNav.activeFanProfile}
               </p>
               <div className="flex flex-col gap-1">
                 {fanProfiles.map((profile) => (
@@ -104,7 +107,7 @@ export function MobileNav({
 
           <nav className="flex flex-col gap-1 px-4">
             <p className="mb-1 text-xs font-medium text-muted-foreground">
-              Leagues
+              {l.mobileNav.leaguesHeading}
             </p>
             {leagues.map((league) => (
               <Link
@@ -139,7 +142,7 @@ export function MobileNav({
                 {link.liveIndicator && hasLiveMatches && (
                   <span
                     className="size-2 shrink-0 rounded-full bg-destructive animate-pulse"
-                    aria-label="Ζωντανά ματς"
+                    aria-label={l.nav.liveMatchesAria}
                   />
                 )}
               </Link>
@@ -173,21 +176,21 @@ export function MobileNav({
                     onClick={closeAndNavigate}
                     className="rounded-lg px-2 py-1.5 text-sm hover:bg-muted"
                   >
-                    Το προφίλ μου
+                    {l.mobileNav.myProfile}
                   </Link>
                   <Link
                     href="/fan-profiles"
                     onClick={closeAndNavigate}
                     className="rounded-lg px-2 py-1.5 text-sm hover:bg-muted"
                   >
-                    Τα fan profiles μου
+                    {l.mobileNav.myFanProfiles}
                   </Link>
                   <Link
                     href="/settings"
                     onClick={closeAndNavigate}
                     className="rounded-lg px-2 py-1.5 text-sm hover:bg-muted"
                   >
-                    Ρυθμίσεις
+                    {l.mobileNav.settings}
                   </Link>
                   <SignOutButton
                     variant="ghost"
@@ -199,12 +202,12 @@ export function MobileNav({
               <div className="flex flex-col gap-2">
                 <Button variant="ghost" asChild>
                   <Link href="/sign-in" onClick={closeAndNavigate}>
-                    Σύνδεση
+                    {l.header.signIn}
                   </Link>
                 </Button>
                 <Button variant="cta" asChild>
                   <Link href="/sign-up" onClick={closeAndNavigate}>
-                    Εγγραφή
+                    {l.header.signUp}
                   </Link>
                 </Button>
               </div>

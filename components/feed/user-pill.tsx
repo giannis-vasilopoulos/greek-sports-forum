@@ -18,7 +18,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { copy } from "@/lib/copy";
 import { cn } from "@/lib/utils";
+
+const m = copy.layout.mobileNav;
 
 interface UserPillProps {
   user: { name: string; image?: string; username?: string };
@@ -44,7 +47,7 @@ export function UserPill({
             "inline-flex items-center gap-2 rounded-[20px] border-[0.5px] border-border bg-background px-2 py-1 transition-colors hover:bg-muted/50",
             className,
           )}
-          aria-label="Μενού χρήστη"
+          aria-label={copy.feed.userMenu.ariaLabel}
         >
           <Avatar size="md">
             {user.image && <AvatarImage src={user.image} alt={user.name} />}
@@ -75,19 +78,19 @@ export function UserPill({
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-56">
         <DropdownMenuItem asChild>
-          <Link href="/profile">Το προφίλ μου</Link>
+          <Link href="/profile">{m.myProfile}</Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
-          <Link href="/fan-profiles">Τα fan profiles μου</Link>
+          <Link href="/fan-profiles">{m.myFanProfiles}</Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
-          <Link href="/settings">Ρυθμίσεις</Link>
+          <Link href="/settings">{m.settings}</Link>
         </DropdownMenuItem>
         {fanProfiles.length > 0 && (
           <>
             <DropdownMenuSeparator />
             <p className="px-2 py-1.5 text-xs font-medium text-muted-foreground">
-              Αλλαγή fan profile
+              {m.switchFanProfile}
             </p>
             {fanProfiles.map((profile) => (
               <DropdownMenuItem key={profile.leagueName} asChild>

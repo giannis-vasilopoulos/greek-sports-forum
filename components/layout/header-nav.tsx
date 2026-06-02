@@ -13,6 +13,7 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { NAV_LINKS, getLeagueHref } from "@/components/layout/site-data";
+import { copy } from "@/lib/copy";
 import { cn } from "@/lib/utils";
 
 interface HeaderNavProps {
@@ -73,7 +74,7 @@ export function HeaderNav({ leagues, hasLiveMatches = false }: HeaderNavProps) {
                 {link.liveIndicator && hasLiveMatches && (
                   <span
                     className="size-2 shrink-0 rounded-full bg-destructive animate-pulse"
-                    aria-label="Ζωντανά ματς"
+                    aria-label={copy.layout.nav.liveMatchesAria}
                   />
                 )}
               </Link>

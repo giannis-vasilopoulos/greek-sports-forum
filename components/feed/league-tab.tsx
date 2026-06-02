@@ -1,7 +1,10 @@
 "use client";
 
 import type { FeedLeague } from "@/components/feed/feed-data";
+import { copy } from "@/lib/copy";
 import { cn } from "@/lib/utils";
+
+const f = copy.feed.leagueFilter;
 
 interface LeagueTabsProps {
   leagues: FeedLeague[];
@@ -26,7 +29,7 @@ export function LeagueTabs({
     <div
       className={cn("flex flex-wrap items-center gap-2", className)}
       role="tablist"
-      aria-label="Φίλτρο πρωταθλήματος"
+      aria-label={f.ariaLabel}
     >
       <button
         type="button"
@@ -43,7 +46,7 @@ export function LeagueTabs({
             : "text-muted-foreground hover:text-foreground",
         )}
       >
-        Όλα
+        {f.all}
       </button>
 
       {showLiveFilter && (
@@ -62,7 +65,7 @@ export function LeagueTabs({
               : "text-muted-foreground hover:text-foreground",
           )}
         >
-          LIVE
+          {f.live}
         </button>
       )}
 

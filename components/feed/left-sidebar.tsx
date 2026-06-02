@@ -5,6 +5,7 @@ import type { FeedLeague } from "@/components/feed/feed-data";
 import type { FanProfile } from "@/components/layout/site-data";
 import { getInitials } from "@/components/layout/site-data";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { copy } from "@/lib/copy";
 import { cn } from "@/lib/utils";
 
 interface LeftSidebarProps {
@@ -48,7 +49,7 @@ export function LeftSidebar({
             href="/profile"
             className="text-[11px] font-medium text-primary hover:underline"
           >
-            Προβολή προφίλ
+            {copy.feed.sidebar.viewProfile}
           </Link>
         </div>
       )}

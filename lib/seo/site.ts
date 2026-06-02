@@ -1,11 +1,12 @@
-export const SITE_NAME = process.env.NEXT_PUBLIC_SITE_NAME ?? "ΚΕΡΚΙΔΑ";
+import { seoCopy } from "@/lib/copy/seo";
 
-export const DEFAULT_TITLE = "ΚΕΡΚΙΔΑ — Greek Sports Forum";
+export const SITE_NAME = seoCopy.site.name;
 
-export const DEFAULT_DESCRIPTION =
-  "Η κερκίδα σου για κάθε πρωτάθλημα — συζητήσεις, match threads και ζωντανή κοινότητα αθλητικών φίλων.";
+export const DEFAULT_TITLE = seoCopy.site.defaultTitle;
 
-export const TITLE_TEMPLATE = "%s | ΚΕΡΚΙΔΑ";
+export const DEFAULT_DESCRIPTION = seoCopy.site.defaultDescription;
+
+export const TITLE_TEMPLATE = `%s | ${SITE_NAME}`;
 
 export const OG_LOCALE = "el_GR";
 

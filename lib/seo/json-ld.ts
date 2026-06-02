@@ -1,3 +1,6 @@
+import { copy } from "@/lib/copy";
+import { pageTitle } from "@/lib/copy/format";
+
 import {
   DEFAULT_DESCRIPTION,
   DEFAULT_TITLE,
@@ -5,6 +8,8 @@ import {
   absoluteUrl,
   getSiteUrl,
 } from "./site";
+
+const { pages: seoPages, breadcrumbs: crumbs } = copy.seo;
 
 export type JsonLd = Record<string, unknown>;
 
@@ -127,9 +132,8 @@ export interface MatchThreadsJsonLdInput {
 export function buildMatchThreadsJsonLd(
   input: MatchThreadsJsonLdInput,
 ): JsonLd {
-  const pageName = "Match Threads | ΚΕΡΚΙΔΑ";
-  const pageDescription =
-    "Ζωντανές και επερχόμενες συζητήσεις αγώνων από όλα τα πρωτάθληματα.";
+  const pageName = pageTitle(seoPages.matchThreads.titleSegment);
+  const pageDescription = seoPages.matchThreads.description;
 
   return {
     "@context": "https://schema.org",
@@ -141,7 +145,7 @@ export function buildMatchThreadsJsonLd(
       }),
       {
         "@type": "ItemList",
-        name: "Match Threads",
+        name: seoPages.matchThreads.itemListName,
         itemListElement: input.threadTitles.map((title, index) => ({
           "@type": "ListItem",
           position: index + 1,
@@ -150,8 +154,8 @@ export function buildMatchThreadsJsonLd(
         })),
       },
       buildBreadcrumbJsonLd([
-        { name: "Αρχική", path: "/" },
-        { name: "Match Threads", path: "/match-threads" },
+        { name: crumbs.home, path: "/" },
+        { name: crumbs.matchThreads, path: "/match-threads" },
       ]),
     ],
   };

@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest";
 
+import { copy } from "@/lib/copy";
+import { pageTitle } from "@/lib/copy/format";
 import {
   buildHomeMetadata,
   buildMatchThreadsMetadata,
@@ -36,10 +38,10 @@ describe("buildMatchThreadsMetadata", () => {
   it("sets match-threads canonical and Greek description", () => {
     const metadata = buildMatchThreadsMetadata();
     expect(metadata.alternates?.canonical).toBe(absoluteUrl("/match-threads"));
-    expect(metadata.description).toBe(
-      "Ζωντανές και επερχόμενες συζητήσεις αγώνων από όλα τα πρωτάθληματα.",
+    expect(metadata.description).toBe(copy.seo.pages.matchThreads.description);
+    expect(metadata.title).toBe(
+      pageTitle(copy.seo.pages.matchThreads.titleSegment),
     );
-    expect(metadata.title).toBe("Match Threads | ΚΕΡΚΙΔΑ");
   });
 });
 
@@ -48,7 +50,7 @@ describe("buildSignInMetadata", () => {
     const metadata = buildSignInMetadata();
     expect(metadata.alternates?.canonical).toBe(absoluteUrl("/sign-in"));
     expect(metadata.robots).toEqual({ index: false, follow: true });
-    expect(metadata.title).toBe("Σύνδεση | ΚΕΡΚΙΔΑ");
+    expect(metadata.title).toBe(pageTitle(copy.seo.pages.signIn.titleSegment));
   });
 });
 
@@ -57,6 +59,6 @@ describe("buildSignUpMetadata", () => {
     const metadata = buildSignUpMetadata();
     expect(metadata.alternates?.canonical).toBe(absoluteUrl("/sign-up"));
     expect(metadata.robots).toEqual({ index: false, follow: true });
-    expect(metadata.title).toBe("Εγγραφή | ΚΕΡΚΙΔΑ");
+    expect(metadata.title).toBe(pageTitle(copy.seo.pages.signUp.titleSegment));
   });
 });

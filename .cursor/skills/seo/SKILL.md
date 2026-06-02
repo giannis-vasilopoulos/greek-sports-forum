@@ -24,8 +24,9 @@ Follow the order in [`seo/README.md`](../../../seo/README.md):
 
 | Task                | Location                                                                                      |
 | ------------------- | --------------------------------------------------------------------------------------------- |
-| Site URL / defaults | `lib/seo/site.ts`                                                                             |
+| Site URL / defaults | `lib/seo/site.ts` (technical); Greek strings in `lib/copy/seo.ts`                             |
 | Page metadata       | `lib/seo/metadata.ts` — `buildPageMetadata()`, `buildHomeMetadata()`, `buildThreadMetadata()` |
+| Copy helpers        | `lib/copy/format.ts` — `pageTitle()`                                                          |
 | Path helpers        | `lib/seo/paths.ts`                                                                            |
 | Thread slugs        | `lib/seo/slug.ts` — `slugify()`                                                               |
 | JSON-LD builders    | `lib/seo/json-ld.ts`                                                                          |

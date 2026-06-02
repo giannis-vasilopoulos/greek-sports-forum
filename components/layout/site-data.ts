@@ -1,3 +1,7 @@
+import { copy } from "@/lib/copy";
+
+const l = copy.layout;
+
 export const LEAGUES = [
   { slug: "super-league", name: "Super League", emoji: "⚽" },
   { slug: "super-league-2", name: "Super League 2", emoji: "⚽" },
@@ -8,15 +12,15 @@ export const LEAGUES = [
 ] as const;
 
 export const NAV_LINKS = [
-  { href: "/match-threads", label: "Match Threads", liveIndicator: true },
-  { href: "/standings", label: "Βαθμολογίες", liveIndicator: false },
+  { href: "/match-threads", label: l.nav.matchThreads, liveIndicator: true },
+  { href: "/standings", label: l.nav.standings, liveIndicator: false },
 ] as const;
 
 export const FOOTER_INFO_LINKS = [
-  { href: "/about", label: "Σχετικά με εμάς" },
-  { href: "/terms", label: "Όροι χρήσης" },
-  { href: "/privacy", label: "Πολιτική απορρήτου" },
-  { href: "/contact", label: "Επικοινωνία" },
+  { href: "/about", label: l.footer.about },
+  { href: "/terms", label: l.footer.terms },
+  { href: "/privacy", label: l.footer.privacy },
+  { href: "/contact", label: l.footer.contact },
 ] as const;
 
 export interface FanProfile {

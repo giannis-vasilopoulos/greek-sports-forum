@@ -13,6 +13,7 @@ import type {
   TrendingThread,
   UpcomingMatch,
 } from "@/components/feed/feed-data";
+import { copy } from "@/lib/copy";
 import { FeedShell } from "@/components/feed/feed-shell";
 import { LeagueTabs } from "@/components/feed/league-tab";
 import { LeftSidebar } from "@/components/feed/left-sidebar";
@@ -85,10 +86,13 @@ export function MatchThreadsContent({
 
           {filteredThreads.length === 0 ? (
             <p className="py-8 text-center text-[13px] text-muted-foreground">
-              Δεν βρέθηκαν threads με αυτά τα φίλτρα.
+              {copy.feed.matchThreads.emptyFiltered}
             </p>
           ) : (
-            <div role="region" aria-label="Λίστα συζητήσεων">
+            <div
+              role="region"
+              aria-label={copy.feed.matchThreads.listAriaLabel}
+            >
               <ThreadRowList threads={filteredThreads.slice(0, midIndex)} />
               {filteredThreads.length > midIndex && (
                 <>

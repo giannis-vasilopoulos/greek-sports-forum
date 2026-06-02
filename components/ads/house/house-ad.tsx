@@ -1,3 +1,4 @@
+import { copy } from "@/lib/copy";
 import { cn } from "@/lib/utils";
 
 interface HouseAdProps {
@@ -14,9 +15,11 @@ export function HouseAd({ height, className }: HouseAdProps) {
       )}
       style={{ height }}
       role="img"
-      aria-label="Χώρος διαφήμισης"
+      aria-label={copy.ads.aria.adSlot}
     >
-      <p className="text-sm text-muted-foreground">Χώρος διαφήμισης</p>
+      <p className="text-sm text-muted-foreground">
+        {copy.ads.houseAdPlaceholder}
+      </p>
     </div>
   );
 }

@@ -1,3 +1,4 @@
+import { copy } from "@/lib/copy";
 import { cn } from "@/lib/utils";
 
 interface AdDisclosureProps {
@@ -11,9 +12,9 @@ export function AdDisclosure({ className }: AdDisclosureProps) {
         "text-xs font-medium tracking-wide text-muted-foreground uppercase",
         className,
       )}
-      aria-label="Διαφήμιση"
+      aria-label={copy.ads.aria.ad}
     >
-      Διαφήμιση
+      {copy.ads.aria.ad}
     </p>
   );
 }

@@ -3,8 +3,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { JsonLd } from "@/components/seo/json-ld";
+import { copy, pageTitle } from "@/lib/copy";
 import { buildWebPageJsonLd } from "@/lib/seo/json-ld";
 import { buildPrivacyMetadata } from "@/lib/seo/metadata";
+
+const privacy = copy.seo.pages.privacy;
 
 export const metadata: Metadata = buildPrivacyMetadata();
 
@@ -15,16 +18,15 @@ export default function PrivacyPage() {
     <>
       <JsonLd
         data={buildWebPageJsonLd({
-          name: "Πολιτική απορρήτου | ΚΕΡΚΙΔΑ",
-          description:
-            "Πώς η ΚΕΡΚΙΔΑ συλλέγει και προστατεύει τα προσωπικά σας δεδομένα.",
+          name: pageTitle(privacy.titleSegment),
+          description: privacy.description,
           path: "/privacy",
         })}
       />
       <div className="mx-auto w-full max-w-3xl px-4 py-12 md:py-16">
         <header className="mb-10 space-y-3">
           <h1 className="text-3xl font-medium tracking-tight text-foreground md:text-4xl">
-            Πολιτική απορρήτου
+            {privacy.heading}
           </h1>
           <p className="text-sm text-muted-foreground">
             Τελευταία ενημέρωση: 30 Μαΐου 2026

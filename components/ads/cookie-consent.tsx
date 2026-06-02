@@ -22,6 +22,9 @@ import {
   useClientHydrated,
   useConsentPreferences,
 } from "@/lib/ads/use-consent-store";
+import { copy } from "@/lib/copy";
+
+const c = copy.ads.cookie;
 
 function ConsentToggle({
   id,
@@ -84,47 +87,48 @@ function CookieSettingsSheet({
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent side="bottom" className="max-h-[85vh] p-4 overflow-y-auto">
         <SheetHeader>
-          <SheetTitle>Ρυθμίσεις cookies</SheetTitle>
+          <SheetTitle>{c.sheetTitle}</SheetTitle>
           <SheetDescription>{description}</SheetDescription>
         </SheetHeader>
         <div className="mt-6 space-y-3">
           <div className="rounded-lg border border-border bg-muted/30 p-4">
-            <p className="text-sm font-medium text-foreground">Απαραίτητα</p>
+            <p className="text-sm font-medium text-foreground">
+              {c.requiredTitle}
+            </p>
             <p className="mt-1 text-sm text-muted-foreground">
-              Απαιτούνται για τη λειτουργία του ιστότοπου και δεν μπορούν να
-              απενεργοποιηθούν.
+              {c.requiredDescription}
             </p>
           </div>
           <ConsentToggle
             id="cookie-analytics"
-            label="Αναλυτικά"
-            description="Βοηθούν στην κατανόηση της χρήσης του ιστότοπου."
+            label={c.analyticsLabel}
+            description={c.analyticsDescription}
             checked={draftAnalytics}
             onChange={onDraftAnalyticsChange}
           />
           <ConsentToggle
             id="cookie-marketing"
-            label="Διαφημίσεις"
-            description="Επιτρέπουν την εμφάνιση εξατομικευμένων διαφημίσεων."
+            label={c.marketingLabel}
+            description={c.marketingDescription}
             checked={draftMarketing}
             onChange={onDraftMarketingChange}
           />
         </div>
         <div className="mt-6 flex flex-wrap gap-2">
           <Button type="button" onClick={onSave}>
-            Αποθήκευση
+            {c.save}
           </Button>
           <Button type="button" variant="outline" onClick={onAcceptAll}>
-            Αποδοχή όλων
+            {c.acceptAll}
           </Button>
           <Button type="button" variant="outline" onClick={onRejectAll}>
-            Απόρριψη όλων
+            {c.rejectAll}
           </Button>
         </div>
         <p className="mt-4 text-xs text-muted-foreground">
-          Διαβάστε την{" "}
+          {c.readPrivacyPrefix}{" "}
           <Link href="/privacy" className="underline underline-offset-4">
-            πολιτική απορρήτου
+            {c.readPrivacyLink}
           </Link>
           .
         </p>
@@ -188,9 +192,9 @@ export function CookieConsent() {
           type="button"
           onClick={openSettings}
           className="fixed bottom-4 left-4 z-40 rounded-full border border-border bg-background px-3 py-1.5 text-xs text-muted-foreground shadow-sm transition-colors hover:text-foreground"
-          aria-label="Ρυθμίσεις cookies"
+          aria-label={c.settingsAria}
         >
-          Cookies
+          {c.floatingButton}
         </button>
         <CookieSettingsSheet
           open={settingsOpen}
@@ -202,7 +206,7 @@ export function CookieConsent() {
           onSave={saveSettings}
           onRejectAll={rejectAll}
           onAcceptAll={acceptAll}
-          description="Διαχειριστείτε τις προτιμήσεις σας για cookies και διαφημίσεις."
+          description={c.sheetDescriptionDecided}
         />
       </>
     );
@@ -222,29 +226,27 @@ export function CookieConsent() {
               id="cookie-consent-title"
               className="text-sm font-semibold text-foreground"
             >
-              Χρησιμοποιούμε cookies
+              {c.bannerTitle}
             </h2>
             <p
               id="cookie-consent-description"
               className="text-sm text-muted-foreground"
             >
-              Χρησιμοποιούμε cookies για αναλυτικά στοιχεία και διαφημίσεις.
-              Μπορείτε να αποδεχτείτε, να απορρίψετε ή να ρυθμίσετε τις
-              προτιμήσεις σας.{" "}
+              {c.bannerDescription}{" "}
               <Link href="/privacy" className="underline underline-offset-4">
-                Πολιτική απορρήτου
+                {c.privacyLink}
               </Link>
             </p>
           </div>
           <div className="flex flex-wrap gap-2">
             <Button type="button" variant="outline" onClick={rejectAll}>
-              Απόρριψη
+              {c.reject}
             </Button>
             <Button type="button" variant="secondary" onClick={openSettings}>
-              Ρυθμίσεις
+              {c.settings}
             </Button>
             <Button type="button" onClick={acceptAll}>
-              Αποδοχή
+              {c.accept}
             </Button>
           </div>
         </div>
@@ -260,7 +262,7 @@ export function CookieConsent() {
         onSave={saveSettings}
         onRejectAll={rejectAll}
         onAcceptAll={acceptAll}
-        description="Επιλέξτε ποιες κατηγορίες cookies επιτρέπετε."
+        description={c.sheetDescriptionInitial}
       />
     </>
   );

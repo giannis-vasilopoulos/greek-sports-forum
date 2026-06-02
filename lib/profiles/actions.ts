@@ -42,7 +42,7 @@ export async function createFanProfile(
     columns: { id: true, leagueId: true },
   });
 
-  if (!team || team.leagueId !== leagueId) {
+  if (team?.leagueId !== leagueId) {
     return {
       fieldErrors: {
         favoriteTeamId: copy.validation.profile.teamInvalid,

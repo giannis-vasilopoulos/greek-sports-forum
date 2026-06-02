@@ -4,6 +4,7 @@ import Link from "next/link";
 import { BellIcon } from "lucide-react";
 
 import type { NotificationItem } from "@/components/layout/site-data";
+import { notificationsAriaLabel } from "@/lib/copy/layout";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -31,7 +32,7 @@ export function Notifications({
           variant="ghost"
           size="icon"
           className="relative"
-          aria-label={`Ειδοποιήσεις${unreadCount > 0 ? `, ${unreadCount} αδιάβαστες` : ""}`}
+          aria-label={notificationsAriaLabel(unreadCount)}
         >
           <BellIcon />
           {unreadCount > 0 && (

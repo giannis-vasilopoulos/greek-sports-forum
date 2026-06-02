@@ -214,7 +214,8 @@ import { cn } from "@/lib/utils";
 ### Copy & language
 
 - All user-facing text in the frontend must be in **Greek** — labels, headings, buttons, links, placeholders, validation and error messages, empty states, toasts, and accessible names (`aria-label`, `title`, etc.).
-- Greek copy for **auth and validation** lives in [`lib/copy/`](lib/copy/) (`copy.auth`, `copy.validation`, `copy.common`). Import `copy` from `@/lib/copy` in components and wire Zod schemas to the same strings. SEO, layout, and feed copy will migrate in a later pass.
+- Product Greek copy lives in [`lib/copy/`](lib/copy/) — import `copy` from `@/lib/copy` (`copy.auth`, `copy.validation`, `copy.seo`, `copy.layout`, `copy.feed`, `copy.ads`, `copy.forum`, `copy.moderation`, `copy.common`). Helpers: `pageTitle`, `formatReplyCount` from `@/lib/copy`.
+- **Do not** move strings from mock/demo/seed files (`*-mock-data.ts`, `db/seed/*`) or long legal body copy in [`app/privacy/page.tsx`](app/privacy/page.tsx) into `lib/copy/`.
 - Keep code identifiers, comments, commit messages, and server-side logs in English unless a task says otherwise.
 
 ### Styling

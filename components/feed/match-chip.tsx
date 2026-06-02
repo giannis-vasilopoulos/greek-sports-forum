@@ -1,5 +1,8 @@
 import type { FeedMatch } from "@/components/feed/feed-data";
+import { copy } from "@/lib/copy";
 import { cn } from "@/lib/utils";
+
+const t = copy.feed;
 
 interface MatchChipProps {
   match: FeedMatch;
@@ -44,12 +47,14 @@ export function MatchChip({ match, className }: MatchChipProps) {
       <p className="text-[10px] text-muted-foreground">
         {isLive && match.minute && (
           <span className="font-medium text-destructive live-pulse">
-            LIVE {match.minute}
+            {t.thread.live} {match.minute}
           </span>
         )}
         {!isLive && match.kickoffTime && <span>{match.kickoffTime}</span>}
         {match.status === "finished" && !isLive && (
-          <span>Τελικό · {match.leagueName}</span>
+          <span>
+            {t.matchChip.finishedPrefix} {match.leagueName}
+          </span>
         )}
         {isLive && ` · ${match.leagueName}`}
         {match.status === "upcoming" && ` · ${match.leagueName}`}

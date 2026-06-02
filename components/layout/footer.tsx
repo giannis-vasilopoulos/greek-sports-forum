@@ -4,6 +4,7 @@ import {
   FOOTER_INFO_LINKS,
   getLeagueHref,
 } from "@/components/layout/site-data";
+import { copy } from "@/lib/copy";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 
@@ -59,6 +60,8 @@ function XIcon({ className }: { className?: string }) {
   );
 }
 
+const l = copy.layout;
+
 export function Footer({ leagues = [] }: FooterProps) {
   return (
     <footer className="border-t border-border bg-background">
@@ -69,11 +72,9 @@ export function Footer({ leagues = [] }: FooterProps) {
               href="/"
               className="text-[15px] font-medium tracking-[0.08em] text-foreground"
             >
-              ΚΕΡΚΙΔΑ
+              {l.brand}
             </Link>
-            <p className="text-sm text-muted-foreground">
-              Η κερκίδα σου για κάθε league
-            </p>
+            <p className="text-sm text-muted-foreground">{l.tagline}</p>
             <div className="flex items-center gap-1">
               <Button variant="ghost" size="icon" asChild>
                 <a
@@ -109,7 +110,9 @@ export function Footer({ leagues = [] }: FooterProps) {
           </div>
 
           <div>
-            <h2 className="mb-3 text-sm font-medium">Leagues</h2>
+            <h2 className="mb-3 text-sm font-medium">
+              {l.footer.leaguesHeading}
+            </h2>
             <ul className="flex flex-col gap-2">
               {leagues.map((league) => (
                 <li key={league.slug}>
@@ -128,7 +131,7 @@ export function Footer({ leagues = [] }: FooterProps) {
           </div>
 
           <div>
-            <h2 className="mb-3 text-sm font-medium">Πληροφορίες</h2>
+            <h2 className="mb-3 text-sm font-medium">{l.footer.infoHeading}</h2>
             <ul className="flex flex-col gap-2">
               {FOOTER_INFO_LINKS.map((link) => (
                 <li key={link.href}>
@@ -147,8 +150,8 @@ export function Footer({ leagues = [] }: FooterProps) {
         <Separator className="my-8" />
 
         <div className="flex flex-col-reverse items-start justify-between gap-2 text-xs text-muted-foreground md:flex-row md:items-center">
-          <p>© 2025 Κερκίδα. Με επιφύλαξη παντός δικαιώματος.</p>
-          <p>Φτιαγμένο για Έλληνες φίλαθλους</p>
+          <p>{l.footer.copyright}</p>
+          <p>{l.footer.madeFor}</p>
         </div>
       </div>
     </footer>

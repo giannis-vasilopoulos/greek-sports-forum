@@ -6,7 +6,10 @@ import type {
   UpcomingMatch,
 } from "@/components/feed/feed-data";
 import { threadPath } from "@/lib/seo/paths";
+import { copy, formatReplyCount } from "@/lib/copy";
 import { cn } from "@/lib/utils";
+
+const s = copy.feed.sidebar;
 
 interface RightSidebarProps {
   standings: StandingRow[];
@@ -24,7 +27,7 @@ export function RightSidebar({
   return (
     <div className={cn("flex flex-col gap-6", className)}>
       <section>
-        <p className="section-label mb-2">Βαθμολογία</p>
+        <p className="section-label mb-2">{s.standings}</p>
         <ul className="flex flex-col gap-1">
           {standings.map((row) => (
             <li
@@ -45,12 +48,12 @@ export function RightSidebar({
           href="/standings"
           className="mt-2 inline-block text-[11px] font-medium text-primary hover:underline"
         >
-          Πλήρης βαθμολογία
+          {s.fullStandings}
         </Link>
       </section>
 
       <section>
-        <p className="section-label mb-2">Επερχόμενα</p>
+        <p className="section-label mb-2">{s.upcoming}</p>
         <ul className="flex flex-col gap-2">
           {upcomingMatches.map((match) => (
             <li key={match.id} className="text-[12px]">
@@ -66,7 +69,7 @@ export function RightSidebar({
       </section>
 
       <section>
-        <p className="section-label mb-2">Trending</p>
+        <p className="section-label mb-2">{s.trending}</p>
         <ul className="flex flex-col gap-2">
           {trendingThreads.map((thread) => (
             <li key={thread.id}>
@@ -77,7 +80,7 @@ export function RightSidebar({
                 {thread.title}
               </Link>
               <p className="text-[11px] text-muted-foreground">
-                {thread.replyCount} απαντήσεις
+                {formatReplyCount(thread.replyCount)}
               </p>
             </li>
           ))}

@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 
+import { copy } from "@/lib/copy";
+import { pageTitle } from "@/lib/copy/format";
+
 import {
   DEFAULT_DESCRIPTION,
   DEFAULT_OG_IMAGE,
@@ -9,6 +12,8 @@ import {
   TWITTER_SITE,
   absoluteUrl,
 } from "./site";
+
+const p = copy.seo.pages;
 
 export const ROBOTS_INDEX: Metadata["robots"] = {
   index: true,
@@ -88,26 +93,24 @@ export interface ThreadMetadataInput {
 
 export function buildPrivacyMetadata(): Metadata {
   return buildPageMetadata({
-    title: "Πολιτική απορρήτου | ΚΕΡΚΙΔΑ",
-    description:
-      "Πώς η ΚΕΡΚΙΔΑ συλλέγει και προστατεύει τα προσωπικά σας δεδομένα.",
+    title: pageTitle(p.privacy.titleSegment),
+    description: p.privacy.description,
     path: "/privacy",
   });
 }
 
 export function buildMatchThreadsMetadata(): Metadata {
   return buildPageMetadata({
-    title: "Match Threads | ΚΕΡΚΙΔΑ",
-    description:
-      "Ζωντανές και επερχόμενες συζητήσεις αγώνων από όλα τα πρωτάθληματα.",
+    title: pageTitle(p.matchThreads.titleSegment),
+    description: p.matchThreads.description,
     path: "/match-threads",
   });
 }
 
 export function buildSignInMetadata(): Metadata {
   return buildPageMetadata({
-    title: "Σύνδεση | ΚΕΡΚΙΔΑ",
-    description: "Σύνδεση στον λογαριασμό σου στην ΚΕΡΚΙΔΑ.",
+    title: pageTitle(p.signIn.titleSegment),
+    description: p.signIn.description,
     path: "/sign-in",
     robots: ROBOTS_NOINDEX_FOLLOW,
   });
@@ -115,8 +118,8 @@ export function buildSignInMetadata(): Metadata {
 
 export function buildSignUpMetadata(): Metadata {
   return buildPageMetadata({
-    title: "Εγγραφή | ΚΕΡΚΙΔΑ",
-    description: "Δημιούργησε δωρεάν λογαριασμό στην ΚΕΡΚΙΔΑ.",
+    title: pageTitle(p.signUp.titleSegment),
+    description: p.signUp.description,
     path: "/sign-up",
     robots: ROBOTS_NOINDEX_FOLLOW,
   });
@@ -124,8 +127,8 @@ export function buildSignUpMetadata(): Metadata {
 
 export function buildOnboardingMetadata(): Metadata {
   return buildPageMetadata({
-    title: "Fan profile | ΚΕΡΚΙΔΑ",
-    description: "Δημιούργησε το fan profile σου στην ΚΕΡΚΙΔΑ.",
+    title: pageTitle(p.onboarding.titleSegment),
+    description: p.onboarding.description,
     path: "/onboarding",
     robots: ROBOTS_NOINDEX_FOLLOW,
   });

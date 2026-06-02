@@ -2,16 +2,19 @@ import Link from "next/link";
 import { ChevronRightIcon } from "lucide-react";
 
 import type { FeedThread } from "@/components/feed/feed-data";
+import { copy, formatReplyCount } from "@/lib/copy";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { threadPath } from "@/lib/seo/paths";
 import { cn } from "@/lib/utils";
 
+const t = copy.feed.thread;
+
 const TYPE_LABELS: Record<FeedThread["type"], string> = {
-  match_thread: "Match",
-  discussion: "Συζήτηση",
-  news: "Νέα",
-  poll: "Δημοσκόπηση",
+  match_thread: t.typeMatch,
+  discussion: t.typeDiscussion,
+  news: t.typeNews,
+  poll: t.typePoll,
 };
 
 interface ThreadRowProps {
@@ -43,7 +46,7 @@ export function ThreadRow({ thread, className }: ThreadRowProps) {
               variant="destructive"
               className="h-4 px-1.5 text-[10px] font-medium live-pulse"
             >
-              LIVE
+              {t.live}
             </Badge>
           )}
           <Badge variant="secondary" className="h-4 px-1.5 text-[10px]">
@@ -54,8 +57,8 @@ export function ThreadRow({ thread, className }: ThreadRowProps) {
           {thread.title}
         </p>
         <p className="text-[11px] text-muted-foreground">
-          {thread.authorName} · {thread.leagueName} · {thread.replyCount}{" "}
-          απαντήσεις · {thread.lastActivity}
+          {thread.authorName} · {thread.leagueName} ·{" "}
+          {formatReplyCount(thread.replyCount)} · {thread.lastActivity}
         </p>
       </div>
 
@@ -74,9 +77,9 @@ interface ThreadRowListProps {
 
 export function ThreadRowList({ threads, className }: ThreadRowListProps) {
   return (
-    <ul className={cn("divide-y divide-border", className)}>
+    <ul className={cn("flex flex-col", className)}>
       {threads.map((thread) => (
-        <li key={thread.id}>
+        <li key={thread.id} className="border-b border-border last:border-b-0">
           <ThreadRow thread={thread} />
         </li>
       ))}
