@@ -1,5 +1,6 @@
 import { z } from "zod";
 
+import { copy } from "@/lib/copy";
 import {
   emailSchema,
   passwordSchema,
@@ -7,12 +8,10 @@ import {
   usernameSchema,
 } from "@/lib/validation/fields";
 
+const v = copy.validation;
+
 export const signUpSchema = z.object({
-  name: z
-    .string()
-    .trim()
-    .min(1, "Συμπλήρωσε το όνομά σου.")
-    .max(100, "Το όνομα είναι πολύ μεγάλο."),
+  name: z.string().trim().min(1, v.name.required).max(100, v.name.tooLong),
   username: usernameSchema,
   email: emailSchema,
   password: passwordSchema,

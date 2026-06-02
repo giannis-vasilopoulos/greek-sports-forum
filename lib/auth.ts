@@ -5,6 +5,7 @@ import { username } from "better-auth/plugins";
 
 import { db } from "@/db";
 import * as schema from "@/db/schema";
+import { copy } from "@/lib/copy";
 import { isValidPassword, isValidUsername } from "@/lib/validation/fields";
 
 const PASSWORD_POLICY_PATHS = ["/sign-up/email"] as const;
@@ -51,7 +52,7 @@ export const auth = betterAuth({
       const password = ctx.body?.password;
       if (typeof password !== "string" || !isValidPassword(password)) {
         throw new APIError("BAD_REQUEST", {
-          message: "Ο κωδικός δεν πληροί τις απαιτήσεις ασφαλείας.",
+          message: copy.validation.password.policyFailed,
         });
       }
     }),

@@ -214,6 +214,7 @@ import { cn } from "@/lib/utils";
 ### Copy & language
 
 - All user-facing text in the frontend must be in **Greek** — labels, headings, buttons, links, placeholders, validation and error messages, empty states, toasts, and accessible names (`aria-label`, `title`, etc.).
+- Greek copy for **auth and validation** lives in [`lib/copy/`](lib/copy/) (`copy.auth`, `copy.validation`, `copy.common`). Import `copy` from `@/lib/copy` in components and wire Zod schemas to the same strings. SEO, layout, and feed copy will migrate in a later pass.
 - Keep code identifiers, comments, commit messages, and server-side logs in English unless a task says otherwise.
 
 ### Styling
@@ -258,7 +259,7 @@ Unexpected connection or SQL errors throw `DbError` from `@/lib/db/errors`. Cons
 
 ### Validation
 
-- Define input rules and Greek error copy in [`lib/validation/`](lib/validation/) (`fields.ts` for reusable username/password, domain files for composed schemas).
+- Define input rules in [`lib/validation/`](lib/validation/) (`fields.ts` for reusable username/password, domain files for composed schemas). Greek error messages come from [`lib/copy/validation.ts`](lib/copy/validation.ts) via `copy.validation`.
 - Client forms use **react-hook-form** + `zodResolver` against those schemas; map Better Auth API errors in [`lib/auth/map-sign-up-error.ts`](lib/auth/map-sign-up-error.ts) where needed.
 - **Better Auth** enforces auth boundaries via thin predicates (`isValidUsername`, `isValidPassword`) in [`lib/auth.ts`](lib/auth.ts) — do not duplicate regex inline in auth config.
 - **Server actions** and custom API routes must `safeParse` with the same schema (never trust the client). Helpers: [`lib/validation/parse.ts`](lib/validation/parse.ts).

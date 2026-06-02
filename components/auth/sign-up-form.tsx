@@ -7,10 +7,11 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { GoogleAuthButton } from "@/components/auth/google-auth-button";
+import { PasswordInput } from "@/components/auth/password-input";
+import { copy } from "@/lib/copy";
 import { mapSignUpApiError } from "@/lib/auth/map-sign-up-error";
 import { authClient } from "@/lib/auth-client";
 import { signUpSchema, type SignUpInput } from "@/lib/validation/auth";
-import { PASSWORD_REQUIREMENTS_DESCRIPTION } from "@/lib/validation/fields";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -30,6 +31,8 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+
+const t = copy.auth.signUp;
 
 export function SignUpForm() {
   const router = useRouter();
@@ -88,17 +91,15 @@ export function SignUpForm() {
     <Card className="mx-auto w-full max-w-md">
       <CardHeader>
         <CardTitle>
-          <h1 className="text-base font-medium">Εγγραφή</h1>
+          <h1 className="text-base font-medium">{t.title}</h1>
         </CardTitle>
-        <CardDescription>
-          Δημιούργησε δωρεάν λογαριασμό στην ΚΕΡΚΙΔΑ.
-        </CardDescription>
+        <CardDescription>{t.description}</CardDescription>
       </CardHeader>
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
         <CardContent>
           <FieldGroup>
             <Field data-invalid={!!errors.name}>
-              <FieldLabel htmlFor="name">Όνομα</FieldLabel>
+              <FieldLabel htmlFor="name">{t.nameLabel}</FieldLabel>
               <Input
                 id="name"
                 type="text"
@@ -110,11 +111,8 @@ export function SignUpForm() {
               <FieldError errors={[errors.name]} />
             </Field>
             <Field data-invalid={!!errors.username}>
-              <FieldLabel htmlFor="username">Όνομα χρήστη</FieldLabel>
-              <FieldDescription>
-                Εμφανίζεται δίπλα στις δημοσιεύσεις σου. 3–30 λατινικούς
-                χαρακτήρες, αριθμοί ή _.
-              </FieldDescription>
+              <FieldLabel htmlFor="username">{t.usernameLabel}</FieldLabel>
+              <FieldDescription>{t.usernameHint}</FieldDescription>
               <Input
                 id="username"
                 type="text"
@@ -126,7 +124,7 @@ export function SignUpForm() {
               <FieldError errors={[errors.username]} />
             </Field>
             <Field data-invalid={!!errors.email}>
-              <FieldLabel htmlFor="email">Email</FieldLabel>
+              <FieldLabel htmlFor="email">{t.emailLabel}</FieldLabel>
               <Input
                 id="email"
                 type="email"
@@ -138,13 +136,12 @@ export function SignUpForm() {
               <FieldError errors={[errors.email]} />
             </Field>
             <Field data-invalid={!!errors.password}>
-              <FieldLabel htmlFor="password">Κωδικός</FieldLabel>
+              <FieldLabel htmlFor="password">{t.passwordLabel}</FieldLabel>
               <FieldDescription>
-                {PASSWORD_REQUIREMENTS_DESCRIPTION}
+                {copy.validation.password.requirementsDescription}
               </FieldDescription>
-              <Input
+              <PasswordInput
                 id="password"
-                type="password"
                 autoComplete="new-password"
                 aria-invalid={!!errors.password}
                 className={cn(errors.password && "border-destructive")}
@@ -153,7 +150,7 @@ export function SignUpForm() {
               <FieldError errors={[errors.password]} />
             </Field>
             {formError && <FieldError>{formError}</FieldError>}
-            <FieldSeparator>ή</FieldSeparator>
+            <FieldSeparator>{copy.common.or}</FieldSeparator>
             <GoogleAuthButton />
           </FieldGroup>
         </CardContent>
@@ -164,15 +161,15 @@ export function SignUpForm() {
             className="w-full"
             disabled={pending}
           >
-            {pending ? "Εγγραφή…" : "Εγγραφή"}
+            {pending ? t.submitPending : t.submit}
           </Button>
           <p className="text-center text-sm text-muted-foreground">
-            Έχεις ήδη λογαριασμό;{" "}
+            {t.hasAccount}{" "}
             <Link
               href="/sign-in"
               className="text-primary underline underline-offset-4"
             >
-              Σύνδεση
+              {t.signInLink}
             </Link>
           </p>
         </CardFooter>

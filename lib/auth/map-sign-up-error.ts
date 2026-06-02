@@ -1,6 +1,10 @@
+import { copy } from "@/lib/copy";
 import type { SignUpInput } from "@/lib/validation/auth";
 
 export type SignUpFieldErrors = Partial<Record<keyof SignUpInput, string>>;
+
+const { errors: e } = copy.auth;
+const { password: p } = copy.validation;
 
 export function mapSignUpApiError(
   code: string | undefined,
@@ -12,21 +16,20 @@ export function mapSignUpApiError(
     case "USERNAME_TOO_LONG":
       return {
         fieldErrors: {
-          username:
-            "Μη έγκυρο όνομα χρήστη. Χρησιμοποίησε 3–30 λατινικούς χαρακτήρες, αριθμούς ή _.",
+          username: e.usernameInvalid,
         },
       };
     case "USERNAME_IS_ALREADY_TAKEN":
       return {
         fieldErrors: {
-          username: "Το όνομα χρήστη χρησιμοποιείται ήδη.",
+          username: e.usernameTaken,
         },
       };
     case "PASSWORD_TOO_SHORT":
     case "PASSWORD_TOO_LONG":
       return {
         fieldErrors: {
-          password: "Ο κωδικός δεν πληροί τις απαιτήσεις ασφαλείας.",
+          password: p.policyFailed,
         },
       };
     default:
@@ -36,23 +39,23 @@ export function mapSignUpApiError(
   if (message === "User already exists") {
     return {
       fieldErrors: {
-        email: "Υπάρχει ήδη λογαριασμός με αυτό το email.",
+        email: e.emailTaken,
       },
     };
   }
 
   if (
-    message?.includes("απαιτήσεις ασφαλείας") ||
+    message?.includes(p.policyKeyword) ||
     message?.toLowerCase().includes("password")
   ) {
     return {
       fieldErrors: {
-        password: "Ο κωδικός δεν πληροί τις απαιτήσεις ασφαλείας.",
+        password: p.policyFailed,
       },
     };
   }
 
   return {
-    formError: "Η εγγραφή απέτυχε. Έλεγξε τα στοιχεία σου και δοκίμασε ξανά.",
+    formError: e.signUpFailed,
   };
 }

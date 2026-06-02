@@ -7,6 +7,8 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { GoogleAuthButton } from "@/components/auth/google-auth-button";
+import { PasswordInput } from "@/components/auth/password-input";
+import { copy } from "@/lib/copy";
 import { authClient } from "@/lib/auth-client";
 import { signInSchema, type SignInInput } from "@/lib/validation/auth";
 import { Button } from "@/components/ui/button";
@@ -27,6 +29,8 @@ import {
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+
+const t = copy.auth.signIn;
 
 export function SignInForm() {
   const router = useRouter();
@@ -56,7 +60,7 @@ export function SignInForm() {
     });
 
     if (signInError) {
-      setFormError("Λάθος email ή κωδικός. Δοκίμασε ξανά.");
+      setFormError(t.invalidCredentials);
       setPending(false);
       return;
     }
@@ -69,21 +73,19 @@ export function SignInForm() {
     <Card className="mx-auto w-full max-w-md">
       <CardHeader>
         <CardTitle>
-          <h1 className="text-base font-medium">Σύνδεση</h1>
+          <h1 className="text-base font-medium">{t.title}</h1>
         </CardTitle>
-        <CardDescription>
-          Συνδέσου στον λογαριασμό σου στην ΚΕΡΚΙΔΑ.
-        </CardDescription>
+        <CardDescription>{t.description}</CardDescription>
       </CardHeader>
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
         <CardContent>
           <FieldGroup>
             <Field data-invalid={!!errors.email}>
-              <FieldLabel htmlFor="email">Email</FieldLabel>
+              <FieldLabel htmlFor="email">{t.emailLabel}</FieldLabel>
               <Input
                 id="email"
                 type="email"
-                autoComplete="email"
+                autoComplete="username"
                 aria-invalid={!!errors.email}
                 className={cn(errors.email && "border-destructive")}
                 {...register("email")}
@@ -91,10 +93,9 @@ export function SignInForm() {
               <FieldError errors={[errors.email]} />
             </Field>
             <Field data-invalid={!!errors.password}>
-              <FieldLabel htmlFor="password">Κωδικός</FieldLabel>
-              <Input
+              <FieldLabel htmlFor="password">{t.passwordLabel}</FieldLabel>
+              <PasswordInput
                 id="password"
-                type="password"
                 autoComplete="current-password"
                 aria-invalid={!!errors.password}
                 className={cn(errors.password && "border-destructive")}
@@ -103,7 +104,7 @@ export function SignInForm() {
               <FieldError errors={[errors.password]} />
             </Field>
             {formError && <FieldError>{formError}</FieldError>}
-            <FieldSeparator>ή</FieldSeparator>
+            <FieldSeparator>{copy.common.or}</FieldSeparator>
             <GoogleAuthButton />
           </FieldGroup>
         </CardContent>
@@ -114,15 +115,15 @@ export function SignInForm() {
             className="w-full"
             disabled={pending}
           >
-            {pending ? "Σύνδεση…" : "Σύνδεση"}
+            {pending ? t.submitPending : t.submit}
           </Button>
           <p className="text-center text-sm text-muted-foreground">
-            Δεν έχεις λογαριασμό;{" "}
+            {t.noAccount}{" "}
             <Link
               href="/sign-up"
               className="text-primary underline underline-offset-4"
             >
-              Εγγραφή
+              {t.signUpLink}
             </Link>
           </p>
         </CardFooter>

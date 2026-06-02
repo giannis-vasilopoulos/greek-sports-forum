@@ -1,5 +1,7 @@
 import type { ZodError, ZodSchema } from "zod";
 
+import { copy } from "@/lib/copy";
+
 export type ParseSuccess<T> = { ok: true; data: T };
 
 export type ParseFailure = {
@@ -63,7 +65,7 @@ export async function parseJsonBody<T>(
     return {
       ok: false,
       fieldErrors: {},
-      formError: "Μη έγκυρο αίτημα.",
+      formError: copy.validation.requestInvalid,
     };
   }
 

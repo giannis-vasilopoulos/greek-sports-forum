@@ -4,6 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMemo, useState } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
 
+import { copy } from "@/lib/copy";
 import { createFanProfile } from "@/lib/profiles/actions";
 import {
   createFanProfileSchema,
@@ -35,6 +36,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
+
+const t = copy.auth.onboarding;
 
 type LeagueOption = {
   id: number;
@@ -111,17 +114,15 @@ export function OnboardingForm({
     <Card className="mx-auto w-full max-w-md">
       <CardHeader>
         <CardTitle>
-          <h1 className="text-base font-medium">Δημιούργησε fan profile</h1>
+          <h1 className="text-base font-medium">{t.title}</h1>
         </CardTitle>
-        <CardDescription>
-          Διάλεξε πρωτάθλημα και ομάδα για να συμμετέχεις στις συζητήσεις.
-        </CardDescription>
+        <CardDescription>{t.description}</CardDescription>
       </CardHeader>
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
         <CardContent>
           <FieldGroup>
             <Field data-invalid={!!errors.leagueId}>
-              <FieldLabel htmlFor="leagueId">Πρωτάθλημα</FieldLabel>
+              <FieldLabel htmlFor="leagueId">{t.leagueLabel}</FieldLabel>
               <Controller
                 control={control}
                 name="leagueId"
@@ -138,7 +139,7 @@ export function OnboardingForm({
                       aria-invalid={!!errors.leagueId}
                       className={cn(errors.leagueId && "border-destructive")}
                     >
-                      <SelectValue placeholder="Επίλεξε πρωτάθλημα" />
+                      <SelectValue placeholder={t.leaguePlaceholder} />
                     </SelectTrigger>
                     <SelectContent>
                       {leagues.map((league) => (
@@ -153,7 +154,9 @@ export function OnboardingForm({
               <FieldError errors={[errors.leagueId]} />
             </Field>
             <Field data-invalid={!!errors.favoriteTeamId}>
-              <FieldLabel htmlFor="favoriteTeamId">Αγαπημένη ομάδα</FieldLabel>
+              <FieldLabel htmlFor="favoriteTeamId">
+                {t.favoriteTeamLabel}
+              </FieldLabel>
               <Controller
                 control={control}
                 name="favoriteTeamId"
@@ -177,7 +180,7 @@ export function OnboardingForm({
                         errors.favoriteTeamId && "border-destructive",
                       )}
                     >
-                      <SelectValue placeholder="Προαιρετικό" />
+                      <SelectValue placeholder={t.favoriteTeamPlaceholder} />
                     </SelectTrigger>
                     <SelectContent>
                       {teamsForLeague.map((team) => (
@@ -192,11 +195,10 @@ export function OnboardingForm({
               <FieldError errors={[errors.favoriteTeamId]} />
             </Field>
             <Field data-invalid={!!errors.displayName}>
-              <FieldLabel htmlFor="displayName">Όνομα εμφάνισης</FieldLabel>
-              <FieldDescription>
-                Το όνομα που θα εμφανίζεται στις δημοσιεύσεις σου σε αυτό το
-                πρωτάθλημα.
-              </FieldDescription>
+              <FieldLabel htmlFor="displayName">
+                {t.displayNameLabel}
+              </FieldLabel>
+              <FieldDescription>{t.displayNameHint}</FieldDescription>
               <Input
                 id="displayName"
                 type="text"
@@ -216,7 +218,7 @@ export function OnboardingForm({
             className="w-full"
             disabled={pending}
           >
-            {pending ? "Αποθήκευση…" : "Συνέχεια"}
+            {pending ? t.submitPending : t.submit}
           </Button>
         </CardFooter>
       </form>

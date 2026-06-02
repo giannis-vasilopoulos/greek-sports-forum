@@ -1,52 +1,38 @@
 import { z } from "zod";
 
+import { copy } from "@/lib/copy";
+
 const USERNAME_CHARSET = /^[a-zA-Z0-9_]+$/;
 
 /** Avoid deprecated `z.string().email()` (Zod 4 top-level `z.email()` not in v3 default export). */
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+const v = copy.validation;
+
 export const emailSchema = z
   .string()
   .trim()
-  .min(1, "Συμπλήρωσε το email σου.")
+  .min(1, v.email.required)
   .refine((value) => EMAIL_PATTERN.test(value), {
-    message: "Μη έγκυρο email.",
+    message: v.email.invalid,
   });
 
 export const usernameSchema = z
   .string()
   .trim()
-  .min(3, "Το όνομα χρήστη πρέπει να έχει 3–30 χαρακτήρες.")
-  .max(30, "Το όνομα χρήστη πρέπει να έχει 3–30 χαρακτήρες.")
-  .regex(
-    USERNAME_CHARSET,
-    "Μόνο λατινικά γράμματα, αριθμοί και _ (χωρίς κενά ή τελείες).",
-  );
+  .min(3, v.username.length)
+  .max(30, v.username.length)
+  .regex(USERNAME_CHARSET, v.username.charset);
 
 const PASSWORD_RULES: Array<{
   test: (value: string) => boolean;
   message: string;
 }> = [
-  {
-    test: (value) => value.length >= 8,
-    message: "Ο κωδικός πρέπει να έχει τουλάχιστον 8 χαρακτήρες.",
-  },
-  {
-    test: (value) => /[a-z]/.test(value),
-    message: "Ο κωδικός πρέπει να περιέχει τουλάχιστον ένα πεζό γράμμα.",
-  },
-  {
-    test: (value) => /[A-Z]/.test(value),
-    message: "Ο κωδικός πρέπει να περιέχει τουλάχιστον ένα κεφαλαίο γράμμα.",
-  },
-  {
-    test: (value) => /[0-9]/.test(value),
-    message: "Ο κωδικός πρέπει να περιέχει τουλάχιστον έναν αριθμό.",
-  },
-  {
-    test: (value) => /[^A-Za-z0-9]/.test(value),
-    message: "Ο κωδικός πρέπει να περιέχει τουλάχιστον έναν ειδικό χαρακτήρα.",
-  },
+  { test: (value) => value.length >= 8, message: v.password.minLength },
+  { test: (value) => /[a-z]/.test(value), message: v.password.lowercase },
+  { test: (value) => /[A-Z]/.test(value), message: v.password.uppercase },
+  { test: (value) => /[0-9]/.test(value), message: v.password.digit },
+  { test: (value) => /[^A-Za-z0-9]/.test(value), message: v.password.special },
 ];
 
 export const passwordSchema = z.string().superRefine((value, ctx) => {
@@ -58,12 +44,10 @@ export const passwordSchema = z.string().superRefine((value, ctx) => {
   }
 });
 
-export const signInPasswordSchema = z
-  .string()
-  .min(1, "Συμπλήρωσε τον κωδικό σου.");
+export const signInPasswordSchema = z.string().min(1, v.password.required);
 
 export const PASSWORD_REQUIREMENTS_DESCRIPTION =
-  "Τουλάχιστον 8 χαρακτήρες, ένα πεζό, ένα κεφαλαίο, έναν αριθμό και έναν ειδικό χαρακτήρα.";
+  v.password.requirementsDescription;
 
 export function isValidUsername(value: string): boolean {
   return usernameSchema.safeParse(value).success;

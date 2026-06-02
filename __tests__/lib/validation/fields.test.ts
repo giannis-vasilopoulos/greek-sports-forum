@@ -4,6 +4,7 @@ import {
   emailSchema,
   isValidPassword,
   isValidUsername,
+  PASSWORD_REQUIREMENTS_DESCRIPTION,
   passwordSchema,
   usernameSchema,
 } from "@/lib/validation/fields";
@@ -28,6 +29,18 @@ describe("emailSchema", () => {
     expect(emailSchema.safeParse("test@example.com").success).toBe(true);
     expect(emailSchema.safeParse("not-an-email").success).toBe(false);
     expect(emailSchema.safeParse("").success).toBe(false);
+  });
+});
+
+describe("PASSWORD_REQUIREMENTS_DESCRIPTION", () => {
+  it("lists accepted character sets and minimum length", () => {
+    expect(PASSWORD_REQUIREMENTS_DESCRIPTION).toContain("a–z, A–Z");
+    expect(PASSWORD_REQUIREMENTS_DESCRIPTION).toContain("0–9");
+    expect(PASSWORD_REQUIREMENTS_DESCRIPTION).toContain("ειδικούς χαρακτήρες");
+    expect(PASSWORD_REQUIREMENTS_DESCRIPTION).toContain(
+      "Τουλάχιστον 8 χαρακτήρες",
+    );
+    expect(PASSWORD_REQUIREMENTS_DESCRIPTION).not.toContain("128");
   });
 });
 

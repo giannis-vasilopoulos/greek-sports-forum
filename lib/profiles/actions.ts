@@ -10,6 +10,7 @@ import { fanProfiles } from "@/db/schema";
 import { getSessionUser } from "@/lib/auth/session";
 import { runDbResult } from "@/lib/db/run";
 import { ACTIVE_FAN_PROFILE_COOKIE } from "@/lib/profiles/active-profile-cookie";
+import { copy } from "@/lib/copy";
 import { zodFieldErrors } from "@/lib/validation/parse";
 import {
   createFanProfileSchema,
@@ -26,7 +27,7 @@ export async function createFanProfile(
 ): Promise<FanProfileActionState> {
   const user = await getSessionUser();
   if (!user) {
-    return { error: "Πρέπει να είσαι συνδεδεμένος." };
+    return { error: copy.auth.onboarding.mustBeSignedIn };
   }
 
   const parsed = createFanProfileSchema.safeParse(input);
@@ -53,11 +54,10 @@ export async function createFanProfile(
   if (!result.ok) {
     if (result.error.kind === "conflict") {
       return {
-        error:
-          "Έχεις ήδη fan profile σε αυτό το πρωτάθλημα ή το όνομα χρησιμοποιείται.",
+        error: copy.auth.onboarding.profileConflict,
       };
     }
-    return { error: "Κάτι πήγε στραβά. Δοκίμασε ξανά." };
+    return { error: copy.auth.onboarding.genericError };
   }
 
   const cookieStore = await cookies();

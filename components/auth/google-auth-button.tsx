@@ -2,10 +2,13 @@
 
 import { useState } from "react";
 
+import { copy } from "@/lib/copy";
 import { authClient } from "@/lib/auth-client";
 import { Button } from "@/components/ui/button";
 import { FieldError } from "@/components/ui/field";
 import { cn } from "@/lib/utils";
+
+const t = copy.auth.google;
 
 interface GoogleAuthButtonProps {
   className?: string;
@@ -54,9 +57,7 @@ export function GoogleAuthButton({ className }: GoogleAuthButtonProps) {
     });
 
     if (signInError) {
-      setError(
-        "Η σύνδεση με Google απέτυχε. Έλεγξε τις ρυθμίσεις OAuth ή δοκίμασε ξανά.",
-      );
+      setError(t.error);
       setPending(false);
     }
   }
@@ -71,7 +72,7 @@ export function GoogleAuthButton({ className }: GoogleAuthButtonProps) {
         onClick={handleGoogleSignIn}
       >
         <GoogleIcon className="size-4" />
-        {pending ? "Μεταφορά στο Google…" : "Συνέχεια με Google"}
+        {pending ? t.pending : t.continue}
       </Button>
       {error && <FieldError>{error}</FieldError>}
     </div>

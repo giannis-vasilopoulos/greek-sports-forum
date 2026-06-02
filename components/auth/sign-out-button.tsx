@@ -3,8 +3,11 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
+import { copy } from "@/lib/copy";
 import { authClient } from "@/lib/auth-client";
 import { Button } from "@/components/ui/button";
+
+const t = copy.auth.signOut;
 
 interface SignOutButtonProps {
   className?: string;
@@ -17,7 +20,7 @@ export function SignOutButton({
   className,
   variant = "ghost",
   size = "sm",
-  children = "Αποσύνδεση",
+  children = t.label,
 }: SignOutButtonProps) {
   const router = useRouter();
   const [pending, setPending] = useState(false);
@@ -44,7 +47,7 @@ export function SignOutButton({
       disabled={pending}
       onClick={handleSignOut}
     >
-      {pending ? "Αποσύνδεση…" : children}
+      {pending ? t.pending : children}
     </Button>
   );
 }
