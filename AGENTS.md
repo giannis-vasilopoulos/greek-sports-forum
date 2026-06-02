@@ -256,12 +256,21 @@ Thin helpers in `lib/db/` — do **not** wrap the exported `db` client (Better A
 
 Unexpected connection or SQL errors throw `DbError` from `@/lib/db/errors`. Constraint codes `23505` / `23503` map to `Result` errors via `runDbResult` (defaults to `conflict()` if handlers omitted).
 
+### Validation
+
+- Define input rules and Greek error copy in [`lib/validation/`](lib/validation/) (`fields.ts` for reusable username/password, domain files for composed schemas).
+- Client forms use **react-hook-form** + `zodResolver` against those schemas; map Better Auth API errors in [`lib/auth/map-sign-up-error.ts`](lib/auth/map-sign-up-error.ts) where needed.
+- **Better Auth** enforces auth boundaries via thin predicates (`isValidUsername`, `isValidPassword`) in [`lib/auth.ts`](lib/auth.ts) — do not duplicate regex inline in auth config.
+- **Server actions** and custom API routes must `safeParse` with the same schema (never trust the client). Helpers: [`lib/validation/parse.ts`](lib/validation/parse.ts).
+- Seed and e2e passwords used for sign-up must satisfy `passwordSchema` (e.g. `TestPass123!`).
+
 ### Authentication (Better Auth)
 
 **Server** — import `auth` from `@/lib/auth`:
 
 - Drizzle adapter with PostgreSQL
-- Email/password enabled
+- Email/password enabled (min/max length + `hooks.before` password complexity)
+- Username plugin (`usernameClient` on the client) with validators from `lib/validation/fields.ts`
 - Google OAuth configured (requires env vars)
 
 **Client** — import `authClient` from `@/lib/auth-client`:

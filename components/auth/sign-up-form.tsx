@@ -1,11 +1,16 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 
 import { GoogleAuthButton } from "@/components/auth/google-auth-button";
+import { mapSignUpApiError } from "@/lib/auth/map-sign-up-error";
 import { authClient } from "@/lib/auth-client";
+import { signUpSchema, type SignUpInput } from "@/lib/validation/auth";
+import { PASSWORD_REQUIREMENTS_DESCRIPTION } from "@/lib/validation/fields";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -24,35 +29,53 @@ import {
   FieldSeparator,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
 
 export function SignUpForm() {
   const router = useRouter();
-  const [name, setName] = useState("");
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState<string | undefined>();
+  const [formError, setFormError] = useState<string | undefined>();
   const [pending, setPending] = useState(false);
 
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setError(undefined);
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors },
+  } = useForm<SignUpInput>({
+    resolver: zodResolver(signUpSchema),
+    defaultValues: {
+      name: "",
+      username: "",
+      email: "",
+      password: "",
+    },
+  });
+
+  async function onSubmit(values: SignUpInput) {
+    setFormError(undefined);
     setPending(true);
 
     const { error: signUpError } = await authClient.signUp.email({
-      name,
-      email,
-      password,
-      username,
+      name: values.name,
+      email: values.email,
+      password: values.password,
+      username: values.username,
       callbackURL: "/onboarding",
     });
 
     if (signUpError) {
-      setError(
-        signUpError.message === "User already exists"
-          ? "Υπάρχει ήδη λογαριασμός με αυτό το email."
-          : "Η εγγραφή απέτυχε. Έλεγξε τα στοιχεία σου και δοκίμασε ξανά.",
-      );
+      const mapped = mapSignUpApiError(signUpError.code, signUpError.message);
+
+      if (mapped.fieldErrors) {
+        for (const [field, message] of Object.entries(mapped.fieldErrors)) {
+          setError(field as keyof SignUpInput, { message });
+        }
+      }
+
+      if (mapped.formError) {
+        setFormError(mapped.formError);
+      }
+
       setPending(false);
       return;
     }
@@ -71,64 +94,65 @@ export function SignUpForm() {
           Δημιούργησε δωρεάν λογαριασμό στην ΚΕΡΚΙΔΑ.
         </CardDescription>
       </CardHeader>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit(onSubmit)} noValidate>
         <CardContent>
           <FieldGroup>
-            <Field>
+            <Field data-invalid={!!errors.name}>
               <FieldLabel htmlFor="name">Όνομα</FieldLabel>
               <Input
                 id="name"
-                name="name"
                 type="text"
                 autoComplete="name"
-                required
-                value={name}
-                onChange={(event) => setName(event.target.value)}
+                aria-invalid={!!errors.name}
+                className={cn(errors.name && "border-destructive")}
+                {...register("name")}
               />
+              <FieldError errors={[errors.name]} />
             </Field>
-            <Field>
+            <Field data-invalid={!!errors.username}>
               <FieldLabel htmlFor="username">Όνομα χρήστη</FieldLabel>
               <FieldDescription>
-                Εμφανίζεται δίπλα στις δημοσιεύσεις σου.
+                Εμφανίζεται δίπλα στις δημοσιεύσεις σου. 3–30 λατινικούς
+                χαρακτήρες, αριθμοί ή _.
               </FieldDescription>
               <Input
                 id="username"
-                name="username"
                 type="text"
                 autoComplete="username"
-                required
-                minLength={3}
-                value={username}
-                onChange={(event) => setUsername(event.target.value)}
+                aria-invalid={!!errors.username}
+                className={cn(errors.username && "border-destructive")}
+                {...register("username")}
               />
+              <FieldError errors={[errors.username]} />
             </Field>
-            <Field>
+            <Field data-invalid={!!errors.email}>
               <FieldLabel htmlFor="email">Email</FieldLabel>
               <Input
                 id="email"
-                name="email"
                 type="email"
                 autoComplete="email"
-                required
-                value={email}
-                onChange={(event) => setEmail(event.target.value)}
+                aria-invalid={!!errors.email}
+                className={cn(errors.email && "border-destructive")}
+                {...register("email")}
               />
+              <FieldError errors={[errors.email]} />
             </Field>
-            <Field>
+            <Field data-invalid={!!errors.password}>
               <FieldLabel htmlFor="password">Κωδικός</FieldLabel>
-              <FieldDescription>Τουλάχιστον 8 χαρακτήρες.</FieldDescription>
+              <FieldDescription>
+                {PASSWORD_REQUIREMENTS_DESCRIPTION}
+              </FieldDescription>
               <Input
                 id="password"
-                name="password"
                 type="password"
                 autoComplete="new-password"
-                required
-                minLength={8}
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
+                aria-invalid={!!errors.password}
+                className={cn(errors.password && "border-destructive")}
+                {...register("password")}
               />
+              <FieldError errors={[errors.password]} />
             </Field>
-            {error && <FieldError>{error}</FieldError>}
+            {formError && <FieldError>{formError}</FieldError>}
             <FieldSeparator>ή</FieldSeparator>
             <GoogleAuthButton />
           </FieldGroup>

@@ -43,6 +43,13 @@
       "when": 1780134353454,
       "tag": "0005_loose_gamma_corps",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1780348424164,
+      "tag": "0006_legal_loki",
+      "breakpoints": true
     }
   ]
 }

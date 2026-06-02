@@ -1,11 +1,15 @@
 "use client";
 
-import { useActionState, useMemo, useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMemo, useState } from "react";
+import { Controller, useForm, useWatch } from "react-hook-form";
 
+import { createFanProfile } from "@/lib/profiles/actions";
 import {
-  createFanProfile,
-  type FanProfileActionState,
-} from "@/lib/profiles/actions";
+  createFanProfileSchema,
+  type CreateFanProfileFormValues,
+  type CreateFanProfileInput,
+} from "@/lib/validation/profiles";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -30,6 +34,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { cn } from "@/lib/utils";
 
 type LeagueOption = {
   id: number;
@@ -49,26 +54,58 @@ interface OnboardingFormProps {
   defaultDisplayName?: string;
 }
 
-const initialState: FanProfileActionState = {};
-
 export function OnboardingForm({
   leagues,
   teams,
   defaultDisplayName = "",
 }: OnboardingFormProps) {
-  const [state, formAction, pending] = useActionState(
-    createFanProfile,
-    initialState,
-  );
-  const [leagueId, setLeagueId] = useState<string>(
-    leagues[0] ? String(leagues[0].id) : "",
-  );
-  const [favoriteTeamId, setFavoriteTeamId] = useState<string>("");
+  const [formError, setFormError] = useState<string | undefined>();
+  const [pending, setPending] = useState(false);
+
+  const defaultLeagueId = leagues[0]?.id;
+
+  const {
+    register,
+    handleSubmit,
+    control,
+    setValue,
+    setError,
+    formState: { errors },
+  } = useForm<CreateFanProfileFormValues, unknown, CreateFanProfileInput>({
+    resolver: zodResolver(createFanProfileSchema),
+    defaultValues: {
+      leagueId: defaultLeagueId ?? 0,
+      favoriteTeamId: "",
+      displayName: defaultDisplayName,
+    },
+  });
+
+  const leagueId = useWatch({ control, name: "leagueId" });
 
   const teamsForLeague = useMemo(
-    () => teams.filter((team) => String(team.leagueId) === leagueId),
+    () => teams.filter((team) => team.leagueId === Number(leagueId)),
     [teams, leagueId],
   );
+
+  async function onSubmit(values: CreateFanProfileInput) {
+    setFormError(undefined);
+    setPending(true);
+
+    const result = await createFanProfile(values);
+
+    if (result.fieldErrors) {
+      for (const [field, message] of Object.entries(result.fieldErrors)) {
+        setError(field as keyof CreateFanProfileFormValues, { message });
+      }
+      setPending(false);
+      return;
+    }
+
+    if (result.error) {
+      setFormError(result.error);
+      setPending(false);
+    }
+  }
 
   return (
     <Card className="mx-auto w-full max-w-md">
@@ -80,59 +117,81 @@ export function OnboardingForm({
           Διάλεξε πρωτάθλημα και ομάδα για να συμμετέχεις στις συζητήσεις.
         </CardDescription>
       </CardHeader>
-      <form action={formAction}>
+      <form onSubmit={handleSubmit(onSubmit)} noValidate>
         <CardContent>
           <FieldGroup>
-            <Field>
+            <Field data-invalid={!!errors.leagueId}>
               <FieldLabel htmlFor="leagueId">Πρωτάθλημα</FieldLabel>
-              <Select
-                value={leagueId}
-                onValueChange={(value) => {
-                  setLeagueId(value);
-                  setFavoriteTeamId("");
-                }}
-                required
-              >
-                <SelectTrigger id="leagueId">
-                  <SelectValue placeholder="Επίλεξε πρωτάθλημα" />
-                </SelectTrigger>
-                <SelectContent>
-                  {leagues.map((league) => (
-                    <SelectItem key={league.id} value={String(league.id)}>
-                      {league.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <input type="hidden" name="leagueId" value={leagueId} />
+              <Controller
+                control={control}
+                name="leagueId"
+                render={({ field }) => (
+                  <Select
+                    value={field.value ? String(field.value) : ""}
+                    onValueChange={(value) => {
+                      field.onChange(Number(value));
+                      setValue("favoriteTeamId", "");
+                    }}
+                  >
+                    <SelectTrigger
+                      id="leagueId"
+                      aria-invalid={!!errors.leagueId}
+                      className={cn(errors.leagueId && "border-destructive")}
+                    >
+                      <SelectValue placeholder="Επίλεξε πρωτάθλημα" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {leagues.map((league) => (
+                        <SelectItem key={league.id} value={String(league.id)}>
+                          {league.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                )}
+              />
+              <FieldError errors={[errors.leagueId]} />
             </Field>
-            <Field>
+            <Field data-invalid={!!errors.favoriteTeamId}>
               <FieldLabel htmlFor="favoriteTeamId">Αγαπημένη ομάδα</FieldLabel>
-              <Select
+              <Controller
+                control={control}
                 name="favoriteTeamId"
-                value={favoriteTeamId}
-                onValueChange={setFavoriteTeamId}
-              >
-                <SelectTrigger id="favoriteTeamId">
-                  <SelectValue placeholder="Προαιρετικό" />
-                </SelectTrigger>
-                <SelectContent>
-                  {teamsForLeague.map((team) => (
-                    <SelectItem key={team.id} value={String(team.id)}>
-                      {team.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              {favoriteTeamId && (
-                <input
-                  type="hidden"
-                  name="favoriteTeamId"
-                  value={favoriteTeamId}
-                />
-              )}
+                render={({ field }) => (
+                  <Select
+                    value={
+                      field.value === null ||
+                      field.value === undefined ||
+                      field.value === ""
+                        ? ""
+                        : String(field.value)
+                    }
+                    onValueChange={(value) => {
+                      field.onChange(value === "" ? "" : Number(value));
+                    }}
+                  >
+                    <SelectTrigger
+                      id="favoriteTeamId"
+                      aria-invalid={!!errors.favoriteTeamId}
+                      className={cn(
+                        errors.favoriteTeamId && "border-destructive",
+                      )}
+                    >
+                      <SelectValue placeholder="Προαιρετικό" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {teamsForLeague.map((team) => (
+                        <SelectItem key={team.id} value={String(team.id)}>
+                          {team.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                )}
+              />
+              <FieldError errors={[errors.favoriteTeamId]} />
             </Field>
-            <Field>
+            <Field data-invalid={!!errors.displayName}>
               <FieldLabel htmlFor="displayName">Όνομα εμφάνισης</FieldLabel>
               <FieldDescription>
                 Το όνομα που θα εμφανίζεται στις δημοσιεύσεις σου σε αυτό το
@@ -140,14 +199,14 @@ export function OnboardingForm({
               </FieldDescription>
               <Input
                 id="displayName"
-                name="displayName"
                 type="text"
-                required
-                minLength={2}
-                defaultValue={defaultDisplayName}
+                aria-invalid={!!errors.displayName}
+                className={cn(errors.displayName && "border-destructive")}
+                {...register("displayName")}
               />
+              <FieldError errors={[errors.displayName]} />
             </Field>
-            {state.error && <FieldError>{state.error}</FieldError>}
+            {formError && <FieldError>{formError}</FieldError>}
           </FieldGroup>
         </CardContent>
         <CardFooter className="border-t-0 bg-transparent">

@@ -1,11 +1,14 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 
 import { GoogleAuthButton } from "@/components/auth/google-auth-button";
 import { authClient } from "@/lib/auth-client";
+import { signInSchema, type SignInInput } from "@/lib/validation/auth";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -23,27 +26,37 @@ import {
   FieldSeparator,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
 
 export function SignInForm() {
   const router = useRouter();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState<string | undefined>();
+  const [formError, setFormError] = useState<string | undefined>();
   const [pending, setPending] = useState(false);
 
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setError(undefined);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<SignInInput>({
+    resolver: zodResolver(signInSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  async function onSubmit(values: SignInInput) {
+    setFormError(undefined);
     setPending(true);
 
     const { error: signInError } = await authClient.signIn.email({
-      email,
-      password,
+      email: values.email,
+      password: values.password,
       callbackURL: "/",
     });
 
     if (signInError) {
-      setError("Λάθος email ή κωδικός. Δοκίμασε ξανά.");
+      setFormError("Λάθος email ή κωδικός. Δοκίμασε ξανά.");
       setPending(false);
       return;
     }
@@ -62,34 +75,34 @@ export function SignInForm() {
           Συνδέσου στον λογαριασμό σου στην ΚΕΡΚΙΔΑ.
         </CardDescription>
       </CardHeader>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit(onSubmit)} noValidate>
         <CardContent>
           <FieldGroup>
-            <Field>
+            <Field data-invalid={!!errors.email}>
               <FieldLabel htmlFor="email">Email</FieldLabel>
               <Input
                 id="email"
-                name="email"
                 type="email"
                 autoComplete="email"
-                required
-                value={email}
-                onChange={(event) => setEmail(event.target.value)}
+                aria-invalid={!!errors.email}
+                className={cn(errors.email && "border-destructive")}
+                {...register("email")}
               />
+              <FieldError errors={[errors.email]} />
             </Field>
-            <Field>
+            <Field data-invalid={!!errors.password}>
               <FieldLabel htmlFor="password">Κωδικός</FieldLabel>
               <Input
                 id="password"
-                name="password"
                 type="password"
                 autoComplete="current-password"
-                required
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
+                aria-invalid={!!errors.password}
+                className={cn(errors.password && "border-destructive")}
+                {...register("password")}
               />
+              <FieldError errors={[errors.password]} />
             </Field>
-            {error && <FieldError>{error}</FieldError>}
+            {formError && <FieldError>{formError}</FieldError>}
             <FieldSeparator>ή</FieldSeparator>
             <GoogleAuthButton />
           </FieldGroup>

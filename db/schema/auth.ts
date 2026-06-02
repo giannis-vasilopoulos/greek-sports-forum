@@ -19,8 +19,9 @@ export const user = pgTable("user", {
   email: text("email").notNull().unique(),
   emailVerified: boolean("email_verified").default(false).notNull(),
   image: text("image"),
-  // extensions για το forum
+  // extensions για το forum (username plugin + display casing)
   username: text("username").unique(),
+  displayUsername: text("display_username"),
   role: roleEnum("role").default("user").notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at")

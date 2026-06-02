@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 const TEST_EMAIL = `e2e-${Date.now()}@test.local`;
-const TEST_PASSWORD = "testpassword123";
+const TEST_PASSWORD = "TestPass123!";
 const TEST_NAME = "E2E User";
 const TEST_USERNAME = `e2euser${Date.now()}`;
 
