@@ -1,17 +1,15 @@
 import { z } from "zod";
 
-import { copy } from "@/lib/copy";
 import {
   emailSchema,
+  fullNameSchema,
   passwordSchema,
   signInPasswordSchema,
   usernameSchema,
 } from "@/lib/validation/fields";
 
-const v = copy.validation;
-
 export const signUpSchema = z.object({
-  name: z.string().trim().min(1, v.name.required).max(100, v.name.tooLong),
+  name: fullNameSchema,
   username: usernameSchema,
   email: emailSchema,
   password: passwordSchema,
