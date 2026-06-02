@@ -8,11 +8,18 @@ import {
   timestamp,
   index,
   unique,
+  pgEnum,
 } from "drizzle-orm/pg-core";
 
 import { user } from "./auth";
 import { leagues, teams } from "./leagues";
-import { threads, posts, postLikes } from "./forum";
+import { threads, posts, postVotes } from "./forum";
+
+export const trustStatusEnum = pgEnum("trust_status", [
+  "normal",
+  "watch",
+  "probable_troll",
+]);
 
 export const fanProfiles = pgTable(
   "fan_profile",
@@ -30,6 +37,7 @@ export const fanProfiles = pgTable(
     displayName: text("display_name").notNull(),
     bio: text("bio"),
     reputation: integer("reputation").default(0).notNull(),
+    trustStatus: trustStatusEnum("trust_status").default("normal").notNull(),
     createdAt: timestamp("created_at").defaultNow().notNull(),
   },
   (t) => [
@@ -52,5 +60,5 @@ export const fanProfileRelations = relations(fanProfiles, ({ one, many }) => ({
   }),
   threads: many(threads),
   posts: many(posts),
-  postLikes: many(postLikes),
+  postVotes: many(postVotes),
 }));

@@ -1,6 +1,7 @@
 export type AppDbError =
   | { kind: "not_found"; resource: string; message: string }
-  | { kind: "conflict"; field: string; message: string };
+  | { kind: "conflict"; field: string; message: string }
+  | { kind: "forbidden"; message: string };
 
 export type Result<T, E = AppDbError> =
   | { ok: true; value: T }
@@ -24,4 +25,8 @@ export function conflict(field: string): AppDbError {
     field,
     message: `A record with this ${field} already exists`,
   };
+}
+
+export function forbidden(message: string): AppDbError {
+  return { kind: "forbidden", message };
 }

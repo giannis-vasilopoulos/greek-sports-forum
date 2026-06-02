@@ -57,6 +57,13 @@
       "when": 1780428240427,
       "tag": "0007_quiet_jack_murdock",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1780510000000,
+      "tag": "0008_forum_moderation_permissions",
+      "breakpoints": true
     }
   ]
 }

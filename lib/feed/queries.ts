@@ -30,7 +30,10 @@ export function mapThreadRowToFeedThread(row: ThreadRow): FeedThread {
     leagueSlug: row.league.slug,
     leagueName: row.league.name,
     type: row.type,
-    isLive: row.type === "match_thread" && isRecentlyActive(row.lastActivityAt),
+    isLive:
+      row.type === "match_thread" &&
+      (row.matchStatus === "live" ||
+        (row.matchStatus == null && isRecentlyActive(row.lastActivityAt))),
     authorName,
     authorInitials: getInitials(authorName),
     replyCount: row.replyCount,

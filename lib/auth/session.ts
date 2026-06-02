@@ -7,6 +7,7 @@ export type SessionUser = {
   name: string;
   image?: string;
   username?: string;
+  role: "user" | "moderator" | "admin";
 };
 
 export async function getSessionUser(): Promise<SessionUser | undefined> {
@@ -23,5 +24,14 @@ export async function getSessionUser(): Promise<SessionUser | undefined> {
     name: session.user.name,
     image: session.user.image ?? undefined,
     username: session.user.username ?? undefined,
+    role: normalizeRole((session.user as { role?: string | null }).role),
   };
+}
+
+function normalizeRole(role: string | null | undefined): SessionUser["role"] {
+  if (role === "moderator" || role === "admin") {
+    return role;
+  }
+
+  return "user";
 }
