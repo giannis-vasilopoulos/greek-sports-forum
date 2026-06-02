@@ -78,7 +78,7 @@ export function OnboardingForm({
     resolver: zodResolver(createFanProfileSchema),
     defaultValues: {
       leagueId: defaultLeagueId ?? 0,
-      favoriteTeamId: "",
+      favoriteTeamId: 0,
       displayName: defaultDisplayName,
     },
   });
@@ -131,7 +131,7 @@ export function OnboardingForm({
                     value={field.value ? String(field.value) : ""}
                     onValueChange={(value) => {
                       field.onChange(Number(value));
-                      setValue("favoriteTeamId", "");
+                      setValue("favoriteTeamId", 0);
                     }}
                   >
                     <SelectTrigger
@@ -162,15 +162,9 @@ export function OnboardingForm({
                 name="favoriteTeamId"
                 render={({ field }) => (
                   <Select
-                    value={
-                      field.value === null ||
-                      field.value === undefined ||
-                      field.value === ""
-                        ? ""
-                        : String(field.value)
-                    }
+                    value={field.value ? String(field.value) : ""}
                     onValueChange={(value) => {
-                      field.onChange(value === "" ? "" : Number(value));
+                      field.onChange(Number(value));
                     }}
                   >
                     <SelectTrigger

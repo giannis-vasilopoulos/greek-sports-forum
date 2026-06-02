@@ -54,7 +54,7 @@ export const authCopy = {
     leagueLabel: "Πρωτάθλημα",
     leaguePlaceholder: "Επίλεξε πρωτάθλημα",
     favoriteTeamLabel: "Αγαπημένη ομάδα",
-    favoriteTeamPlaceholder: "Προαιρετικό",
+    favoriteTeamPlaceholder: "Επίλεξε ομάδα",
     displayNameLabel: "Όνομα εμφάνισης",
     displayNameHint:
       "Το όνομα που θα εμφανίζεται στις δημοσιεύσεις σου σε αυτό το πρωτάθλημα.",

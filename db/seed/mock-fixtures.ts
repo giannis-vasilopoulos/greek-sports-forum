@@ -146,21 +146,21 @@ async function upsertFanProfile(input: {
   userId: string;
   leagueId: number;
   displayName: string;
-  favoriteTeamId?: number | null;
+  favoriteTeamId: number;
 }) {
   const [profile] = await db
     .insert(fanProfiles)
     .values({
       userId: input.userId,
       leagueId: input.leagueId,
-      favoriteTeamId: input.favoriteTeamId ?? null,
+      favoriteTeamId: input.favoriteTeamId,
       displayName: input.displayName,
     })
     .onConflictDoUpdate({
       target: [fanProfiles.userId, fanProfiles.leagueId],
       set: {
         displayName: input.displayName,
-        favoriteTeamId: input.favoriteTeamId ?? null,
+        favoriteTeamId: input.favoriteTeamId,
       },
     })
     .returning();
@@ -212,9 +212,22 @@ export async function seedMockFixtures() {
     return;
   }
 
-  const panathinaikos = await db.query.teams.findFirst({
-    where: (t, { eq: eqFn }) => eqFn(t.slug, "panathinaikos"),
-  });
+  const teamIdsByLeagueSlug = new Map<string, number>();
+
+  for (const [leagueSlug, leagueTeams] of Object.entries(MOCK_TEAMS)) {
+    const leagueId = leagueIds.get(leagueSlug);
+    if (!leagueId || leagueTeams.length === 0) continue;
+
+    const firstTeam = await db.query.teams.findFirst({
+      where: (t, { and, eq: eqFn }) =>
+        and(eqFn(t.leagueId, leagueId), eqFn(t.slug, leagueTeams[0].slug)),
+      columns: { id: true },
+    });
+
+    if (firstTeam) {
+      teamIdsByLeagueSlug.set(leagueSlug, firstTeam.id);
+    }
+  }
 
   const profileByLeague = new Map<string, number>();
 
@@ -222,14 +235,14 @@ export async function seedMockFixtures() {
     MOCK_THREADS.map((thread) => thread.leagueSlug),
   )) {
     const leagueId = leagueIds.get(leagueSlug);
-    if (!leagueId) continue;
+    const favoriteTeamId = teamIdsByLeagueSlug.get(leagueSlug);
+    if (!leagueId || !favoriteTeamId) continue;
 
     const profile = await upsertFanProfile({
       userId: testUser.id,
       leagueId,
       displayName: "GreenEagle_Pao",
-      favoriteTeamId:
-        leagueSlug === "super-league" ? (panathinaikos?.id ?? null) : null,
+      favoriteTeamId,
     });
 
     profileByLeague.set(leagueSlug, profile.id);

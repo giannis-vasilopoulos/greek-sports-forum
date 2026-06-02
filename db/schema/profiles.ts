@@ -24,7 +24,9 @@ export const fanProfiles = pgTable(
     leagueId: integer("league_id")
       .references(() => leagues.id)
       .notNull(),
-    favoriteTeamId: integer("favorite_team_id").references(() => teams.id),
+    favoriteTeamId: integer("favorite_team_id")
+      .references(() => teams.id)
+      .notNull(),
     displayName: text("display_name").notNull(),
     bio: text("bio"),
     reputation: integer("reputation").default(0).notNull(),

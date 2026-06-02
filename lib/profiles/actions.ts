@@ -6,7 +6,7 @@ import { revalidatePath } from "next/cache";
 import { and, eq } from "drizzle-orm";
 
 import { db } from "@/db";
-import { fanProfiles } from "@/db/schema";
+import { fanProfiles, teams } from "@/db/schema";
 import { getSessionUser } from "@/lib/auth/session";
 import { runDbResult } from "@/lib/db/run";
 import { ACTIVE_FAN_PROFILE_COOKIE } from "@/lib/profiles/active-profile-cookie";
@@ -36,6 +36,19 @@ export async function createFanProfile(
   }
 
   const { leagueId, favoriteTeamId, displayName } = parsed.data;
+
+  const team = await db.query.teams.findFirst({
+    where: eq(teams.id, favoriteTeamId),
+    columns: { id: true, leagueId: true },
+  });
+
+  if (!team || team.leagueId !== leagueId) {
+    return {
+      fieldErrors: {
+        favoriteTeamId: copy.validation.profile.teamInvalid,
+      },
+    };
+  }
 
   const result = await runDbResult(async () => {
     const [profile] = await db

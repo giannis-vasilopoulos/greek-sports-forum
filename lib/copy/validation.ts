@@ -29,6 +29,7 @@ export const validationCopy = {
   },
   profile: {
     leagueRequired: "Επίλεξε πρωτάθλημα.",
+    teamRequired: "Επίλεξε αγαπημένη ομάδα.",
     teamInvalid: "Μη έγκυρη ομάδα.",
     displayNameMinLength:
       "Το όνομα εμφάνισης πρέπει να έχει τουλάχιστον 2 χαρακτήρες.",

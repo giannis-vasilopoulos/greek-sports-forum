@@ -2,7 +2,7 @@ import { expect, test } from "@playwright/test";
 
 const TEST_EMAIL = `e2e-${Date.now()}@test.local`;
 const TEST_PASSWORD = "TestPass123!";
-const TEST_NAME = "E2E User";
+const TEST_NAME = "Test User";
 const TEST_USERNAME = `e2euser${Date.now()}`;
 
 test.describe("authentication", () => {
@@ -23,6 +23,8 @@ test.describe("authentication", () => {
     ).toBeVisible();
 
     await page.getByLabel("Όνομα εμφάνισης").fill(`E2EFan${Date.now()}`);
+    await page.getByLabel("Αγαπημένη ομάδα").click();
+    await page.getByRole("option").first().click();
     await page.getByRole("button", { name: "Συνέχεια" }).click();
 
     await expect(page).toHaveURL("/");
