@@ -24,6 +24,9 @@
 # production
 /build
 
+# fallow
+.fallow/
+
 # misc
 .DS_Store
 *.pem

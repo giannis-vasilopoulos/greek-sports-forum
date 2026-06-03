@@ -45,6 +45,9 @@ jobs:
       - name: Format check
         run: pnpm format:check
 
+      - name: Fallow audit (changed vs main)
+        run: pnpm fallow:audit
+
       - name: Unit tests
         run: pnpm test
 

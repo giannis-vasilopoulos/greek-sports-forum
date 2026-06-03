@@ -112,23 +112,27 @@ Docker Compose defaults (`docker-compose.yml`):
 
 ## Commands
 
-| Command             | Purpose                                        |
-| ------------------- | ---------------------------------------------- |
-| `pnpm dev`          | Start Next.js dev server                       |
-| `pnpm build`        | Production build                               |
-| `pnpm start`        | Run production server                          |
-| `pnpm lint`         | ESLint (Next.js core-web-vitals + TypeScript)  |
-| `pnpm typecheck`    | TypeScript check (`tsc --noEmit`)              |
-| `pnpm format`       | Prettier write                                 |
-| `pnpm format:check` | Prettier check (CI)                            |
-| `pnpm test`         | Run unit tests (Vitest)                        |
-| `pnpm test:watch`   | Unit tests in watch mode                       |
-| `pnpm test:e2e`     | Playwright e2e tests                           |
-| `pnpm test:e2e:ui`  | Playwright UI mode                             |
-| `pnpm db:generate`  | Generate Drizzle migration from schema changes |
-| `pnpm db:migrate`   | Apply migrations                               |
-| `pnpm db:push`      | Push schema directly (dev/prototyping only)    |
-| `pnpm db:studio`    | Open Drizzle Studio                            |
+| Command                 | Purpose                                        |
+| ----------------------- | ---------------------------------------------- |
+| `pnpm dev`              | Start Next.js dev server                       |
+| `pnpm build`            | Production build                               |
+| `pnpm start`            | Run production server                          |
+| `pnpm lint`             | ESLint (Next.js core-web-vitals + TypeScript)  |
+| `pnpm typecheck`        | TypeScript check (`tsc --noEmit`)              |
+| `pnpm format`           | Prettier write                                 |
+| `pnpm format:check`     | Prettier check (CI)                            |
+| `pnpm fallow:audit`     | PR-scope dead-code gate (same as CI)           |
+| `pnpm fallow:dead-code` | Full-repo cleanup report (local)               |
+| `pnpm fallow:health`    | Complexity / CRAP hotspots (local)             |
+| `pnpm fallow:dupes`     | Code duplication scan (local, optional)        |
+| `pnpm test`             | Run unit tests (Vitest)                        |
+| `pnpm test:watch`       | Unit tests in watch mode                       |
+| `pnpm test:e2e`         | Playwright e2e tests                           |
+| `pnpm test:e2e:ui`      | Playwright UI mode                             |
+| `pnpm db:generate`      | Generate Drizzle migration from schema changes |
+| `pnpm db:migrate`       | Apply migrations                               |
+| `pnpm db:push`          | Push schema directly (dev/prototyping only)    |
+| `pnpm db:studio`        | Open Drizzle Studio                            |
 
 ### Git hooks
 
@@ -139,7 +143,7 @@ Husky runs on every commit:
 | pre-commit | ESLint fix, Prettier write, typecheck (when TS staged) |
 | commit-msg | commitlint (Conventional Commits)                      |
 
-CI (`.github/workflows/ci.yml`) runs lint, typecheck, format check, unit tests, build, and e2e on every push to `main` and on pull requests.
+CI (`.github/workflows/ci.yml`) runs lint, typecheck, format check, fallow audit, unit tests, build, and e2e on every push to `main` and on pull requests.
 
 ### Verification before finishing work
 
@@ -152,7 +156,7 @@ pnpm test
 pnpm build
 ```
 
-All four must pass before claiming work is complete. Run `pnpm test:e2e` when the change touches pages, auth, or full request flows (requires Docker Postgres and `.env.local`). One-time Playwright browser install: `pnpm exec playwright install`.
+All four must pass before claiming work is complete. Run `pnpm fallow:audit` when touching `lib/`, `db/`, or `components/` outside `components/ui/`. Run `pnpm test:e2e` when the change touches pages, auth, or full request flows (requires Docker Postgres and `.env.local`). One-time Playwright browser install: `pnpm exec playwright install`.
 
 ---
 
