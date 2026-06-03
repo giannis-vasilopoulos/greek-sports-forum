@@ -1,4 +1,3 @@
-import { relations } from "drizzle-orm";
 import {
   pgTable,
   pgEnum,
@@ -7,9 +6,6 @@ import {
   boolean,
   index,
 } from "drizzle-orm/pg-core";
-
-import { fanProfiles } from "./profiles";
-import { notifications } from "./notifications";
 
 export const roleEnum = pgEnum("role", ["user", "moderator", "admin"]);
 
@@ -88,19 +84,3 @@ export const verification = pgTable(
   },
   (t) => [index("verification_identifier_idx").on(t.identifier)],
 );
-
-// Relations
-export const userRelations = relations(user, ({ many }) => ({
-  sessions: many(session),
-  accounts: many(account),
-  fanProfiles: many(fanProfiles),
-  notifications: many(notifications),
-}));
-
-export const sessionRelations = relations(session, ({ one }) => ({
-  user: one(user, { fields: [session.userId], references: [user.id] }),
-}));
-
-export const accountRelations = relations(account, ({ one }) => ({
-  user: one(user, { fields: [account.userId], references: [user.id] }),
-}));

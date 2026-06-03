@@ -1,4 +1,3 @@
-import { relations } from "drizzle-orm";
 import {
   pgTable,
   pgEnum,
@@ -108,37 +107,3 @@ export const postVotes = pgTable(
   },
   (t) => [primaryKey({ columns: [t.fanProfileId, t.postId] })],
 );
-
-export const threadRelations = relations(threads, ({ one, many }) => ({
-  fanProfile: one(fanProfiles, {
-    fields: [threads.fanProfileId],
-    references: [fanProfiles.id],
-  }),
-  league: one(leagues, {
-    fields: [threads.leagueId],
-    references: [leagues.id],
-  }),
-  team: one(teams, {
-    fields: [threads.teamId],
-    references: [teams.id],
-  }),
-  posts: many(posts),
-}));
-
-export const postRelations = relations(posts, ({ one, many }) => ({
-  thread: one(threads, { fields: [posts.threadId], references: [threads.id] }),
-  fanProfile: one(fanProfiles, {
-    fields: [posts.fanProfileId],
-    references: [fanProfiles.id],
-  }),
-  parent: one(posts, { fields: [posts.parentId], references: [posts.id] }),
-  votes: many(postVotes),
-}));
-
-export const postVoteRelations = relations(postVotes, ({ one }) => ({
-  fanProfile: one(fanProfiles, {
-    fields: [postVotes.fanProfileId],
-    references: [fanProfiles.id],
-  }),
-  post: one(posts, { fields: [postVotes.postId], references: [posts.id] }),
-}));

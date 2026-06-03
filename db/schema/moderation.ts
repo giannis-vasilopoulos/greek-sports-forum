@@ -1,4 +1,3 @@
-import { relations } from "drizzle-orm";
 import {
   pgTable,
   pgEnum,
@@ -99,44 +98,4 @@ export const reputationEvents = pgTable(
     createdAt: timestamp("created_at").defaultNow().notNull(),
   },
   (t) => [index("reputation_event_profile_idx").on(t.fanProfileId)],
-);
-
-export const postReportRelations = relations(postReports, ({ one }) => ({
-  post: one(posts, { fields: [postReports.postId], references: [posts.id] }),
-  reporter: one(fanProfiles, {
-    fields: [postReports.reporterFanProfileId],
-    references: [fanProfiles.id],
-  }),
-}));
-
-export const moderationSanctionRelations = relations(
-  moderationSanctions,
-  ({ one }) => ({
-    fanProfile: one(fanProfiles, {
-      fields: [moderationSanctions.fanProfileId],
-      references: [fanProfiles.id],
-    }),
-    league: one(leagues, {
-      fields: [moderationSanctions.leagueId],
-      references: [leagues.id],
-    }),
-    issuedBy: one(user, {
-      fields: [moderationSanctions.issuedByUserId],
-      references: [user.id],
-    }),
-  }),
-);
-
-export const reputationEventRelations = relations(
-  reputationEvents,
-  ({ one }) => ({
-    fanProfile: one(fanProfiles, {
-      fields: [reputationEvents.fanProfileId],
-      references: [fanProfiles.id],
-    }),
-    post: one(posts, {
-      fields: [reputationEvents.postId],
-      references: [posts.id],
-    }),
-  }),
 );

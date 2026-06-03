@@ -1,4 +1,3 @@
-import { relations } from "drizzle-orm";
 import {
   pgTable,
   serial,
@@ -42,14 +41,3 @@ export const standingRows = pgTable(
     index("standing_row_league_season_idx").on(t.leagueId, t.season),
   ],
 );
-
-export const standingRowRelations = relations(standingRows, ({ one }) => ({
-  league: one(leagues, {
-    fields: [standingRows.leagueId],
-    references: [leagues.id],
-  }),
-  team: one(teams, {
-    fields: [standingRows.teamId],
-    references: [teams.id],
-  }),
-}));

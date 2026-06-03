@@ -1,5 +1,4 @@
 // src/db/schema/profiles.ts
-import { relations } from "drizzle-orm";
 import {
   pgTable,
   serial,
@@ -13,7 +12,6 @@ import {
 
 import { user } from "./auth";
 import { leagues, teams } from "./leagues";
-import { threads, posts, postVotes } from "./forum";
 
 export const trustStatusEnum = pgEnum("trust_status", [
   "normal",
@@ -47,18 +45,3 @@ export const fanProfiles = pgTable(
     index("fp_league_idx").on(t.leagueId),
   ],
 );
-
-export const fanProfileRelations = relations(fanProfiles, ({ one, many }) => ({
-  user: one(user, { fields: [fanProfiles.userId], references: [user.id] }),
-  league: one(leagues, {
-    fields: [fanProfiles.leagueId],
-    references: [leagues.id],
-  }),
-  favoriteTeam: one(teams, {
-    fields: [fanProfiles.favoriteTeamId],
-    references: [teams.id],
-  }),
-  threads: many(threads),
-  posts: many(posts),
-  postVotes: many(postVotes),
-}));

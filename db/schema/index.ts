@@ -5,3 +5,4 @@ export * from "./forum";
 export * from "./moderation";
 export * from "./notifications";
 export * from "./standings";
+export * from "./relations";

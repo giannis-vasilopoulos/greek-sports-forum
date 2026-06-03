@@ -1,5 +1,4 @@
 // src/db/schema/notifications.ts
-import { relations } from "drizzle-orm";
 import {
   pgTable,
   pgEnum,
@@ -35,7 +34,3 @@ export const notifications = pgTable(
   },
   (t) => [index("notif_user_unread_idx").on(t.userId, t.isRead)],
 );
-
-export const notificationRelations = relations(notifications, ({ one }) => ({
-  user: one(user, { fields: [notifications.userId], references: [user.id] }),
-}));

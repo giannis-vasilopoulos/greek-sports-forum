@@ -6,7 +6,7 @@
     "unused-files": "error",
     "unused-exports": "off",
     "unused-types": "warn",
-    "circular-dependencies": "warn",
+    "circular-dependencies": "error",
     "unresolved-imports": "error",
     "unlisted-dependencies": "error"
   }

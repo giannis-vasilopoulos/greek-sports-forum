@@ -1,4 +1,3 @@
-import { relations } from "drizzle-orm";
 import {
   pgTable,
   pgEnum,
@@ -9,10 +8,6 @@ import {
   integer,
   index,
 } from "drizzle-orm/pg-core";
-
-import { fanProfiles } from "./profiles";
-import { threads } from "./forum";
-import { standingRows } from "./standings";
 
 export const sportEnum = pgEnum("sport", ["football", "basketball"]);
 
@@ -49,15 +44,3 @@ export const teams = pgTable(
   },
   (t) => [index("team_league_idx").on(t.leagueId)],
 );
-
-export const leagueRelations = relations(leagues, ({ many }) => ({
-  teams: many(teams),
-  fanProfiles: many(fanProfiles),
-  threads: many(threads),
-  standingRows: many(standingRows),
-}));
-
-export const teamRelations = relations(teams, ({ one, many }) => ({
-  league: one(leagues, { fields: [teams.leagueId], references: [leagues.id] }),
-  fanProfiles: many(fanProfiles),
-}));
