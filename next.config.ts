@@ -23,6 +23,12 @@ const googleCsp = needsGoogleCsp
   : [];
 
 const nextConfig: NextConfig = {
+  logging: {
+    browserToTerminal: true,
+    fetches: {
+      fullUrl: true,
+    },
+  },
   async headers() {
     return [
       {

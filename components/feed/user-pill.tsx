@@ -94,15 +94,14 @@ export function UserPill({
             </p>
             {fanProfiles.map((profile) => (
               <DropdownMenuItem key={profile.leagueName} asChild>
-                <Link
-                  href={getLeagueHref(getLeagueSlug(profile.leagueName))}
-                  className="flex items-center gap-2"
-                >
+                <Link href={getLeagueHref(getLeagueSlug(profile.leagueName))}>
                   <span aria-hidden="true">{profile.teamEmoji}</span>
-                  <span className="flex-1">{profile.leagueName}</span>
-                  <span className="text-xs text-muted-foreground">
-                    {profile.teamName}
-                  </span>
+                  <div className="flex flex-col gap-1">
+                    <span className="flex-1">{profile.teamName}</span>
+                    <span className="text-xs text-muted-foreground">
+                      {profile.leagueName}
+                    </span>
+                  </div>
                 </Link>
               </DropdownMenuItem>
             ))}
