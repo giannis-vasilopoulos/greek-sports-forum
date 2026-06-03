@@ -19,8 +19,17 @@ export const seoCopy = {
     matchThreads: {
       titleSegment: "Match Threads",
       description:
-        "Ζωντανές και επερχόμενες συζητήσεις αγώνων από όλα τα πρωτάθληματα.",
+        "Ζωντανές και επερχόμενες συζητήσεις αγώνων από όλα τα πρωταθληματα.",
       itemListName: "Match Threads",
+    },
+    standings: {
+      titleSegment: "Βαθμολογίες",
+      description:
+        "Ζωντανές βαθμολογίες από τα κορυφαία ποδοσφαιρικά και μπασκετικά πρωταθλήματα.",
+    },
+    leagueStandings: {
+      description: (leagueName: string) =>
+        `Βαθμολογία και στατιστικά για το ${leagueName}.`,
     },
     signIn: {
       titleSegment: authCopy.signIn.title,
@@ -38,5 +47,6 @@ export const seoCopy = {
   breadcrumbs: {
     home: "Αρχική",
     matchThreads: "Match Threads",
+    standings: "Βαθμολογίες",
   },
 } as const;

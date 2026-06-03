@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { copy } from "@/lib/copy";
 import { pageTitle } from "@/lib/copy/format";
 
+import { leagueStandingsPath } from "./paths";
 import {
   DEFAULT_DESCRIPTION,
   DEFAULT_OG_IMAGE,
@@ -131,6 +132,25 @@ export function buildOnboardingMetadata(): Metadata {
     description: p.onboarding.description,
     path: "/onboarding",
     robots: ROBOTS_NOINDEX_FOLLOW,
+  });
+}
+
+export function buildStandingsMetadata(): Metadata {
+  return buildPageMetadata({
+    title: pageTitle(p.standings.titleSegment),
+    description: p.standings.description,
+    path: "/standings",
+  });
+}
+
+export function buildLeagueStandingsMetadata(input: {
+  leagueName: string;
+  slug: string;
+}): Metadata {
+  return buildPageMetadata({
+    title: pageTitle(`Βαθμολογία — ${input.leagueName}`),
+    description: p.leagueStandings.description(input.leagueName),
+    path: leagueStandingsPath(input.slug),
   });
 }
 

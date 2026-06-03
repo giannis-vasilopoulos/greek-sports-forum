@@ -4,10 +4,12 @@ import { copy } from "@/lib/copy";
 import { pageTitle } from "@/lib/copy/format";
 import {
   buildHomeMetadata,
+  buildLeagueStandingsMetadata,
   buildMatchThreadsMetadata,
   buildPageMetadata,
   buildSignInMetadata,
   buildSignUpMetadata,
+  buildStandingsMetadata,
 } from "@/lib/seo/metadata";
 import { absoluteUrl } from "@/lib/seo/site";
 
@@ -51,6 +53,29 @@ describe("buildSignInMetadata", () => {
     expect(metadata.alternates?.canonical).toBe(absoluteUrl("/sign-in"));
     expect(metadata.robots).toEqual({ index: false, follow: true });
     expect(metadata.title).toBe(pageTitle(copy.seo.pages.signIn.titleSegment));
+  });
+});
+
+describe("buildStandingsMetadata", () => {
+  it("sets standings overview canonical", () => {
+    const metadata = buildStandingsMetadata();
+    expect(metadata.alternates?.canonical).toBe(absoluteUrl("/standings"));
+    expect(metadata.title).toBe(
+      pageTitle(copy.seo.pages.standings.titleSegment),
+    );
+  });
+});
+
+describe("buildLeagueStandingsMetadata", () => {
+  it("sets league standings canonical", () => {
+    const metadata = buildLeagueStandingsMetadata({
+      leagueName: "Super League",
+      slug: "super-league",
+    });
+    expect(metadata.alternates?.canonical).toBe(
+      absoluteUrl("/leagues/super-league/standings"),
+    );
+    expect(metadata.title).toBe(pageTitle("Βαθμολογία — Super League"));
   });
 });
 

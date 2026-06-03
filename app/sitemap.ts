@@ -3,7 +3,8 @@ import { eq } from "drizzle-orm";
 
 import { db } from "@/db";
 import { leagues, threads } from "@/db/schema";
-import { leaguePath, threadPath } from "@/lib/seo/paths";
+import { STANDINGS_UI_SLUGS } from "@/lib/leagues/sources";
+import { leaguePath, leagueStandingsPath, threadPath } from "@/lib/seo/paths";
 import { absoluteUrl } from "@/lib/seo/site";
 
 const STATIC_ROUTES: Array<{
@@ -48,6 +49,15 @@ async function dynamicEntries(): Promise<MetadataRoute.Sitemap> {
       }),
     );
 
+    const standingsEntries: MetadataRoute.Sitemap = STANDINGS_UI_SLUGS.map(
+      (slug) => ({
+        url: absoluteUrl(leagueStandingsPath(slug)),
+        lastModified: new Date(),
+        changeFrequency: "daily",
+        priority: 0.8,
+      }),
+    );
+
     const threadRows = await db
       .select({
         id: threads.id,
@@ -66,7 +76,7 @@ async function dynamicEntries(): Promise<MetadataRoute.Sitemap> {
       priority: 0.6,
     }));
 
-    return [...leagueEntries, ...threadEntries];
+    return [...leagueEntries, ...standingsEntries, ...threadEntries];
   } catch {
     return [];
   }

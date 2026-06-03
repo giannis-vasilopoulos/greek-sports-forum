@@ -21,3 +21,11 @@ export function teamPath(leagueSlug: string, teamSlug: string): string {
 export function memberPath(username: string): string {
   return `/members/${username}`;
 }
+
+export function standingsPath(): string {
+  return "/standings";
+}
+
+export function leagueStandingsPath(slug: string): string {
+  return `/leagues/${slug}/standings`;
+}

@@ -12,6 +12,7 @@ import {
 
 import { fanProfiles } from "./profiles";
 import { threads } from "./forum";
+import { standingRows } from "./standings";
 
 export const sportEnum = pgEnum("sport", ["football", "basketball"]);
 
@@ -53,6 +54,7 @@ export const leagueRelations = relations(leagues, ({ many }) => ({
   teams: many(teams),
   fanProfiles: many(fanProfiles),
   threads: many(threads),
+  standingRows: many(standingRows),
 }));
 
 export const teamRelations = relations(teams, ({ one, many }) => ({

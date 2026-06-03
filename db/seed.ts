@@ -1,29 +1,15 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import "dotenv/config";
 import { pathToFileURL } from "node:url";
+
+import { LEAGUE_SEEDS, type LeagueSeed } from "@/lib/leagues/sources";
 
 import { leagues, teams } from "./schema";
 import { seedUsers } from "./seed/users";
 
 import { db } from "./index";
 
-type LeagueSeed = {
-  slug: string;
-  name: string;
-  displayOrder: number;
-  provider: "football-data" | "api-football" | "api-basketball" | "thesportsdb";
-  externalId: string;
-  apiSportsSeason?: string;
-  thesportsdbSearchName?: string;
-  sport: "football" | "basketball";
-  type?: "league" | "tournament";
-};
-
 const FOOTBALL_DATA_API_KEY = process.env.FOOTBALL_DATA_API_KEY;
 const API_SPORTS_KEY = process.env.API_SPORTS_KEY;
-
-const FOOTBALL_SEASON = "2024"; //footballSeasonStartYear();
-const BASKETBALL_SEASON = basketballSeasonString();
 
 /**
  * Team data sources (see fetchTeamsForLeague):
@@ -36,108 +22,6 @@ const BASKETBALL_SEASON = basketballSeasonString();
  * |                 |                       | Serie A, World Cup, Euro                     |          |
  * | thesportsdb     | (none — public key)   | Basket League (4452)                         | GET thesportsdb.com/.../search_all_teams.php?l= |
  */
-const LEAGUE_SEEDS: LeagueSeed[] = [
-  // api-football (API_SPORTS_KEY) — v3.football.api-sports.io
-  {
-    slug: "super-league",
-    name: "Super League",
-    displayOrder: 1,
-    provider: "api-football",
-    externalId: "197",
-    apiSportsSeason: FOOTBALL_SEASON,
-    sport: "football",
-  },
-  // football-data.org (FOOTBALL_DATA_API_KEY) — free tier, 7s delay between calls
-  {
-    slug: "champions-league",
-    name: "Champions League",
-    displayOrder: 2,
-    provider: "football-data",
-    externalId: "2001",
-    sport: "football",
-  },
-  {
-    slug: "premier-league",
-    name: "Premier League",
-    displayOrder: 3,
-    provider: "football-data",
-    externalId: "2021",
-    sport: "football",
-  },
-  {
-    slug: "la-liga",
-    name: "La Liga",
-    displayOrder: 4,
-    provider: "football-data",
-    externalId: "2014",
-    sport: "football",
-  },
-  {
-    slug: "bundesliga",
-    name: "Bundesliga",
-    displayOrder: 5,
-    provider: "football-data",
-    externalId: "2002",
-    sport: "football",
-  },
-  {
-    slug: "serie-a",
-    name: "Serie A",
-    displayOrder: 6,
-    provider: "football-data",
-    externalId: "2019",
-    sport: "football",
-  },
-  // api-basketball (API_SPORTS_KEY) — v1.basketball.api-sports.io
-  {
-    slug: "euroleague",
-    name: "Euroleague",
-    displayOrder: 7,
-    provider: "api-basketball",
-    externalId: "120",
-    apiSportsSeason: BASKETBALL_SEASON,
-    sport: "basketball",
-  },
-  {
-    slug: "nba",
-    name: "NBA",
-    displayOrder: 8,
-    provider: "api-basketball",
-    externalId: "12",
-    apiSportsSeason: BASKETBALL_SEASON,
-    sport: "basketball",
-  },
-  // thesportsdb (no key) — search_all_teams.php?l=Greek_Basket_League
-  {
-    slug: "basket-league",
-    name: "Basket League",
-    displayOrder: 9,
-    provider: "thesportsdb",
-    externalId: "4452",
-    thesportsdbSearchName: "Greek_Basket_League",
-    sport: "basketball",
-  },
-  // football-data.org — tournaments
-  {
-    slug: "world-cup",
-    name: "Παγκόσμιο Κύπελλο",
-    displayOrder: 10,
-    provider: "football-data",
-    externalId: "2000",
-    sport: "football",
-    type: "tournament",
-  },
-  {
-    slug: "euro",
-    name: "Euro",
-    displayOrder: 11,
-    provider: "football-data",
-    externalId: "2018",
-    sport: "football",
-    type: "tournament",
-  },
-];
-
 type SeedTeam = {
   name: string;
   slug: string;
@@ -167,23 +51,6 @@ type ApiBasketballLeagueSeason = {
 };
 
 const API_BASKETBALL_FREE_TIER_MAX_START_YEAR = 2024;
-
-function footballSeasonStartYear(): string {
-  const now = new Date();
-  const year = now.getFullYear();
-  // European football seasons start in August
-  return String(now.getMonth() >= 7 ? year : year - 1);
-}
-
-function basketballSeasonString(): string {
-  const now = new Date();
-  const year = now.getFullYear();
-  // Basketball seasons start in October
-  if (now.getMonth() >= 9) {
-    return `${year}-${year + 1}`;
-  }
-  return `${year - 1}-${year}`;
-}
 
 function slugify(text: string): string {
   return text

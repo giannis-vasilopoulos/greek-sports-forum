@@ -6,6 +6,7 @@ import { forumCopy } from "@/lib/copy/forum";
 import { layoutCopy } from "@/lib/copy/layout";
 import { moderationCopy } from "@/lib/copy/moderation";
 import { seoCopy } from "@/lib/copy/seo";
+import { standingsCopy } from "@/lib/copy/standings";
 import { validationCopy } from "@/lib/copy/validation";
 
 export { formatReplyCount, pageTitle } from "@/lib/copy/format";
@@ -20,6 +21,7 @@ export const copy = {
   layout: layoutCopy,
   feed: feedCopy,
   ads: adsCopy,
+  standings: standingsCopy,
 } as const;
 
 export type Copy = typeof copy;

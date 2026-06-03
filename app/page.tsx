@@ -11,6 +11,7 @@ import {
 import { JsonLd } from "@/components/seo/json-ld";
 import { getFeedThreads, getTrendingThreads } from "@/lib/feed/queries";
 import { getFeedLeagues } from "@/lib/leagues/queries";
+import { getSidebarStandings } from "@/lib/standings/queries";
 import { getSessionFanContext } from "@/lib/layout/get-header-data";
 import { buildHomeJsonLd } from "@/lib/seo/json-ld";
 import { buildHomeMetadata } from "@/lib/seo/metadata";
@@ -19,14 +20,14 @@ import { threadPath } from "@/lib/seo/paths";
 export const metadata: Metadata = buildHomeMetadata();
 
 export default async function Home() {
-  const [leagues, threads, trendingThreads, sessionContext] = await Promise.all(
-    [
+  const [leagues, threads, trendingThreads, sessionContext, standings] =
+    await Promise.all([
       getFeedLeagues(),
       getFeedThreads(),
       getTrendingThreads(),
       getSessionFanContext(),
-    ],
-  );
+      getSidebarStandings("super-league"),
+    ]);
 
   const jsonLdThreads = threads.slice(0, 10);
 
@@ -45,7 +46,7 @@ export default async function Home() {
       <MatchThreadsContent
         leagues={leagues}
         threads={threads}
-        standings={mockStandings}
+        standings={standings.length > 0 ? standings : mockStandings}
         upcomingMatches={mockUpcomingMatches}
         trendingThreads={trendingThreads}
         user={sessionContext.user}
