@@ -2,6 +2,10 @@ import "dotenv/config";
 import { pathToFileURL } from "node:url";
 
 import { LEAGUE_SEEDS, type LeagueSeed } from "@/lib/leagues/sources";
+import { fetchSlgr } from "@/lib/slgr/fetch";
+import { parseSlgrTeams } from "@/lib/slgr/parse-teams";
+import { resolveSlgrSeasonId } from "@/lib/slgr/season";
+import { teamSlug } from "@/lib/teams/slug";
 
 import { leagues, teams } from "./schema";
 import { seedUsers } from "./seed/users";
@@ -16,7 +20,8 @@ const API_SPORTS_KEY = process.env.API_SPORTS_KEY;
  *
  * | Provider        | Env var               | Leagues                                      | Endpoint |
  * |-----------------|-----------------------|----------------------------------------------|----------|
- * | api-football    | API_SPORTS_KEY        | Super League (197)                           | GET v3.football.api-sports.io/teams?league=&season= |
+ * | slgr            | (none)                | Super League                                 | GET slgr.gr/el/teams/{seasonId}/ |
+ * | api-football    | API_SPORTS_KEY        | (unused)                                     | — |
  * | api-basketball  | API_SPORTS_KEY        | Euroleague (120), NBA (12)                   | GET v1.basketball.api-sports.io/teams?league=&season= |
  * | football-data   | FOOTBALL_DATA_API_KEY | Champions League, PL, La Liga, Bundesliga,   | GET api.football-data.org/v4/competitions/{id}/teams |
  * |                 |                       | Serie A, World Cup, Euro                     |          |
@@ -51,19 +56,6 @@ type ApiBasketballLeagueSeason = {
 };
 
 const API_BASKETBALL_FREE_TIER_MAX_START_YEAR = 2024;
-
-function slugify(text: string): string {
-  return text
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/\p{M}/gu, "")
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/(^-|-$)/g, "");
-}
-
-function teamSlug(leagueSlug: string, name: string): string {
-  return `${leagueSlug}-${slugify(name)}`;
-}
 
 function assertApiSportsKey(): string {
   if (!API_SPORTS_KEY) {
@@ -416,6 +408,23 @@ async function fetchApiBasketballTeams(
   return [];
 }
 
+async function fetchSlgrTeams(leagueSlug: string): Promise<SeedTeam[]> {
+  const seasonId = await resolveSlgrSeasonId();
+  let html: string;
+
+  try {
+    html = await fetchSlgr(`/el/teams/${seasonId}/`);
+  } catch {
+    html = await fetchSlgr("/el/teams/");
+  }
+
+  return parseSlgrTeams(html).map((t) => ({
+    name: t.name,
+    slug: teamSlug(leagueSlug, t.name),
+    logoUrl: t.logoUrl,
+  }));
+}
+
 async function fetchSportsDbTeams(
   leagueSlug: string,
   searchName: string,
@@ -451,6 +460,10 @@ async function fetchSportsDbTeams(
 }
 
 async function fetchTeamsForLeague(l: LeagueSeed): Promise<SeedTeam[]> {
+  if (l.provider === "slgr") {
+    return fetchSlgrTeams(l.slug);
+  }
+
   if (l.provider === "football-data") {
     return fetchFootballDataTeams(l.slug, l.externalId);
   }
@@ -506,6 +519,14 @@ export async function seed() {
     console.log(`Fetching teams for ${l.name}...`);
     const leagueTeams = await fetchTeamsForLeague(l);
 
+    const slugs = leagueTeams.map((t) => teamSlug(l.slug, t.name));
+    const uniqueSlugs = new Set(slugs);
+    if (uniqueSlugs.size !== leagueTeams.length) {
+      console.warn(
+        `  ${l.name}: ${leagueTeams.length} teams fetched but only ${uniqueSlugs.size} unique slugs`,
+      );
+    }
+
     for (const t of leagueTeams) {
       await db
         .insert(teams)
@@ -516,7 +537,9 @@ export async function seed() {
         });
     }
 
-    console.log(`  ${leagueTeams.length} teams inserted`);
+    console.log(
+      `  ${leagueTeams.length} teams upserted (${uniqueSlugs.size} unique slugs)`,
+    );
 
     // football-data.org free tier: 10 req/min
     if (l.provider === "football-data") {
@@ -525,6 +548,10 @@ export async function seed() {
 
     // API-Sports free tier: 10 req/min
     if (l.provider === "api-football" || l.provider === "api-basketball") {
+      await new Promise((r) => setTimeout(r, 1000));
+    }
+
+    if (l.provider === "slgr") {
       await new Promise((r) => setTimeout(r, 1000));
     }
   }

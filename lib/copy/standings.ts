@@ -6,6 +6,8 @@ export const standingsCopy = {
     "Η βαθμολογία για αυτό το πρωτάθλημα θα προστεθεί σύντομα.",
   emptySync:
     "Δεν υπάρχουν δεδομένα βαθμολογίας ακόμα. Δοκιμάστε ξανά αργότερα.",
+  phaseSeparatorPlayoffs: "Ζώνη πλέι-οφ",
+  phaseSeparatorPlayouts: "Ζώνη πλέι-άουτ",
   table: {
     rank: "Θέση",
     team: "Ομάδα",

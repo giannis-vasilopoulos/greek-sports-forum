@@ -7,6 +7,7 @@ import {
   getStandingsSyncSources,
 } from "@/lib/leagues/sources";
 import { fetchFootballDataStandings } from "@/lib/standings/providers/football-data";
+import { fetchSlgrStandings } from "@/lib/standings/providers/slgr";
 import { fetchTheSportsDbStandings } from "@/lib/standings/providers/thesportsdb";
 import { findTeamIdByName } from "@/lib/standings/team-match";
 import type { NormalizedStandingRow } from "@/lib/standings/types";
@@ -30,6 +31,10 @@ async function fetchRowsForSource(
       );
     }
     return fetchFootballDataStandings(source.externalId, apiKey);
+  }
+
+  if (source.provider === "slgr") {
+    return fetchSlgrStandings(footballSeasonString());
   }
 
   return fetchTheSportsDbStandings(source.externalId, footballSeasonString());

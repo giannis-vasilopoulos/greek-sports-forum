@@ -3,21 +3,51 @@ function normalizeTeamName(name: string): string {
     .toLowerCase()
     .normalize("NFD")
     .replace(/\p{M}/gu, "")
-    .replace(/[^a-z0-9]+/g, " ")
+    .replace(/[^\p{L}\p{N}]+/gu, " ")
     .trim();
 }
 
+/** Collapse dotted Greek initials (α ε κ → αεκ). */
+function compactGreekKey(normalized: string): string {
+  return normalized.replace(/\s+/g, "");
+}
+
+/** Canonical keys use compact Greek where SLGR names are Greek. */
 const TEAM_ALIASES: Record<string, string> = {
-  olympiacos: "olympiakos",
-  "olympiacos fc": "olympiakos",
-  "ae athens": "aek athens",
-  "aek athen": "aek athens",
-  paok: "paok fc",
-  "panathinaikos fc": "panathinaikos",
+  olympiacos: "ολυμπιακος",
+  "olympiacos fc": "ολυμπιακος",
+  olympiakos: "ολυμπιακος",
+  osfp: "ολυμπιακος",
+  "ae athens": "αεκ",
+  "aek athen": "αεκ",
+  "aek athens": "αεκ",
+  aek: "αεκ",
+  αεκ: "αεκ",
+  paok: "παοκ",
+  "paok fc": "παοκ",
+  παοκ: "παοκ",
+  "panathinaikos fc": "παναθηναικος",
+  panathinaikos: "παναθηναικος",
+  pao: "παναθηναικος",
+  "asteras tripolis": "asteras aktor",
+  asteras: "asteras aktor",
+  "atromitos athinon": "ατρομητος αθ",
+  atromitos: "ατρομητος αθ",
+  ofi: "οφη",
+  "volos nfc": "βολος νπσ",
+  volos: "βολος νπσ",
+  "levadiakos fc": "λεβαδειακος",
+  "panserraikos fc": "πανσερραικος",
+  "panaitolikos agrinio": "παναιτωλικος",
+  "ael fc": "ael novibet",
+  ael: "ael novibet",
+  aris: "αρης",
+  kifisia: "κηφισια",
 };
 
 function aliasKey(normalized: string): string {
-  return TEAM_ALIASES[normalized] ?? normalized;
+  const compact = compactGreekKey(normalized);
+  return TEAM_ALIASES[compact] ?? TEAM_ALIASES[normalized] ?? compact;
 }
 
 export function findTeamIdByName(

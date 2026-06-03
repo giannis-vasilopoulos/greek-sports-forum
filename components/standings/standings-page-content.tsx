@@ -35,7 +35,16 @@ export function StandingsPageContent({
         className="mb-6"
       />
 
-      {deferred ? <StandingsUnavailable /> : <StandingsTable rows={rows} />}
+      {deferred ? (
+        <StandingsUnavailable />
+      ) : (
+        <StandingsTable
+          rows={rows}
+          phaseBreaksAfterRanks={
+            activeSlug === "super-league" ? [4, 8] : undefined
+          }
+        />
+      )}
     </div>
   );
 }

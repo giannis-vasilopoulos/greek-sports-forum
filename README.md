@@ -20,6 +20,36 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Database reset and seed
+
+There is no `db:reset` script. `pnpm db:seed` only **upserts** leagues, teams, and seed users — it does not remove forum threads, standings, or other data.
+
+**Full wipe** (empty Postgres volume, re-migrate, seed):
+
+```bash
+docker compose down -v
+docker compose up -d
+pnpm db:migrate
+pnpm db:seed
+```
+
+`pnpm db:seed` requires `DATABASE_URL` and `SEED_ADMIN_*` / `SEED_USER_*` in `.env.local`, plus API keys for non-SLGR leagues where applicable. See [AGENTS.md](AGENTS.md) for setup.
+
+**Standings** are not filled by seed — sync after seed (dev server running):
+
+```bash
+curl -H "Authorization: Bearer $CRON_SECRET" http://localhost:3000/api/cron/sync-standings
+```
+
+Optional demo forum data: `pnpm db:seed:mock-fixtures` (best on a fresh DB).
+
+| Goal                         | Commands                                                              |
+| ---------------------------- | --------------------------------------------------------------------- |
+| Delete everything            | `docker compose down -v` → `docker compose up -d` → `pnpm db:migrate` |
+| Seed users + leagues + teams | `pnpm db:seed`                                                        |
+| Standings                    | `curl` to `/api/cron/sync-standings` with `CRON_SECRET`               |
+| Demo threads (optional)      | `pnpm db:seed:mock-fixtures`                                          |
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:

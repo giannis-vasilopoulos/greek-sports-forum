@@ -2,9 +2,14 @@ export type TeamsProvider =
   | "football-data"
   | "api-football"
   | "api-basketball"
-  | "thesportsdb";
+  | "thesportsdb"
+  | "slgr";
 
-export type StandingsProvider = "football-data" | "thesportsdb" | "deferred";
+export type StandingsProvider =
+  | "football-data"
+  | "thesportsdb"
+  | "slgr"
+  | "deferred";
 
 export type LeagueSeed = {
   slug: string;
@@ -61,7 +66,6 @@ export function basketballSeasonString(): string {
   return `${year - 1}-${year}`;
 }
 
-const FOOTBALL_SEASON = "2024";
 const BASKETBALL_SEASON = basketballSeasonString();
 
 export const LEAGUE_SEEDS: LeagueSeed[] = [
@@ -69,9 +73,8 @@ export const LEAGUE_SEEDS: LeagueSeed[] = [
     slug: "super-league",
     name: "Super League",
     displayOrder: 1,
-    provider: "api-football",
-    externalId: "197",
-    apiSportsSeason: FOOTBALL_SEASON,
+    provider: "slgr",
+    externalId: "",
     sport: "football",
   },
   {
@@ -161,9 +164,6 @@ export const LEAGUE_SEEDS: LeagueSeed[] = [
   },
 ];
 
-/** TheSportsDB Greek Super League — standings only (teams still from api-football). */
-export const SUPER_LEAGUE_STANDINGS_LEAGUE_ID = "4336";
-
 export type StandingsSourceConfig =
   | {
       slug: string;
@@ -177,14 +177,17 @@ export type StandingsSourceConfig =
     }
   | {
       slug: string;
+      provider: "slgr";
+    }
+  | {
+      slug: string;
       provider: "deferred";
     };
 
 const STANDINGS_SOURCES: StandingsSourceConfig[] = [
   {
     slug: "super-league",
-    provider: "thesportsdb",
-    externalId: SUPER_LEAGUE_STANDINGS_LEAGUE_ID,
+    provider: "slgr",
   },
   {
     slug: "premier-league",
