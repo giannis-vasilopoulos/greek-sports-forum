@@ -1,19 +1,11 @@
-import { z } from "zod";
+import type { z } from "zod";
 
-import { copy } from "@/lib/copy";
+import { fanProfileInsertSchema } from "@/lib/validation/db/fan-profiles";
 
-const v = copy.validation.profile;
-
-export const createFanProfileSchema = z.object({
-  leagueId: z.coerce
-    .number({ invalid_type_error: v.leagueRequired })
-    .int(v.leagueRequired)
-    .positive(v.leagueRequired),
-  favoriteTeamId: z.coerce
-    .number({ invalid_type_error: v.teamInvalid })
-    .int(v.teamRequired)
-    .positive(v.teamRequired),
-  displayName: z.string().trim().min(2, v.displayNameMinLength),
+export const createFanProfileSchema = fanProfileInsertSchema.pick({
+  leagueId: true,
+  favoriteTeamId: true,
+  displayName: true,
 });
 
 export type CreateFanProfileInput = z.output<typeof createFanProfileSchema>;

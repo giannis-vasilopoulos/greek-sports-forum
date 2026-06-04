@@ -265,7 +265,9 @@ Unexpected connection or SQL errors throw `DbError` from `@/lib/db/errors`. Cons
 ### Validation
 
 - Define input rules in [`lib/validation/`](lib/validation/) (`fields.ts` for reusable username/password, domain files for composed schemas). Greek error messages come from [`lib/copy/validation.ts`](lib/copy/validation.ts) via `copy.validation`.
-- Client forms use **react-hook-form** + `zodResolver` against those schemas; map Better Auth API errors in [`lib/auth/map-sign-up-error.ts`](lib/auth/map-sign-up-error.ts) where needed.
+- For CRUD that inserts/updates Drizzle rows (threads, posts, profile edits), follow [`.cursor/skills/validation-crud/SKILL.md`](.cursor/skills/validation-crud/SKILL.md) — required `drizzle-zod` via `lib/validation/db/*`.
+- **Keep hand-written** `lib/validation/fields.ts` and `lib/validation/auth.ts` for sign-in/sign-up (password complexity, full name, email policy) and Better Auth predicates — auth tables are wider/weaker than product rules.
+- Client forms use **react-hook-form** + `zodResolver` against validation schemas; map Better Auth API errors in [`lib/auth/map-sign-up-error.ts`](lib/auth/map-sign-up-error.ts) where needed.
 - **Better Auth** enforces auth boundaries via thin predicates (`isValidUsername`, `isValidPassword`) in [`lib/auth.ts`](lib/auth.ts) — do not duplicate regex inline in auth config.
 - **Server actions** and custom API routes must `safeParse` with the same schema (never trust the client). Helpers: [`lib/validation/parse.ts`](lib/validation/parse.ts).
 - Seed and e2e passwords used for sign-up must satisfy `passwordSchema` (e.g. `TestPass123!`).
@@ -355,6 +357,7 @@ Subject: imperative mood, lowercase, no trailing period.
 - Assuming Next.js 14/15 patterns without checking `node_modules/next/dist/docs/`
 - Shipping routes without SEO spec + `generateMetadata` + JSON-LD aligned to `seo/pages/*.md`
 - Hardcoding titles/descriptions/canonicals in page files instead of `lib/seo/*` builders
+- Hand-rolling `z.object` for CRUD input that mirrors a `pgTable` — use the [validation-crud skill](.cursor/skills/validation-crud/SKILL.md)
 
 ---
 
