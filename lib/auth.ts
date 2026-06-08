@@ -11,6 +11,7 @@ import { isValidPassword, isValidUsername } from "@/lib/validation/fields";
 const PASSWORD_POLICY_PATHS = ["/sign-up/email"] as const;
 
 export const auth = betterAuth({
+  secret: process.env.BETTER_AUTH_SECRET,
   baseURL: process.env.BETTER_AUTH_URL,
   database: drizzleAdapter(db, {
     provider: "pg",

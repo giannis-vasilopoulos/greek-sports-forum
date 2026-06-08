@@ -1,23 +1,74 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
 
-const TEST_EMAIL = `e2e-${Date.now()}@test.local`;
+import { copy } from "@/lib/copy";
+
 const TEST_PASSWORD = "TestPass123!";
 const TEST_NAME = "Test User";
-const TEST_USERNAME = `e2euser${Date.now()}`;
+const NAV_TIMEOUT_MS = 15_000;
+const AUTH_API_TIMEOUT_MS = 30_000;
+
+async function dismissCookieBannerIfVisible(page: Page) {
+  const banner = page.getByRole("dialog", {
+    name: copy.ads.cookie.bannerTitle,
+  });
+  if (await banner.isVisible()) {
+    await page.getByRole("button", { name: copy.ads.cookie.accept }).click();
+    await expect(banner).not.toBeVisible();
+  }
+}
+
+async function fillInput(page: Page, selector: string, value: string) {
+  const input = page.locator(selector);
+  await expect(input).toBeVisible();
+  await input.click();
+  await input.fill(value);
+  await expect(input).toHaveValue(value);
+}
 
 test.describe("authentication", () => {
-  test("sign-up, onboarding, sign-out, and sign-in", async ({ page }) => {
+  test("sign-up, onboarding, sign-out, and sign-in", async ({
+    page,
+  }, testInfo) => {
+    test.setTimeout(90_000);
+
+    const testEmail = `e2e-${Date.now()}-${testInfo.retry}@test.local`;
+    const testUsername = `e2euser${Date.now()}${testInfo.retry}`;
+
     await page.goto("/sign-up");
+    await dismissCookieBannerIfVisible(page);
 
     await expect(page.getByRole("heading", { name: "Εγγραφή" })).toBeVisible();
 
-    await page.getByLabel("Ονοματεπώνυμο", { exact: true }).fill(TEST_NAME);
-    await page.getByLabel("Όνομα χρήστη").fill(TEST_USERNAME);
-    await page.getByLabel("Email").fill(TEST_EMAIL);
-    await page.getByLabel("Κωδικός", { exact: true }).fill(TEST_PASSWORD);
-    await page.getByRole("button", { name: "Εγγραφή", exact: true }).click();
+    await fillInput(page, "#name", TEST_NAME);
+    await fillInput(page, "#username", testUsername);
+    await fillInput(page, "#email", testEmail);
+    await fillInput(page, "#password", TEST_PASSWORD);
 
-    await expect(page).toHaveURL("/onboarding");
+    const submitButton = page.getByRole("button", {
+      name: "Εγγραφή",
+      exact: true,
+    });
+    await expect(submitButton).toBeEnabled();
+
+    const [response] = await Promise.all([
+      page.waitForResponse(
+        (res) =>
+          res.url().includes("/api/auth/sign-up/email") &&
+          res.request().method() === "POST",
+        { timeout: AUTH_API_TIMEOUT_MS },
+      ),
+      submitButton.click(),
+    ]);
+
+    if (!response.ok()) {
+      const formError = await page.getByRole("alert").textContent();
+      expect(
+        response.ok(),
+        formError ?? `sign-up returned HTTP ${response.status()}`,
+      ).toBeTruthy();
+    }
+
+    await expect(page).toHaveURL("/onboarding", { timeout: NAV_TIMEOUT_MS });
     await expect(
       page.getByRole("heading", { name: "Δημιούργησε fan profile" }),
     ).toBeVisible();
@@ -27,7 +78,7 @@ test.describe("authentication", () => {
     await page.getByRole("option").first().click();
     await page.getByRole("button", { name: "Συνέχεια" }).click();
 
-    await expect(page).toHaveURL("/");
+    await expect(page).toHaveURL("/", { timeout: NAV_TIMEOUT_MS });
     await expect(page.getByLabel("Μενού χρήστη")).toBeVisible();
 
     await page.getByLabel("Μενού χρήστη").click();
@@ -37,26 +88,56 @@ test.describe("authentication", () => {
     await expect(page.getByRole("link", { name: "Εγγραφή" })).toBeVisible();
 
     await page.goto("/sign-in");
-    await page.getByLabel("Email").fill(TEST_EMAIL);
-    await page.getByLabel("Κωδικός").fill(TEST_PASSWORD);
-    await page.getByRole("button", { name: "Σύνδεση", exact: true }).click();
+    await dismissCookieBannerIfVisible(page);
+    await fillInput(page, "#email", testEmail);
+    await fillInput(page, "#password", TEST_PASSWORD);
 
-    await expect(page).toHaveURL("/");
+    const signInButton = page.getByRole("button", {
+      name: "Σύνδεση",
+      exact: true,
+    });
+    await Promise.all([
+      page.waitForResponse(
+        (res) =>
+          res.url().includes("/api/auth/sign-in/email") &&
+          res.request().method() === "POST",
+        { timeout: AUTH_API_TIMEOUT_MS },
+      ),
+      signInButton.click(),
+    ]);
+
+    await expect(page).toHaveURL("/", { timeout: NAV_TIMEOUT_MS });
     await expect(page.getByLabel("Μενού χρήστη")).toBeVisible();
   });
 
   test("sign-in with seed user", async ({ page }) => {
+    test.setTimeout(60_000);
+
     const email = process.env.SEED_USER_EMAIL;
     const password = process.env.SEED_USER_PASSWORD;
 
     test.skip(!email || !password, "Seed user credentials not configured");
 
     await page.goto("/sign-in");
-    await page.getByLabel("Email").fill(email!);
-    await page.getByLabel("Κωδικός").fill(password!);
-    await page.getByRole("button", { name: "Σύνδεση", exact: true }).click();
+    await dismissCookieBannerIfVisible(page);
+    await fillInput(page, "#email", email!);
+    await fillInput(page, "#password", password!);
 
-    await expect(page).toHaveURL("/");
+    const signInButton = page.getByRole("button", {
+      name: "Σύνδεση",
+      exact: true,
+    });
+    await Promise.all([
+      page.waitForResponse(
+        (res) =>
+          res.url().includes("/api/auth/sign-in/email") &&
+          res.request().method() === "POST",
+        { timeout: AUTH_API_TIMEOUT_MS },
+      ),
+      signInButton.click(),
+    ]);
+
+    await expect(page).toHaveURL("/", { timeout: NAV_TIMEOUT_MS });
     await expect(page.getByLabel("Μενού χρήστη")).toBeVisible();
   });
 });
