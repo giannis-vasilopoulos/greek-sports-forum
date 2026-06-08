@@ -64,4 +64,47 @@ test.describe("Ads MVP", () => {
     const canonical = page.locator('link[rel="canonical"]');
     await expect(canonical).toHaveCount(1);
   });
+
+  test("shows standings ad slots before consent", async ({ page }) => {
+    await page.goto("/leagues/super-league/standings");
+    await expect(page.locator('[data-ad-slot="standings-top"]')).toHaveCount(1);
+
+    const bottomSlot = page.locator('[data-ad-slot="standings-bottom"]');
+    const table = page.getByRole("table", { name: "Πίνακας βαθμολογίας" });
+    const hasTable = (await table.count()) > 0;
+    await expect(bottomSlot).toHaveCount(hasTable ? 1 : 0);
+
+    const expectedInactiveSlots = hasTable ? 2 : 1;
+    await expect(page.locator('[data-ad-slot-active="false"]')).toHaveCount(
+      expectedInactiveSlots,
+    );
+    await expect(page.getByLabel(copy.ads.aria.ad)).toHaveCount(0);
+  });
+
+  test("loads standings house ad slots after marketing consent", async ({
+    page,
+  }) => {
+    await page.goto("/leagues/super-league/standings");
+    await page.getByRole("button", { name: c.accept }).click();
+    await expect(page.locator('[data-ad-slot="standings-top"]')).toHaveCount(1);
+
+    const bottomSlot = page.locator('[data-ad-slot="standings-bottom"]');
+    const table = page.getByRole("table", { name: "Πίνακας βαθμολογίας" });
+    const hasTable = (await table.count()) > 0;
+    await expect(bottomSlot).toHaveCount(hasTable ? 1 : 0);
+
+    const expectedActiveSlots = hasTable ? 2 : 1;
+    await expect(page.locator('[data-ad-slot-active="true"]')).toHaveCount(
+      expectedActiveSlots,
+    );
+    await expect(page.getByLabel(copy.ads.aria.ad).first()).toBeVisible();
+  });
+
+  test("nba standings shows top ad only", async ({ page }) => {
+    await page.goto("/leagues/nba/standings");
+    await expect(page.locator('[data-ad-slot="standings-top"]')).toHaveCount(1);
+    await expect(page.locator('[data-ad-slot="standings-bottom"]')).toHaveCount(
+      0,
+    );
+  });
 });

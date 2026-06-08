@@ -1,3 +1,7 @@
+import {
+  StandingsBottomAd,
+  StandingsTopAd,
+} from "@/components/ads/slots/content-ad-slots";
 import { StandingsLeagueTabs } from "@/components/standings/standings-league-tabs";
 import { StandingsTable } from "@/components/standings/standings-table";
 import { StandingsUnavailable } from "@/components/standings/standings-unavailable";
@@ -27,7 +31,7 @@ export function StandingsPageContent({
       <h1 className="mb-1 text-2xl font-semibold tracking-tight">
         {copy.standings.pageTitle}
       </h1>
-      <p className="mb-6 text-sm text-muted-foreground">{activeLeagueName}</p>
+      <p className="text-muted-foreground mb-6 text-sm">{activeLeagueName}</p>
 
       <StandingsLeagueTabs
         leagues={leagues}
@@ -35,15 +39,20 @@ export function StandingsPageContent({
         className="mb-6"
       />
 
+      <StandingsTopAd />
+
       {deferred ? (
         <StandingsUnavailable />
       ) : (
-        <StandingsTable
-          rows={rows}
-          phaseBreaksAfterRanks={
-            activeSlug === "super-league" ? [4, 8] : undefined
-          }
-        />
+        <>
+          <StandingsTable
+            rows={rows}
+            phaseBreaksAfterRanks={
+              activeSlug === "super-league" ? [4, 8] : undefined
+            }
+          />
+          {rows.length > 0 ? <StandingsBottomAd /> : null}
+        </>
       )}
     </div>
   );

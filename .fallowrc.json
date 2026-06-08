@@ -2,6 +2,9 @@
   "$schema": "https://raw.githubusercontent.com/fallow-rs/fallow/main/schema.json",
   "ignorePatterns": ["components/ui/**"],
   "ignoreExportsUsedInFile": true,
+  "duplicates": {
+    "ignore": ["__tests__/**"]
+  },
   "rules": {
     "unused-files": "error",
     "unused-exports": "off",

@@ -29,3 +29,13 @@ export function MatchThreadsMidAd() {
 export function LeagueSidebarAd() {
   return <AdSlot id="league-sidebar" className="hidden lg:block" />;
 }
+
+/** Top slot for standings overview and league standings pages. */
+export function StandingsTopAd() {
+  return <AdSlot id="standings-top" className="mb-6" />;
+}
+
+/** Bottom slot after standings table when rows are available. */
+export function StandingsBottomAd() {
+  return <AdSlot id="standings-bottom" className="mt-8" />;
+}

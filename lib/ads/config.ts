@@ -5,6 +5,8 @@ export const AD_SLOT_IDS = [
   "match-threads-top",
   "match-threads-mid",
   "league-sidebar",
+  "standings-top",
+  "standings-bottom",
 ] as const;
 
 export type AdSlotId = (typeof AD_SLOT_IDS)[number];
@@ -51,6 +53,18 @@ export const AD_SLOT_REGISTRY: Record<AdSlotId, AdSlotDefinition> = {
   },
   "league-sidebar": {
     id: "league-sidebar",
+    minHeight: 250,
+    format: "rectangle",
+    lazy: true,
+  },
+  "standings-top": {
+    id: "standings-top",
+    minHeight: 90,
+    format: "leaderboard",
+    lazy: false,
+  },
+  "standings-bottom": {
+    id: "standings-bottom",
     minHeight: 250,
     format: "rectangle",
     lazy: true,
