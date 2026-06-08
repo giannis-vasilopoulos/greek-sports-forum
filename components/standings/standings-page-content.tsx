@@ -33,13 +33,13 @@ export function StandingsPageContent({
       </h1>
       <p className="text-muted-foreground mb-6 text-sm">{activeLeagueName}</p>
 
+      <StandingsTopAd />
+
       <StandingsLeagueTabs
         leagues={leagues}
         activeSlug={activeSlug}
         className="mb-6"
       />
-
-      <StandingsTopAd />
 
       {deferred ? (
         <StandingsUnavailable />
