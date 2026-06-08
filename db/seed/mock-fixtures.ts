@@ -7,6 +7,7 @@ import { eq } from "drizzle-orm";
 
 import { db } from "@/db";
 import { fanProfiles, leagues, teams, threads, user } from "@/db/schema";
+import { seedNotifications } from "@/db/seed/notifications";
 import { seedUsers } from "@/db/seed/users";
 
 const MOCK_LEAGUES = [
@@ -288,6 +289,9 @@ export async function seedMockFixtures() {
         },
       });
   }
+
+  console.log("Seeding notifications...");
+  await seedNotifications();
 
   console.log("Mock fixture seed done.");
 }
