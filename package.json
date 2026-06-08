@@ -12,7 +12,7 @@
     "format:check": "prettier --check .",
     "fallow:audit": "fallow audit --base main --ci --explain",
     "fallow:dead-code": "fallow dead-code --summary --explain",
-    "fallow:health": "fallow health --top 15 --sort crap --explain",
+    "fallow:health": "fallow health --top 15 --sort severity --explain",
     "fallow:dupes": "fallow dupes --top 10 --summary",
     "prepare": "husky",
     "test": "vitest run",
