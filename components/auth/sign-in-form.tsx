@@ -104,20 +104,20 @@ export function SignInForm() {
               <FieldError errors={[errors.password]} />
             </Field>
             {formError && <FieldError>{formError}</FieldError>}
+            <Button
+              type="submit"
+              variant="cta"
+              className="w-full"
+              disabled={pending}
+            >
+              {pending ? t.submitPending : t.submit}
+            </Button>
             <FieldSeparator>{copy.common.or}</FieldSeparator>
             <GoogleAuthButton />
           </FieldGroup>
         </CardContent>
         <CardFooter className="flex flex-col gap-3 border-t-0 bg-transparent">
-          <Button
-            type="submit"
-            variant="cta"
-            className="w-full"
-            disabled={pending}
-          >
-            {pending ? t.submitPending : t.submit}
-          </Button>
-          <p className="text-center text-sm text-muted-foreground">
+          <p className="text-muted-foreground text-center text-sm">
             {t.noAccount}{" "}
             <Link
               href="/sign-up"
