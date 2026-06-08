@@ -5,6 +5,7 @@ import { BellIcon } from "lucide-react";
 
 import type { NotificationItem } from "@/components/layout/site-data";
 import { notificationsAriaLabel } from "@/lib/copy/layout";
+import { copy } from "@/lib/copy";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,6 +14,9 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
+import { cn } from "@/lib/utils";
+
+const t = copy.notifications.popover;
 
 interface NotificationsProps {
   unreadCount?: number;
@@ -45,37 +49,59 @@ export function Notifications({
       </PopoverTrigger>
       <PopoverContent align="end" className="w-80 p-0">
         <div className="px-3 py-2.5">
-          <p className="text-sm font-medium">Ειδοποιήσεις</p>
+          <p className="text-sm font-medium">{t.title}</p>
         </div>
         <Separator />
         {displayItems.length === 0 ? (
-          <p className="px-3 py-4 text-sm text-muted-foreground">
-            Δεν υπάρχουν ειδοποιήσεις
-          </p>
+          <p className="px-3 py-4 text-sm text-muted-foreground">{t.empty}</p>
         ) : (
           <ul className="flex flex-col">
-            {displayItems.map((item) => (
-              <li
-                key={item.id}
-                className="flex items-start gap-2.5 px-3 py-2.5 hover:bg-muted/50"
-              >
-                <Avatar size="sm">
-                  <AvatarFallback className="text-[10px]">
-                    {item.actorInitials ?? "?"}
-                  </AvatarFallback>
-                </Avatar>
-                <div className="min-w-0 flex-1">
-                  <p className="text-sm leading-snug">{item.text}</p>
-                  <p className="text-xs text-muted-foreground">{item.time}</p>
-                </div>
-              </li>
-            ))}
+            {displayItems.map((item) => {
+              const row = (
+                <>
+                  <Avatar size="sm">
+                    <AvatarFallback className="text-[10px]">
+                      {item.actorInitials ?? "?"}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-sm leading-snug">{item.text}</p>
+                    <p className="text-xs text-muted-foreground">{item.time}</p>
+                  </div>
+                </>
+              );
+
+              return (
+                <li key={item.id}>
+                  {item.href ? (
+                    <Link
+                      href={item.href}
+                      className={cn(
+                        "flex items-start gap-2.5 px-3 py-2.5 hover:bg-muted/50",
+                        item.isRead === false && "bg-muted/30",
+                      )}
+                    >
+                      {row}
+                    </Link>
+                  ) : (
+                    <div
+                      className={cn(
+                        "flex items-start gap-2.5 px-3 py-2.5",
+                        item.isRead === false && "bg-muted/30",
+                      )}
+                    >
+                      {row}
+                    </div>
+                  )}
+                </li>
+              );
+            })}
           </ul>
         )}
         <Separator />
         <div className="p-2">
           <Button variant="ghost" size="sm" className="w-full" asChild>
-            <Link href="/notifications">Δες όλες</Link>
+            <Link href="/notifications">{t.viewAll}</Link>
           </Button>
         </div>
       </PopoverContent>

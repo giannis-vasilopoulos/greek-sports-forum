@@ -18,6 +18,7 @@ export function Header({
   activeFanProfile,
   fanProfiles = [],
   unreadNotifications = 0,
+  notificationItems = [],
   hasLiveMatches = false,
   leagues = [],
 }: HeaderProps) {
@@ -43,7 +44,10 @@ export function Header({
           {user ? (
             <>
               <div className="hidden md:block">
-                <Notifications unreadCount={unreadNotifications} items={[]} />
+                <Notifications
+                  unreadCount={unreadNotifications}
+                  items={notificationItems}
+                />
               </div>
               <div className="hidden md:block">
                 <UserPill
@@ -69,6 +73,7 @@ export function Header({
             activeFanProfile={activeFanProfile}
             fanProfiles={fanProfiles}
             unreadNotifications={unreadNotifications}
+            notificationItems={notificationItems}
             hasLiveMatches={hasLiveMatches}
             leagues={leagues}
           />

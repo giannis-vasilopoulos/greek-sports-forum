@@ -35,6 +35,7 @@ export interface HeaderProps {
   activeFanProfile?: FanProfile;
   fanProfiles?: FanProfile[];
   unreadNotifications?: number;
+  notificationItems?: NotificationItem[];
   hasLiveMatches?: boolean;
   leagues?: Array<{
     slug: string;
@@ -49,6 +50,8 @@ export interface NotificationItem {
   text: string;
   time: string;
   actorInitials?: string;
+  href?: string;
+  isRead?: boolean;
 }
 
 export function getInitials(name: string): string {

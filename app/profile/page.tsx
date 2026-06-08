@@ -1,4 +1,3 @@
-/** SEO spec: seo/pages/profile.md */
 import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
@@ -93,6 +92,9 @@ export default async function ProfilePage() {
       <div className="flex flex-wrap gap-3">
         <Button variant="outline" asChild>
           <Link href="/fan-profiles">{t.manageFanProfiles}</Link>
+        </Button>
+        <Button variant="outline" asChild>
+          <Link href="/notifications">{copy.notifications.nav.label}</Link>
         </Button>
         <Button variant="ghost" asChild>
           <Link href="/settings">{t.settings}</Link>

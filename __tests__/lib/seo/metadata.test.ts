@@ -8,6 +8,7 @@ import {
   buildMatchThreadsMetadata,
   buildPageMetadata,
   buildFanProfilesMetadata,
+  buildNotificationsMetadata,
   buildProfileMetadata,
   buildSettingsMetadata,
   buildSignInMetadata,
@@ -118,6 +119,17 @@ describe("buildSettingsMetadata", () => {
     expect(metadata.robots).toEqual({ index: false, follow: false });
     expect(metadata.title).toBe(
       pageTitle(copy.seo.pages.settings.titleSegment),
+    );
+  });
+});
+
+describe("buildNotificationsMetadata", () => {
+  it("is noindex nofollow with notifications canonical", () => {
+    const metadata = buildNotificationsMetadata();
+    expect(metadata.alternates?.canonical).toBe(absoluteUrl("/notifications"));
+    expect(metadata.robots).toEqual({ index: false, follow: false });
+    expect(metadata.title).toBe(
+      pageTitle(copy.seo.pages.notifications.titleSegment),
     );
   });
 });

@@ -10,10 +10,4 @@ One markdown file per **page type** (not necessarily one file per route).
 4. Update [`../indexing.md`](../indexing.md) if indexable/noindex changes
 5. Add JSON-LD templates under [`../json-ld/`](../json-ld/) if new `@type`s
 6. Update [`../README.md`](../README.md) page-type map
-7. Implement route with `lib/seo/*` + spec comment in `app/**/page.tsx`
-
-## Route file comment
-
-```typescript
-/** SEO spec: seo/pages/league-hub.md */
-```
+7. Implement route with `lib/seo/metadata.ts` builders and JSON-LD per the spec

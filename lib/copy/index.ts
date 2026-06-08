@@ -5,6 +5,7 @@ import { feedCopy } from "@/lib/copy/feed";
 import { forumCopy } from "@/lib/copy/forum";
 import { layoutCopy } from "@/lib/copy/layout";
 import { moderationCopy } from "@/lib/copy/moderation";
+import { notificationsCopy } from "@/lib/copy/notifications";
 import { profileCopy } from "@/lib/copy/profile";
 import { seoCopy } from "@/lib/copy/seo";
 import { standingsCopy } from "@/lib/copy/standings";
@@ -24,6 +25,7 @@ export const copy = {
   ads: adsCopy,
   standings: standingsCopy,
   profile: profileCopy,
+  notifications: notificationsCopy,
 } as const;
 
 export type Copy = typeof copy;

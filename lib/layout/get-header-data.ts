@@ -3,7 +3,7 @@ import type { FeedLeague } from "@/components/feed/feed-data";
 import type { FanProfile, HeaderProps } from "@/components/layout/site-data";
 import { mockHasLiveMatches } from "@/components/layout/site-mock-data";
 import { getLeaguesForNav } from "@/lib/leagues/queries";
-import { getUnreadNotificationCount } from "@/lib/notifications/queries";
+import { getHeaderNotifications } from "@/lib/notifications/queries";
 import {
   getActiveFanProfileForUser,
   getFanProfilesForUser,
@@ -24,11 +24,11 @@ export async function getHeaderData(): Promise<HeaderData> {
     };
   }
 
-  const [fanProfiles, activeFanProfile, unreadNotifications] =
+  const [fanProfiles, activeFanProfile, headerNotifications] =
     await Promise.all([
       getFanProfilesForUser(user.id),
       getActiveFanProfileForUser(user.id),
-      getUnreadNotificationCount(user.id),
+      getHeaderNotifications(user.id),
     ]);
 
   return {
@@ -39,7 +39,8 @@ export async function getHeaderData(): Promise<HeaderData> {
     },
     fanProfiles,
     activeFanProfile,
-    unreadNotifications,
+    unreadNotifications: headerNotifications.unreadCount,
+    notificationItems: headerNotifications.previewItems,
     leagues,
     hasLiveMatches: mockHasLiveMatches,
   };

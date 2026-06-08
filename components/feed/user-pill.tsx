@@ -88,6 +88,9 @@ export function UserPill({
           <Link href="/fan-profiles">{m.myFanProfiles}</Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
+          <Link href="/notifications">{copy.notifications.nav.label}</Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild>
           <Link href="/settings">{m.settings}</Link>
         </DropdownMenuItem>
         {fanProfiles.length > 0 && (

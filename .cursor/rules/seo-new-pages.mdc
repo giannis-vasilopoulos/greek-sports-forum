@@ -18,7 +18,6 @@ Before editing or creating `app/**/page.tsx`, read in order:
 
 ## Requirements
 
-- Add `/** SEO spec: seo/pages/{type}.md */` at top of the page file
 - Use `buildPageMetadata()` / dedicated builders from `lib/seo/metadata.ts`
 - Render JSON-LD via `<JsonLd data={...} />` from `components/seo/json-ld.tsx`
 - Update `seo/urls.md` and `app/sitemap.ts` when adding indexable routes

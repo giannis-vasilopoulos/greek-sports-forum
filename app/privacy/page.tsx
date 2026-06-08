@@ -1,4 +1,3 @@
-/** SEO spec: seo/pages/privacy.md */
 import type { Metadata } from "next";
 import Link from "next/link";
 

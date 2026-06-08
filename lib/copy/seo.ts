@@ -55,6 +55,10 @@ export const seoCopy = {
       titleSegment: "Ρυθμίσεις",
       description: "Ρυθμίσεις λογαριασμού στην ΚΕΡΚΙΔΑ.",
     },
+    notifications: {
+      titleSegment: "Ειδοποιήσεις",
+      description: "Οι ειδοποιήσεις σου στην ΚΕΡΚΙΔΑ.",
+    },
   },
   breadcrumbs: {
     home: "Αρχική",

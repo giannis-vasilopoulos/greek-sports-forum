@@ -1,4 +1,3 @@
-/** SEO spec: seo/pages/profile.md */
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 

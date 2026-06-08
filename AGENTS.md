@@ -357,7 +357,6 @@ Subject: imperative mood, lowercase, no trailing period.
    - Register URL in [`seo/urls.md`](seo/urls.md) if new
    - Implement via `lib/seo/metadata.ts` + `components/seo/json-ld.tsx`; update `app/sitemap.ts` if indexable
    - For UI routes, also check `design-system/kerkida/pages/{page}.md`
-   - Add `/** SEO spec: seo/pages/{type}.md */` comment at top of the page file
 
 ### Avoid
 

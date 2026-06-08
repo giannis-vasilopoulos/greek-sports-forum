@@ -1,4 +1,3 @@
-/** SEO spec: seo/pages/home.md */
 import type { Metadata } from "next";
 
 import { MatchBar } from "@/components/feed/match-bar";

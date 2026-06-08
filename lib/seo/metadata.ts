@@ -181,6 +181,15 @@ export function buildSettingsMetadata(): Metadata {
   });
 }
 
+export function buildNotificationsMetadata(): Metadata {
+  return buildPageMetadata({
+    title: pageTitle(p.notifications.titleSegment),
+    description: p.notifications.description,
+    path: "/notifications",
+    robots: ROBOTS_NOINDEX_NOFOLLOW,
+  });
+}
+
 export function buildThreadMetadata({
   title,
   description,

@@ -1,4 +1,3 @@
-/** SEO spec: seo/pages/standings.md */
 import type { Metadata } from "next";
 
 import { StandingsPageContent } from "@/components/standings/standings-page-content";

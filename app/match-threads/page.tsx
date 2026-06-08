@@ -1,4 +1,3 @@
-/** SEO spec: seo/pages/match-threads.md */
 import type { Metadata } from "next";
 
 import { JsonLd } from "@/components/seo/json-ld";

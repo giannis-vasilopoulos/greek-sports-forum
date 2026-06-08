@@ -63,5 +63,4 @@ None (home is root).
 
 ## Implementation
 
-- Spec comment: `/** SEO spec: seo/pages/home.md */`
 - Builder: `buildHomeMetadata()`, `buildHomeJsonLd({ threadTitles, threadPaths })`

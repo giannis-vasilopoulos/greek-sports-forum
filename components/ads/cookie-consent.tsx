@@ -218,7 +218,7 @@ export function CookieConsent() {
         open={true}
         aria-labelledby="cookie-consent-title"
         aria-describedby="cookie-consent-description"
-        className="fixed inset-x-0 bottom-0 z-50 border-t border-border bg-background/95 p-4 shadow-lg backdrop-blur supports-[backdrop-filter]:bg-background/90"
+        className="fixed w-full inset-x-0 bottom-0 z-50 border-t border-border bg-background/95 p-4 shadow-lg backdrop-blur supports-[backdrop-filter]:bg-background/90"
       >
         <div className="mx-auto flex max-w-6xl flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div className="space-y-1">
@@ -239,14 +239,15 @@ export function CookieConsent() {
             </p>
           </div>
           <div className="flex flex-wrap gap-2">
+            <Button type="button" onClick={acceptAll}>
+              {c.accept}
+            </Button>
+
             <Button type="button" variant="outline" onClick={rejectAll}>
               {c.reject}
             </Button>
             <Button type="button" variant="secondary" onClick={openSettings}>
               {c.settings}
-            </Button>
-            <Button type="button" onClick={acceptAll}>
-              {c.accept}
             </Button>
           </div>
         </div>

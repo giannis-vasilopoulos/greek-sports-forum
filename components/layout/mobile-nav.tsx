@@ -35,6 +35,7 @@ interface MobileNavProps {
   activeFanProfile?: FanProfile;
   fanProfiles?: FanProfile[];
   unreadNotifications?: number;
+  notificationItems?: HeaderProps["notificationItems"];
   hasLiveMatches?: boolean;
   leagues?: Array<{
     slug: string;
@@ -49,6 +50,7 @@ export function MobileNav({
   activeFanProfile,
   fanProfiles = [],
   unreadNotifications = 0,
+  notificationItems = [],
   hasLiveMatches = false,
   leagues = [],
 }: MobileNavProps) {
@@ -63,7 +65,10 @@ export function MobileNav({
 
   return (
     <div className="flex items-center gap-1 md:hidden">
-      <Notifications unreadCount={unreadNotifications} items={[]} />
+      <Notifications
+        unreadCount={unreadNotifications}
+        items={notificationItems}
+      />
       <Sheet open={open} onOpenChange={setOpen}>
         <SheetTrigger asChild>
           <Button variant="ghost" size="icon" aria-label={l.nav.openMenuAria}>
@@ -204,6 +209,13 @@ export function MobileNav({
                     className="rounded-lg px-2 py-1.5 text-sm hover:bg-muted"
                   >
                     {l.mobileNav.myFanProfiles}
+                  </Link>
+                  <Link
+                    href="/notifications"
+                    onClick={closeAndNavigate}
+                    className="rounded-lg px-2 py-1.5 text-sm hover:bg-muted"
+                  >
+                    {copy.notifications.nav.label}
                   </Link>
                   <Link
                     href="/settings"

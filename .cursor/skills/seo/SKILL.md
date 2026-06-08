@@ -38,11 +38,10 @@ Follow the order in [`seo/README.md`](../../../seo/README.md):
 
 1. Spec file in `seo/pages/{type}.md`
 2. URL in `seo/urls.md`
-3. `/** SEO spec: seo/pages/{type}.md */` on `app/**/page.tsx`
-4. `export const metadata` or `generateMetadata` via builders
-5. `<JsonLd />` matching spec
-6. Sitemap entry if indexable
-7. Vitest for builder logic; e2e for title/canonical when touching pages
+3. `export const metadata` or `generateMetadata` via builders
+4. `<JsonLd />` matching spec
+5. Sitemap entry if indexable
+6. Vitest for builder logic; e2e for title/canonical when touching pages
 
 ## Language
 
