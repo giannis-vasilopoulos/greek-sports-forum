@@ -510,10 +510,7 @@ export async function seed() {
       await new Promise((r) => setTimeout(r, 7000));
     }
 
-    const leagueLogoSource = await resolveLeagueLogoSourceUrl(l, {
-      fetchSlgrTeams:
-        l.provider === "slgr" ? () => Promise.resolve(leagueTeams) : undefined,
-    });
+    const leagueLogoSource = await resolveLeagueLogoSourceUrl(l);
     const leagueLogoUrl = leagueLogoSource
       ? await resolveLogoUrl({
           sourceUrl: leagueLogoSource,

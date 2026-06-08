@@ -1,4 +1,5 @@
 import type { LeagueSeed } from "@/lib/leagues/sources";
+import { fetchSlgrLeagueLogo } from "@/lib/slgr/fetch-league-logo";
 
 const FOOTBALL_DATA_API_KEY = process.env.FOOTBALL_DATA_API_KEY;
 const API_SPORTS_KEY = process.env.API_SPORTS_KEY;
@@ -71,19 +72,8 @@ async function fetchTheSportsDbLeagueBadge(
   return null;
 }
 
-/** First team crest from SLGR teams page as a league placeholder when no competition emblem exists. */
-export async function fetchSlgrLeagueEmblemFromTeams(
-  fetchTeams: () => Promise<Array<{ logoUrl: string | null }>>,
-): Promise<string | null> {
-  const teams = await fetchTeams();
-  return teams.find((t) => t.logoUrl)?.logoUrl ?? null;
-}
-
 export async function resolveLeagueLogoSourceUrl(
   league: LeagueSeed,
-  options?: {
-    fetchSlgrTeams?: () => Promise<Array<{ logoUrl: string | null }>>;
-  },
 ): Promise<string | null> {
   if (league.logoSourceUrl) {
     return league.logoSourceUrl;
@@ -101,8 +91,8 @@ export async function resolveLeagueLogoSourceUrl(
     return fetchTheSportsDbLeagueBadge(league.thesportsdbSearchName);
   }
 
-  if (league.provider === "slgr" && options?.fetchSlgrTeams) {
-    return fetchSlgrLeagueEmblemFromTeams(options.fetchSlgrTeams);
+  if (league.provider === "slgr") {
+    return fetchSlgrLeagueLogo();
   }
 
   return null;

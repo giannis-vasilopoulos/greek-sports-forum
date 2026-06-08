@@ -6,3 +6,5 @@ export {
   parseSlgrStandings,
 } from "@/lib/slgr/parse-standings";
 export { parseSlgrSeasonIdMap, resolveSlgrSeasonId } from "@/lib/slgr/season";
+export { fetchSlgrLeagueLogo } from "@/lib/slgr/fetch-league-logo";
+export { parseSlgrLeagueLogo } from "@/lib/slgr/parse-league-logo";
