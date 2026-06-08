@@ -154,6 +154,33 @@ export function buildLeagueStandingsMetadata(input: {
   });
 }
 
+export function buildProfileMetadata(): Metadata {
+  return buildPageMetadata({
+    title: pageTitle(p.profile.titleSegment),
+    description: p.profile.description,
+    path: "/profile",
+    robots: ROBOTS_NOINDEX_NOFOLLOW,
+  });
+}
+
+export function buildFanProfilesMetadata(): Metadata {
+  return buildPageMetadata({
+    title: pageTitle(p.fanProfiles.titleSegment),
+    description: p.fanProfiles.description,
+    path: "/fan-profiles",
+    robots: ROBOTS_NOINDEX_NOFOLLOW,
+  });
+}
+
+export function buildSettingsMetadata(): Metadata {
+  return buildPageMetadata({
+    title: pageTitle(p.settings.titleSegment),
+    description: p.settings.description,
+    path: "/settings",
+    robots: ROBOTS_NOINDEX_NOFOLLOW,
+  });
+}
+
 export function buildThreadMetadata({
   title,
   description,

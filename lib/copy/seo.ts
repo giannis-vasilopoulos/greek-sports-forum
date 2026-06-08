@@ -43,6 +43,18 @@ export const seoCopy = {
       titleSegment: "Fan profile",
       description: "Δημιούργησε το fan profile σου στην ΚΕΡΚΙΔΑ.",
     },
+    profile: {
+      titleSegment: "Το προφίλ μου",
+      description: "Στοιχεία λογαριασμού και ενεργό fan profile στην ΚΕΡΚΙΔΑ.",
+    },
+    fanProfiles: {
+      titleSegment: "Τα fan profiles μου",
+      description: "Διαχείριση fan profiles ανά πρωτάθλημα στην ΚΕΡΚΙΔΑ.",
+    },
+    settings: {
+      titleSegment: "Ρυθμίσεις",
+      description: "Ρυθμίσεις λογαριασμού στην ΚΕΡΚΙΔΑ.",
+    },
   },
   breadcrumbs: {
     home: "Αρχική",

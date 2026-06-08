@@ -52,7 +52,7 @@ export function GoogleAuthButton({ className }: GoogleAuthButtonProps) {
 
     const { error: signInError } = await authClient.signIn.social({
       provider: "google",
-      callbackURL: "/",
+      callbackURL: "/auth/post-auth",
       newUserCallbackURL: "/onboarding",
     });
 

@@ -5,11 +5,8 @@ import { ChevronDownIcon } from "lucide-react";
 
 import { SignOutButton } from "@/components/auth/sign-out-button";
 import type { FanProfile } from "@/components/layout/site-data";
-import {
-  getInitials,
-  getLeagueHref,
-  getLeagueSlug,
-} from "@/components/layout/site-data";
+import { getInitials } from "@/components/layout/site-data";
+import { useSetActiveFanProfile } from "@/components/profile/use-set-active-fan-profile";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -37,6 +34,7 @@ export function UserPill({
   fanProfiles = [],
   className,
 }: UserPillProps) {
+  const { setActive, pending } = useSetActiveFanProfile();
   const displayName = user.username ?? user.name;
 
   return (
@@ -99,21 +97,23 @@ export function UserPill({
               {m.switchFanProfile}
             </p>
             {fanProfiles.map((profile) => (
-              <DropdownMenuItem key={profile.leagueName} asChild>
-                <Link href={getLeagueHref(getLeagueSlug(profile.leagueName))}>
-                  <EntityLogo
-                    src={profile.teamLogoUrl}
-                    alt=""
-                    fallback={profile.teamEmoji}
-                    size="xs"
-                  />
-                  <div className="flex flex-col gap-1">
-                    <span className="flex-1">{profile.teamName}</span>
-                    <span className="text-xs text-muted-foreground">
-                      {profile.leagueName}
-                    </span>
-                  </div>
-                </Link>
+              <DropdownMenuItem
+                key={profile.id}
+                disabled={pending || profile.id === activeFanProfile?.id}
+                onClick={() => setActive(profile.id)}
+              >
+                <EntityLogo
+                  src={profile.teamLogoUrl}
+                  alt=""
+                  fallback={profile.teamEmoji}
+                  size="xs"
+                />
+                <div className="flex flex-col gap-1">
+                  <span className="flex-1">{profile.teamName}</span>
+                  <span className="text-xs text-muted-foreground">
+                    {profile.leagueName}
+                  </span>
+                </div>
               </DropdownMenuItem>
             ))}
           </>

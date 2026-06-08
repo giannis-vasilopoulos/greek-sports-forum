@@ -7,6 +7,9 @@ import {
   buildLeagueStandingsMetadata,
   buildMatchThreadsMetadata,
   buildPageMetadata,
+  buildFanProfilesMetadata,
+  buildProfileMetadata,
+  buildSettingsMetadata,
   buildSignInMetadata,
   buildSignUpMetadata,
   buildStandingsMetadata,
@@ -85,5 +88,36 @@ describe("buildSignUpMetadata", () => {
     expect(metadata.alternates?.canonical).toBe(absoluteUrl("/sign-up"));
     expect(metadata.robots).toEqual({ index: false, follow: true });
     expect(metadata.title).toBe(pageTitle(copy.seo.pages.signUp.titleSegment));
+  });
+});
+
+describe("buildProfileMetadata", () => {
+  it("is noindex nofollow with profile canonical", () => {
+    const metadata = buildProfileMetadata();
+    expect(metadata.alternates?.canonical).toBe(absoluteUrl("/profile"));
+    expect(metadata.robots).toEqual({ index: false, follow: false });
+    expect(metadata.title).toBe(pageTitle(copy.seo.pages.profile.titleSegment));
+  });
+});
+
+describe("buildFanProfilesMetadata", () => {
+  it("is noindex nofollow with fan-profiles canonical", () => {
+    const metadata = buildFanProfilesMetadata();
+    expect(metadata.alternates?.canonical).toBe(absoluteUrl("/fan-profiles"));
+    expect(metadata.robots).toEqual({ index: false, follow: false });
+    expect(metadata.title).toBe(
+      pageTitle(copy.seo.pages.fanProfiles.titleSegment),
+    );
+  });
+});
+
+describe("buildSettingsMetadata", () => {
+  it("is noindex nofollow with settings canonical", () => {
+    const metadata = buildSettingsMetadata();
+    expect(metadata.alternates?.canonical).toBe(absoluteUrl("/settings"));
+    expect(metadata.robots).toEqual({ index: false, follow: false });
+    expect(metadata.title).toBe(
+      pageTitle(copy.seo.pages.settings.titleSegment),
+    );
   });
 });

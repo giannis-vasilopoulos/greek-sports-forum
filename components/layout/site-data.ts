@@ -4,7 +4,6 @@ const l = copy.layout;
 
 export const LEAGUES = [
   { slug: "super-league", name: "Super League", emoji: "⚽" },
-  { slug: "super-league-2", name: "Super League 2", emoji: "⚽" },
   { slug: "champions-league", name: "Champions League", emoji: "⭐" },
   { slug: "premier-league", name: "Premier League", emoji: "⚽" },
   { slug: "euroleague", name: "Euroleague", emoji: "🏀" },
@@ -24,6 +23,7 @@ export const FOOTER_INFO_LINKS = [
 ] as const;
 
 export interface FanProfile {
+  id: number;
   leagueName: string;
   teamName: string;
   teamEmoji: string;

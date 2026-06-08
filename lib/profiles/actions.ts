@@ -22,8 +22,13 @@ export type FanProfileActionState = {
   fieldErrors?: Partial<Record<keyof CreateFanProfileInput, string>>;
 };
 
+type CreateFanProfileOptions = {
+  redirectTo?: string;
+};
+
 export async function createFanProfile(
   input: CreateFanProfileInput,
+  options?: CreateFanProfileOptions,
 ): Promise<FanProfileActionState> {
   const user = await getSessionUser();
   if (!user) {
@@ -81,7 +86,8 @@ export async function createFanProfile(
   });
 
   revalidatePath("/", "layout");
-  redirect("/");
+  revalidatePath("/fan-profiles");
+  redirect(options?.redirectTo ?? "/");
 }
 
 export async function setActiveFanProfile(profileId: number): Promise<void> {
@@ -103,4 +109,6 @@ export async function setActiveFanProfile(profileId: number): Promise<void> {
   });
 
   revalidatePath("/", "layout");
+  revalidatePath("/fan-profiles");
+  revalidatePath("/profile");
 }

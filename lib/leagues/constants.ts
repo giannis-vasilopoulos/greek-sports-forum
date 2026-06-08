@@ -1,7 +1,6 @@
 /** Display emoji for nav/feed — DB leagues have no emoji column. */
 export const LEAGUE_EMOJI_BY_SLUG: Record<string, string> = {
   "super-league": "⚽",
-  "super-league-2": "⚽",
   "champions-league": "⭐",
   "premier-league": "⚽",
   "la-liga": "⚽",
@@ -24,7 +23,6 @@ export function getLeagueEmoji(
 /** Curated slugs shown in header nav (subset of DB leagues). */
 export const NAV_LEAGUE_SLUGS = [
   "super-league",
-  "super-league-2",
   "champions-league",
   "premier-league",
   "euroleague",

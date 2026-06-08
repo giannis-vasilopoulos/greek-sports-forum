@@ -12,8 +12,8 @@ import {
   NAV_LINKS,
   getInitials,
   getLeagueHref,
-  getLeagueSlug,
 } from "@/components/layout/site-data";
+import { useSetActiveFanProfile } from "@/components/profile/use-set-active-fan-profile";
 import { Notifications } from "@/components/layout/notifications";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -54,6 +54,7 @@ export function MobileNav({
 }: MobileNavProps) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const { setActive, pending } = useSetActiveFanProfile();
 
   const isActive = (href: string) =>
     pathname === href || pathname.startsWith(`${href}/`);
@@ -89,14 +90,17 @@ export function MobileNav({
               </p>
               <div className="flex flex-col gap-1">
                 {fanProfiles.map((profile) => (
-                  <Link
-                    key={profile.leagueName}
-                    href={getLeagueHref(getLeagueSlug(profile.leagueName))}
-                    onClick={closeAndNavigate}
+                  <button
+                    key={profile.id}
+                    type="button"
+                    disabled={pending || profile.id === activeFanProfile?.id}
+                    onClick={() => {
+                      setActive(profile.id);
+                      closeAndNavigate();
+                    }}
                     className={cn(
-                      "flex items-center gap-2 rounded-lg px-2 py-1.5 text-sm hover:bg-muted",
-                      profile.leagueName === activeFanProfile.leagueName &&
-                        "bg-muted",
+                      "flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-left text-sm hover:bg-muted disabled:opacity-60",
+                      profile.id === activeFanProfile?.id && "bg-muted",
                     )}
                   >
                     <EntityLogo
@@ -109,7 +113,7 @@ export function MobileNav({
                     <span className="text-muted-foreground">
                       {profile.teamName}
                     </span>
-                  </Link>
+                  </button>
                 ))}
               </div>
               <Separator className="my-4" />

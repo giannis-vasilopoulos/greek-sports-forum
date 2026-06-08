@@ -5,6 +5,7 @@ import { auth } from "@/lib/auth";
 export type SessionUser = {
   id: string;
   name: string;
+  email: string;
   image?: string;
   username?: string;
   role: "user" | "moderator" | "admin";
@@ -22,6 +23,7 @@ export async function getSessionUser(): Promise<SessionUser | undefined> {
   return {
     id: session.user.id,
     name: session.user.name,
+    email: session.user.email,
     image: session.user.image ?? undefined,
     username: session.user.username ?? undefined,
     role: normalizeRole((session.user as { role?: string | null }).role),

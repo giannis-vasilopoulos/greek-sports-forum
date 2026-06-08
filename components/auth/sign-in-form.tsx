@@ -56,7 +56,7 @@ export function SignInForm() {
     const { error: signInError } = await authClient.signIn.email({
       email: values.email,
       password: values.password,
-      callbackURL: "/",
+      callbackURL: "/auth/post-auth",
     });
 
     if (signInError) {
@@ -65,7 +65,7 @@ export function SignInForm() {
       return;
     }
 
-    router.push("/");
+    router.push("/auth/post-auth");
     router.refresh();
   }
 

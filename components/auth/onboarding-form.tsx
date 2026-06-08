@@ -1,10 +1,10 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMemo, useState } from "react";
-import { Controller, useForm, useWatch } from "react-hook-form";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 
-import { EntityLogo } from "@/components/brand/entity-logo";
+import { FanProfileFormFields } from "@/components/profile/fan-profile-form-fields";
 import { copy } from "@/lib/copy";
 import type { LeagueOption } from "@/lib/leagues/queries";
 import { createFanProfile } from "@/lib/profiles/actions";
@@ -22,22 +22,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Field,
-  FieldDescription,
-  FieldError,
-  FieldGroup,
-  FieldLabel,
-} from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { cn } from "@/lib/utils";
+import { FieldError, FieldGroup } from "@/components/ui/field";
 
 const t = copy.auth.onboarding;
 
@@ -74,13 +59,6 @@ export function OnboardingForm({ leagues, teams }: OnboardingFormProps) {
     },
   });
 
-  const leagueId = useWatch({ control, name: "leagueId" });
-
-  const teamsForLeague = useMemo(
-    () => teams.filter((team) => team.leagueId === Number(leagueId)),
-    [teams, leagueId],
-  );
-
   async function onSubmit(values: CreateFanProfileInput) {
     setFormError(undefined);
     setPending(true);
@@ -112,103 +90,14 @@ export function OnboardingForm({ leagues, teams }: OnboardingFormProps) {
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
         <CardContent>
           <FieldGroup>
-            <Field data-invalid={!!errors.leagueId}>
-              <FieldLabel htmlFor="leagueId">{t.leagueLabel}</FieldLabel>
-              <Controller
-                control={control}
-                name="leagueId"
-                render={({ field }) => (
-                  <Select
-                    value={field.value ? String(field.value) : ""}
-                    onValueChange={(value) => {
-                      field.onChange(Number(value));
-                      setValue("favoriteTeamId", 0);
-                    }}
-                  >
-                    <SelectTrigger
-                      id="leagueId"
-                      aria-invalid={!!errors.leagueId}
-                      className={cn(errors.leagueId && "border-destructive")}
-                    >
-                      <SelectValue placeholder={t.leaguePlaceholder} />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {leagues.map((league) => (
-                        <SelectItem key={league.id} value={String(league.id)}>
-                          <span className="flex items-center gap-2">
-                            <EntityLogo
-                              src={league.logoUrl}
-                              alt={`Λογότυπο ${league.name}`}
-                              fallback={league.emoji}
-                              size="xs"
-                            />
-                            {league.name}
-                          </span>
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                )}
-              />
-              <FieldError errors={[errors.leagueId]} />
-            </Field>
-            <Field data-invalid={!!errors.favoriteTeamId}>
-              <FieldLabel htmlFor="favoriteTeamId">
-                {t.favoriteTeamLabel}
-              </FieldLabel>
-              <Controller
-                control={control}
-                name="favoriteTeamId"
-                render={({ field }) => (
-                  <Select
-                    value={field.value ? String(field.value) : ""}
-                    onValueChange={(value) => {
-                      field.onChange(Number(value));
-                    }}
-                  >
-                    <SelectTrigger
-                      id="favoriteTeamId"
-                      aria-invalid={!!errors.favoriteTeamId}
-                      className={cn(
-                        errors.favoriteTeamId && "border-destructive",
-                      )}
-                    >
-                      <SelectValue placeholder={t.favoriteTeamPlaceholder} />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {teamsForLeague.map((team) => (
-                        <SelectItem key={team.id} value={String(team.id)}>
-                          <span className="flex items-center gap-2">
-                            <EntityLogo
-                              src={team.logoUrl}
-                              alt={`Λογότυπο ${team.name}`}
-                              fallback={team.name.slice(0, 1)}
-                              size="xs"
-                            />
-                            {team.name}
-                          </span>
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                )}
-              />
-              <FieldError errors={[errors.favoriteTeamId]} />
-            </Field>
-            <Field data-invalid={!!errors.displayName}>
-              <FieldLabel htmlFor="displayName">
-                {t.displayNameLabel}
-              </FieldLabel>
-              <FieldDescription>{t.displayNameHint}</FieldDescription>
-              <Input
-                id="displayName"
-                type="text"
-                aria-invalid={!!errors.displayName}
-                className={cn(errors.displayName && "border-destructive")}
-                {...register("displayName")}
-              />
-              <FieldError errors={[errors.displayName]} />
-            </Field>
+            <FanProfileFormFields
+              leagues={leagues}
+              teams={teams}
+              control={control}
+              errors={errors}
+              register={register}
+              setValue={setValue}
+            />
             {formError && <FieldError>{formError}</FieldError>}
           </FieldGroup>
         </CardContent>

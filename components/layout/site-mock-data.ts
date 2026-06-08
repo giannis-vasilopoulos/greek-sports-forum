@@ -15,6 +15,7 @@ export const mockUser = {
 };
 
 export const mockActiveFanProfile: FanProfile = {
+  id: 1,
   leagueName: "Super League",
   teamName: "Παναθηναϊκός",
   teamEmoji: "🍀",
@@ -23,11 +24,13 @@ export const mockActiveFanProfile: FanProfile = {
 export const mockFanProfiles: FanProfile[] = [
   mockActiveFanProfile,
   {
+    id: 2,
     leagueName: "Premier League",
     teamName: "Arsenal",
     teamEmoji: "🔴",
   },
   {
+    id: 3,
     leagueName: "Euroleague",
     teamName: "Ολυμπιακός",
     teamEmoji: "🔴",
