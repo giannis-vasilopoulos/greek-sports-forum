@@ -33,11 +33,7 @@ export default async function OnboardingPage() {
 
   return (
     <div className="mx-auto flex w-full max-w-7xl flex-1 items-center justify-center px-4 py-12">
-      <OnboardingForm
-        leagues={leagueOptions}
-        teams={teams}
-        defaultDisplayName={user.username ?? user.name}
-      />
+      <OnboardingForm leagues={leagueOptions} teams={teams} />
     </div>
   );
 }

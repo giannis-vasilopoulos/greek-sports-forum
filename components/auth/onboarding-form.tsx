@@ -51,14 +51,9 @@ type TeamOption = {
 interface OnboardingFormProps {
   leagues: LeagueOption[];
   teams: TeamOption[];
-  defaultDisplayName?: string;
 }
 
-export function OnboardingForm({
-  leagues,
-  teams,
-  defaultDisplayName = "",
-}: OnboardingFormProps) {
+export function OnboardingForm({ leagues, teams }: OnboardingFormProps) {
   const [formError, setFormError] = useState<string | undefined>();
   const [pending, setPending] = useState(false);
 
@@ -76,7 +71,6 @@ export function OnboardingForm({
     defaultValues: {
       leagueId: defaultLeagueId ?? 0,
       favoriteTeamId: 0,
-      displayName: defaultDisplayName,
     },
   });
 
