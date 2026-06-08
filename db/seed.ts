@@ -59,6 +59,9 @@ type ApiBasketballLeagueSeason = {
 
 const API_BASKETBALL_FREE_TIER_MAX_START_YEAR = 2024;
 
+/** API-Sports NBA All-Star exhibition squads — not franchises; one logo (7324) 404s on CDN. */
+const NBA_ALL_STAR_TEAM_IDS = new Set([7322, 7323, 7324, 7325]);
+
 function assertApiSportsKey(): string {
   if (!API_SPORTS_KEY) {
     throw new Error("API_SPORTS_KEY is required for API-Sports leagues");
@@ -112,7 +115,12 @@ function mapApiBasketballTeams(
   leagueSlug: string,
   teams: ApiBasketballTeam[],
 ): SeedTeam[] {
-  return teams.map((t) => ({
+  const roster =
+    leagueSlug === "nba"
+      ? teams.filter((t) => !NBA_ALL_STAR_TEAM_IDS.has(t.id))
+      : teams;
+
+  return roster.map((t) => ({
     name: t.name,
     slug: teamSlug(leagueSlug, t.name),
     logoUrl: t.logo ?? null,
