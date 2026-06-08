@@ -1,4 +1,12 @@
+import { resolve } from "node:path";
+
+import { config as loadEnv } from "dotenv";
 import type { NextConfig } from "next";
+
+// next.config is evaluated before Next loads .env* — mirror Next precedence for logo CDN host.
+const root = process.cwd();
+loadEnv({ path: resolve(root, ".env") });
+loadEnv({ path: resolve(root, ".env.local"), override: true });
 
 const isProduction = process.env.NODE_ENV === "production";
 const adsProvider = process.env.NEXT_PUBLIC_ADS_PROVIDER;
@@ -22,7 +30,31 @@ const googleCsp = needsGoogleCsp
     ]
   : [];
 
+function logoImageConfig(): Pick<NextConfig, "images"> {
+  const publicUrl = process.env.LOGO_CDN_PUBLIC_URL?.trim();
+  if (!publicUrl) return {};
+
+  try {
+    const { hostname, protocol } = new URL(publicUrl);
+    const scheme = protocol.replace(":", "") as "https" | "http";
+    return {
+      images: {
+        remotePatterns: [
+          {
+            protocol: scheme,
+            hostname,
+            pathname: "/**",
+          },
+        ],
+      },
+    };
+  } catch {
+    return {};
+  }
+}
+
 const nextConfig: NextConfig = {
+  ...logoImageConfig(),
   logging: {
     browserToTerminal: true,
     fetches: {

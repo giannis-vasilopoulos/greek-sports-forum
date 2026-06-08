@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { LucideIcon } from "lucide-react";
 
+import { EntityLogo } from "@/components/brand/entity-logo";
 import type { FeedLeague } from "@/components/feed/feed-data";
 import { getLeagueHref } from "@/components/layout/site-data";
 import { cn } from "@/lib/utils";
@@ -32,9 +33,12 @@ export function LeagueNavItem({
       {Icon ? (
         <Icon className="size-3.5 shrink-0" aria-hidden="true" />
       ) : (
-        <span aria-hidden="true" className="text-sm">
-          {league.emoji}
-        </span>
+        <EntityLogo
+          src={league.logoUrl}
+          alt={`Λογότυπο ${league.name}`}
+          fallback={league.emoji}
+          size="sm"
+        />
       )}
       <span className="truncate">{league.name}</span>
     </Link>

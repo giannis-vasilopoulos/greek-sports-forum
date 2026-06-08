@@ -11,6 +11,7 @@ function mapLeagueRow(row: typeof leagues.$inferSelect): FeedLeague {
     slug: row.slug,
     name: row.name,
     emoji: getLeagueEmoji(row.slug, row.sport),
+    logoUrl: row.logoUrl,
   };
 }
 
@@ -44,14 +45,28 @@ export async function getLeagueBySlug(slug: string) {
   );
 }
 
-export async function getLeagueOptionsForNav() {
+export type LeagueOption = {
+  id: number;
+  slug: string;
+  name: string;
+  logoUrl: string | null;
+  emoji: string;
+};
+
+export async function getLeagueOptionsForNav(): Promise<LeagueOption[]> {
   return runDbOrThrow(async () => {
     const rows = await db.query.leagues.findMany({
       where: inArray(leagues.slug, [...NAV_LEAGUE_SLUGS]),
       orderBy: asc(leagues.displayOrder),
-      columns: { id: true, slug: true, name: true },
+      columns: { id: true, slug: true, name: true, logoUrl: true, sport: true },
     });
 
-    return rows;
+    return rows.map((row) => ({
+      id: row.id,
+      slug: row.slug,
+      name: row.name,
+      logoUrl: row.logoUrl,
+      emoji: getLeagueEmoji(row.slug, row.sport),
+    }));
   });
 }

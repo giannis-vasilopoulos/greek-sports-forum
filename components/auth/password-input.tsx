@@ -1,7 +1,7 @@
 "use client";
 
-import { Eye, EyeOff } from "lucide-react";
 import * as React from "react";
+import dynamic from "next/dynamic";
 
 import { copy } from "@/lib/copy";
 import { Button } from "@/components/ui/button";
@@ -9,6 +9,9 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 
 const t = copy.auth.passwordInput;
+
+const Eye = dynamic(() => import("lucide-react").then((mod) => mod.Eye));
+const EyeOff = dynamic(() => import("lucide-react").then((mod) => mod.EyeOff));
 
 export const PasswordInput = React.forwardRef<
   HTMLInputElement,

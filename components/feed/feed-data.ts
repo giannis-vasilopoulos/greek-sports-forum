@@ -33,12 +33,14 @@ export interface FeedLeague {
   slug: string;
   name: string;
   emoji: string;
+  logoUrl?: string | null;
 }
 
 export interface StandingRow {
   rank: number;
   team: string;
   points: number;
+  teamLogoUrl?: string | null;
 }
 
 export interface TrendingThread {

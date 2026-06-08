@@ -4,7 +4,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMemo, useState } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
 
+import { EntityLogo } from "@/components/brand/entity-logo";
 import { copy } from "@/lib/copy";
+import type { LeagueOption } from "@/lib/leagues/queries";
 import { createFanProfile } from "@/lib/profiles/actions";
 import {
   createFanProfileSchema,
@@ -39,16 +41,11 @@ import { cn } from "@/lib/utils";
 
 const t = copy.auth.onboarding;
 
-type LeagueOption = {
-  id: number;
-  slug: string;
-  name: string;
-};
-
 type TeamOption = {
   id: number;
   leagueId: number;
   name: string;
+  logoUrl?: string | null;
 };
 
 interface OnboardingFormProps {
@@ -144,7 +141,15 @@ export function OnboardingForm({
                     <SelectContent>
                       {leagues.map((league) => (
                         <SelectItem key={league.id} value={String(league.id)}>
-                          {league.name}
+                          <span className="flex items-center gap-2">
+                            <EntityLogo
+                              src={league.logoUrl}
+                              alt={`Λογότυπο ${league.name}`}
+                              fallback={league.emoji}
+                              size="xs"
+                            />
+                            {league.name}
+                          </span>
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -179,7 +184,15 @@ export function OnboardingForm({
                     <SelectContent>
                       {teamsForLeague.map((team) => (
                         <SelectItem key={team.id} value={String(team.id)}>
-                          {team.name}
+                          <span className="flex items-center gap-2">
+                            <EntityLogo
+                              src={team.logoUrl}
+                              alt={`Λογότυπο ${team.name}`}
+                              fallback={team.name.slice(0, 1)}
+                              size="xs"
+                            />
+                            {team.name}
+                          </span>
                         </SelectItem>
                       ))}
                     </SelectContent>

@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { EntityLogo } from "@/components/brand/entity-logo";
 import type { StandingsLeagueOption } from "@/lib/standings/queries";
 import { leagueStandingsPath } from "@/lib/seo/paths";
 import { copy } from "@/lib/copy";
@@ -35,7 +36,12 @@ export function StandingsLeagueTabs({
             )}
             aria-current={isActive ? "page" : undefined}
           >
-            <span aria-hidden>{league.emoji}</span>
+            <EntityLogo
+              src={league.logoUrl}
+              alt={`Λογότυπο ${league.name}`}
+              fallback={league.emoji}
+              size="xs"
+            />
             {league.name}
           </Link>
         );

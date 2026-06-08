@@ -27,6 +27,7 @@ export interface FanProfile {
   leagueName: string;
   teamName: string;
   teamEmoji: string;
+  teamLogoUrl?: string | null;
 }
 
 export interface HeaderProps {
@@ -35,7 +36,12 @@ export interface HeaderProps {
   fanProfiles?: FanProfile[];
   unreadNotifications?: number;
   hasLiveMatches?: boolean;
-  leagues?: Array<{ slug: string; name: string; emoji: string }>;
+  leagues?: Array<{
+    slug: string;
+    name: string;
+    emoji: string;
+    logoUrl?: string | null;
+  }>;
 }
 
 export interface NotificationItem {

@@ -19,6 +19,8 @@ export type LeagueSeed = {
   externalId: string;
   apiSportsSeason?: string;
   thesportsdbSearchName?: string;
+  /** Override when provider does not expose a league emblem API. */
+  logoSourceUrl?: string;
   sport: "football" | "basketball";
   type?: "league" | "tournament";
 };

@@ -99,7 +99,19 @@ GOOGLE_CLIENT_SECRET=
 
 # Optional — Google Analytics 4 (omit in dev to disable; Consent Mode gates storage)
 NEXT_PUBLIC_GA4_ID=
+
+# Optional — team/league logo CDN (Cloudflare R2). When unset, seed keeps provider hotlink URLs.
+LOGO_MIRROR_ENABLED=true
+LOGO_CDN_PUBLIC_URL=https://pub-xxxx.r2.dev
+R2_ACCOUNT_ID=
+R2_ACCESS_KEY_ID=
+R2_SECRET_ACCESS_KEY=
+R2_BUCKET_NAME=kerkida-logos
+LOGO_MAX_EDGE_PX=64
+LOGO_WEBP_QUALITY=85
 ```
+
+Logos are normalized at ingest via `sharp` in `lib/logos/transform.ts` (WebP, max edge clamped 16–256). Re-run `pnpm db:seed` to refresh R2 objects and DB URLs after changing these settings.
 
 Docker Compose defaults (`docker-compose.yml`):
 

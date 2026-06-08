@@ -1,5 +1,6 @@
 "use client";
 
+import { EntityLogo } from "@/components/brand/entity-logo";
 import type { FeedLeague } from "@/components/feed/feed-data";
 import { copy } from "@/lib/copy";
 import { cn } from "@/lib/utils";
@@ -86,9 +87,13 @@ export function LeagueTabs({
               : "text-muted-foreground hover:text-foreground",
           )}
         >
-          <span aria-hidden="true" className="mr-1">
-            {league.emoji}
-          </span>
+          <EntityLogo
+            src={league.logoUrl}
+            alt=""
+            fallback={league.emoji}
+            size="xs"
+            className="mr-1"
+          />
           {league.name}
         </button>
       ))}

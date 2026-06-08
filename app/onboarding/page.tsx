@@ -28,6 +28,7 @@ export default async function OnboardingPage() {
     id: team.id,
     leagueId: team.leagueId,
     name: team.name,
+    logoUrl: team.logoUrl,
   }));
 
   return (

@@ -12,12 +12,18 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
+import { EntityLogo } from "@/components/brand/entity-logo";
 import { NAV_LINKS, getLeagueHref } from "@/components/layout/site-data";
 import { copy } from "@/lib/copy";
 import { cn } from "@/lib/utils";
 
 interface HeaderNavProps {
-  leagues: Array<{ slug: string; name: string; emoji: string }>;
+  leagues: Array<{
+    slug: string;
+    name: string;
+    emoji: string;
+    logoUrl?: string | null;
+  }>;
   hasLiveMatches?: boolean;
 }
 
@@ -47,7 +53,12 @@ export function HeaderNav({ leagues, hasLiveMatches = false }: HeaderNavProps) {
                       href={getLeagueHref(league.slug)}
                       className="flex items-center gap-2"
                     >
-                      <span aria-hidden="true">{league.emoji}</span>
+                      <EntityLogo
+                        src={league.logoUrl}
+                        alt={`Λογότυπο ${league.name}`}
+                        fallback={league.emoji}
+                        size="sm"
+                      />
                       {league.name}
                     </Link>
                   </NavigationMenuLink>

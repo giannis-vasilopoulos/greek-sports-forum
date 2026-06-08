@@ -1,5 +1,6 @@
 import { Fragment } from "react";
 
+import { EntityLogo } from "@/components/brand/entity-logo";
 import type { StandingsTableRow } from "@/lib/standings/queries";
 import { copy } from "@/lib/copy";
 import { cn } from "@/lib/utils";
@@ -80,7 +81,17 @@ export function StandingsTable({
                 <td className="py-2 pr-2 tabular-nums text-muted-foreground">
                   {row.rank}
                 </td>
-                <td className="py-2 pr-2 font-medium">{row.team}</td>
+                <td className="py-2 pr-2 font-medium">
+                  <span className="inline-flex items-center gap-2">
+                    <EntityLogo
+                      src={row.teamLogoUrl}
+                      alt={`Λογότυπο ${row.team}`}
+                      fallback={row.team.slice(0, 1)}
+                      size="sm"
+                    />
+                    {row.team}
+                  </span>
+                </td>
                 {extended ? (
                   <>
                     <td className="py-2 px-1 text-center tabular-nums">

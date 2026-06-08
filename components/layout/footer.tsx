@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { EntityLogo } from "@/components/brand/entity-logo";
 import {
   FOOTER_INFO_LINKS,
   getLeagueHref,
@@ -9,7 +10,12 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 
 interface FooterProps {
-  leagues?: Array<{ slug: string; name: string; emoji: string }>;
+  leagues?: Array<{
+    slug: string;
+    name: string;
+    emoji: string;
+    logoUrl?: string | null;
+  }>;
 }
 
 function InstagramIcon({ className }: { className?: string }) {
@@ -120,8 +126,13 @@ export function Footer({ leagues = [] }: FooterProps) {
                     href={getLeagueHref(league.slug)}
                     className="text-sm text-muted-foreground transition-colors hover:text-foreground"
                   >
-                    <span aria-hidden="true" className="mr-1.5">
-                      {league.emoji}
+                    <span className="mr-1.5 inline-flex align-middle">
+                      <EntityLogo
+                        src={league.logoUrl}
+                        alt={`Λογότυπο ${league.name}`}
+                        fallback={league.emoji}
+                        size="xs"
+                      />
                     </span>
                     {league.name}
                   </Link>

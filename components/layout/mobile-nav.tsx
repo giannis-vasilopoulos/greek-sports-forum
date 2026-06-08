@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { MenuIcon } from "lucide-react";
 import { useState } from "react";
 
+import { EntityLogo } from "@/components/brand/entity-logo";
 import { SignOutButton } from "@/components/auth/sign-out-button";
 import type { FanProfile, HeaderProps } from "@/components/layout/site-data";
 import {
@@ -35,7 +36,12 @@ interface MobileNavProps {
   fanProfiles?: FanProfile[];
   unreadNotifications?: number;
   hasLiveMatches?: boolean;
-  leagues?: Array<{ slug: string; name: string; emoji: string }>;
+  leagues?: Array<{
+    slug: string;
+    name: string;
+    emoji: string;
+    logoUrl?: string | null;
+  }>;
 }
 
 export function MobileNav({
@@ -93,7 +99,12 @@ export function MobileNav({
                         "bg-muted",
                     )}
                   >
-                    <span aria-hidden="true">{profile.teamEmoji}</span>
+                    <EntityLogo
+                      src={profile.teamLogoUrl}
+                      alt=""
+                      fallback={profile.teamEmoji}
+                      size="xs"
+                    />
                     <span className="font-medium">{profile.leagueName}</span>
                     <span className="text-muted-foreground">
                       {profile.teamName}
@@ -119,7 +130,12 @@ export function MobileNav({
                   isActive(getLeagueHref(league.slug)) && "bg-muted",
                 )}
               >
-                <span aria-hidden="true">{league.emoji}</span>
+                <EntityLogo
+                  src={league.logoUrl}
+                  alt={`Λογότυπο ${league.name}`}
+                  fallback={league.emoji}
+                  size="sm"
+                />
                 {league.name}
               </Link>
             ))}

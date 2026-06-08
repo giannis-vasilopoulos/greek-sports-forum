@@ -1,6 +1,7 @@
 import Link from "next/link";
 
 import { LeagueNavList } from "@/components/feed/league-nav-item";
+import { EntityLogo } from "@/components/brand/entity-logo";
 import type { FeedLeague } from "@/components/feed/feed-data";
 import type { FanProfile } from "@/components/layout/site-data";
 import { getInitials } from "@/components/layout/site-data";
@@ -40,7 +41,15 @@ export function LeftSidebar({
               </p>
               {activeFanProfile && (
                 <p className="truncate text-[11px] text-muted-foreground">
-                  {activeFanProfile.teamEmoji} {activeFanProfile.teamName}
+                  <span className="inline-flex items-center gap-1">
+                    <EntityLogo
+                      src={activeFanProfile.teamLogoUrl}
+                      alt=""
+                      fallback={activeFanProfile.teamEmoji}
+                      size="xs"
+                    />
+                    {activeFanProfile.teamName}
+                  </span>
                 </p>
               )}
             </div>

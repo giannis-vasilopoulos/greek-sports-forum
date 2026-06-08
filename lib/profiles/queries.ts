@@ -15,6 +15,7 @@ function mapFanProfileRow(
     leagueName: row.league.name,
     teamName: row.favoriteTeam?.name ?? row.displayName,
     teamEmoji: getLeagueEmoji(row.league.slug, row.league.sport),
+    teamLogoUrl: row.favoriteTeam?.logoUrl ?? null,
   };
 }
 

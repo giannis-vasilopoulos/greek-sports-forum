@@ -2,6 +2,8 @@ import "dotenv/config";
 import { pathToFileURL } from "node:url";
 
 import { LEAGUE_SEEDS, type LeagueSeed } from "@/lib/leagues/sources";
+import { resolveLeagueLogoSourceUrl } from "@/lib/logos/league-emblem";
+import { resolveLogoUrl } from "@/lib/logos/mirror";
 import { fetchSlgr } from "@/lib/slgr/fetch";
 import { parseSlgrTeams } from "@/lib/slgr/parse-teams";
 import { resolveSlgrSeasonId } from "@/lib/slgr/season";
@@ -501,6 +503,25 @@ export async function seed() {
   console.log("Seeding leagues and teams...");
 
   for (const l of LEAGUE_SEEDS) {
+    console.log(`Fetching teams for ${l.name}...`);
+    const leagueTeams = await fetchTeamsForLeague(l);
+
+    if (l.provider === "football-data") {
+      await new Promise((r) => setTimeout(r, 7000));
+    }
+
+    const leagueLogoSource = await resolveLeagueLogoSourceUrl(l, {
+      fetchSlgrTeams:
+        l.provider === "slgr" ? () => Promise.resolve(leagueTeams) : undefined,
+    });
+    const leagueLogoUrl = leagueLogoSource
+      ? await resolveLogoUrl({
+          sourceUrl: leagueLogoSource,
+          slug: l.slug,
+          kind: "league",
+        })
+      : null;
+
     const [league] = await db
       .insert(leagues)
       .values({
@@ -509,15 +530,17 @@ export async function seed() {
         sport: l.sport,
         type: l.type ?? "league",
         displayOrder: l.displayOrder,
+        logoUrl: leagueLogoUrl,
       })
       .onConflictDoUpdate({
         target: leagues.slug,
-        set: { name: l.name, displayOrder: l.displayOrder },
+        set: {
+          name: l.name,
+          displayOrder: l.displayOrder,
+          logoUrl: leagueLogoUrl,
+        },
       })
       .returning();
-
-    console.log(`Fetching teams for ${l.name}...`);
-    const leagueTeams = await fetchTeamsForLeague(l);
 
     const slugs = leagueTeams.map((t) => teamSlug(l.slug, t.name));
     const uniqueSlugs = new Set(slugs);
@@ -528,23 +551,26 @@ export async function seed() {
     }
 
     for (const t of leagueTeams) {
+      const logoUrl = t.logoUrl
+        ? await resolveLogoUrl({
+            sourceUrl: t.logoUrl,
+            slug: t.slug,
+            kind: "team",
+          })
+        : null;
+
       await db
         .insert(teams)
-        .values({ ...t, leagueId: league.id })
+        .values({ ...t, leagueId: league.id, logoUrl })
         .onConflictDoUpdate({
           target: teams.slug,
-          set: { name: t.name, logoUrl: t.logoUrl },
+          set: { name: t.name, logoUrl },
         });
     }
 
     console.log(
       `  ${leagueTeams.length} teams upserted (${uniqueSlugs.size} unique slugs)`,
     );
-
-    // football-data.org free tier: 10 req/min
-    if (l.provider === "football-data") {
-      await new Promise((r) => setTimeout(r, 7000));
-    }
 
     // API-Sports free tier: 10 req/min
     if (l.provider === "api-football" || l.provider === "api-basketball") {

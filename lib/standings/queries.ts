@@ -33,15 +33,19 @@ export interface StandingsLeagueOption {
   slug: string;
   name: string;
   emoji: string;
+  logoUrl?: string | null;
   deferred: boolean;
 }
 
-function mapStandingRow(
-  row: typeof standingRows.$inferSelect,
-): StandingsTableRow {
+type StandingRowWithTeam = typeof standingRows.$inferSelect & {
+  team?: { logoUrl: string | null } | null;
+};
+
+function mapStandingRow(row: StandingRowWithTeam): StandingsTableRow {
   return {
     rank: row.rank,
     team: row.teamName,
+    teamLogoUrl: row.team?.logoUrl ?? null,
     points: row.points,
     played: row.played ?? undefined,
     won: row.won ?? undefined,
@@ -59,13 +63,14 @@ export async function getStandingsLeagueOptions(): Promise<
     const rows = await db.query.leagues.findMany({
       where: inArray(leagues.slug, [...STANDINGS_UI_SLUGS]),
       orderBy: asc(leagues.displayOrder),
-      columns: { slug: true, name: true, sport: true },
+      columns: { slug: true, name: true, sport: true, logoUrl: true },
     });
 
     return rows.map((row) => ({
       slug: row.slug,
       name: row.name,
       emoji: getLeagueEmoji(row.slug, row.sport),
+      logoUrl: row.logoUrl,
       deferred: isStandingsDeferred(row.slug),
     }));
   });
@@ -90,6 +95,11 @@ export async function getStandingsByLeagueSlug(
       const rows = await db.query.standingRows.findMany({
         where: eq(standingRows.leagueId, league.id),
         orderBy: asc(standingRows.rank),
+        with: {
+          team: {
+            columns: { logoUrl: true },
+          },
+        },
       });
 
       return rows.map(mapStandingRow);

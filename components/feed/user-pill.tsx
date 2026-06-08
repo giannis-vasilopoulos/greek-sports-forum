@@ -18,6 +18,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { EntityLogo } from "@/components/brand/entity-logo";
 import { copy } from "@/lib/copy";
 import { cn } from "@/lib/utils";
 
@@ -64,7 +65,12 @@ export function UserPill({
                 "inline-flex items-center gap-0.5 rounded-full bg-accent px-1.5 py-0.5 text-[10px] font-medium text-accent-foreground",
               )}
             >
-              <span aria-hidden="true">{activeFanProfile.teamEmoji}</span>
+              <EntityLogo
+                src={activeFanProfile.teamLogoUrl}
+                alt=""
+                fallback={activeFanProfile.teamEmoji}
+                size="xs"
+              />
               <span className="max-w-[72px] truncate">
                 {activeFanProfile.leagueName}
               </span>
@@ -95,7 +101,12 @@ export function UserPill({
             {fanProfiles.map((profile) => (
               <DropdownMenuItem key={profile.leagueName} asChild>
                 <Link href={getLeagueHref(getLeagueSlug(profile.leagueName))}>
-                  <span aria-hidden="true">{profile.teamEmoji}</span>
+                  <EntityLogo
+                    src={profile.teamLogoUrl}
+                    alt=""
+                    fallback={profile.teamEmoji}
+                    size="xs"
+                  />
                   <div className="flex flex-col gap-1">
                     <span className="flex-1">{profile.teamName}</span>
                     <span className="text-xs text-muted-foreground">
