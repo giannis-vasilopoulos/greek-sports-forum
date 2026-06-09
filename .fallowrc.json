@@ -3,7 +3,7 @@
   "ignorePatterns": ["components/ui/**"],
   "ignoreExportsUsedInFile": true,
   "duplicates": {
-    "ignore": ["__tests__/**"]
+    "ignore": ["__tests__/**", "db/seed/**"]
   },
   "rules": {
     "unused-files": "error",
