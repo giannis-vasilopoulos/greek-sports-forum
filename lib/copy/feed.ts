@@ -16,6 +16,7 @@ export const feedCopy = {
     typeDiscussion: "Συζήτηση",
     typeNews: "Νέα",
     typePoll: "Δημοσκόπηση",
+    typeTransferRumor: "Φήμη μεταγραφής",
     replies: "απαντήσεις",
     live: "LIVE",
   },

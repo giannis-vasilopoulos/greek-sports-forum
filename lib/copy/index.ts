@@ -9,6 +9,8 @@ import { notificationsCopy } from "@/lib/copy/notifications";
 import { profileCopy } from "@/lib/copy/profile";
 import { seoCopy } from "@/lib/copy/seo";
 import { standingsCopy } from "@/lib/copy/standings";
+import { transferRumorsCopy } from "@/lib/copy/transfer-rumors";
+import { transfersCopy } from "@/lib/copy/transfers";
 import { validationCopy } from "@/lib/copy/validation";
 
 export { formatReplyCount, pageTitle } from "@/lib/copy/format";
@@ -24,6 +26,8 @@ export const copy = {
   feed: feedCopy,
   ads: adsCopy,
   standings: standingsCopy,
+  transfers: transfersCopy,
+  transferRumors: transferRumorsCopy,
   profile: profileCopy,
   notifications: notificationsCopy,
 } as const;

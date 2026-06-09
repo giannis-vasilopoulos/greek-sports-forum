@@ -1,0 +1,2 @@
+CREATE INDEX "transfer_row_from_team_id_idx" ON "transfer_row" USING btree ("from_team_id");--> statement-breakpoint
+CREATE INDEX "transfer_row_to_team_id_idx" ON "transfer_row" USING btree ("to_team_id");

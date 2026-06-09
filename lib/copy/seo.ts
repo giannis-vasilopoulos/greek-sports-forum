@@ -31,6 +31,29 @@ export const seoCopy = {
       description: (leagueName: string) =>
         `Βαθμολογία και στατιστικά για το ${leagueName}.`,
     },
+    transfers: {
+      titleSegment: "Μεταγραφές",
+      description:
+        "Επίσημες μεταγραφές από τα κορυφαία ποδοσφαιρικά πρωταθλήματα.",
+    },
+    leagueTransfers: {
+      description: (leagueName: string) =>
+        `Μεταγραφές και μετακινήσεις παικτών για το ${leagueName}.`,
+    },
+    teamTransfers: {
+      description: (teamName: string, leagueName: string) =>
+        `Μεταγραφές και μετακινήσεις παικτών για ${teamName} (${leagueName}).`,
+    },
+    transferRumors: {
+      titleSegment: "Φήμες Μεταγραφών",
+      description:
+        "Φήμες και συζητήσεις μεταγραφών από την κοινότητα της ΚΕΡΚΙΔΑ.",
+      itemListName: "Φήμες Μεταγραφών",
+    },
+    teamTransferRumors: {
+      description: (teamName: string, leagueName: string) =>
+        `Φήμες μεταγραφών και συζητήσεις για ${teamName} (${leagueName}).`,
+    },
     signIn: {
       titleSegment: authCopy.signIn.title,
       description: authCopy.signIn.description,
@@ -64,5 +87,7 @@ export const seoCopy = {
     home: "Αρχική",
     matchThreads: "Match Threads",
     standings: "Βαθμολογίες",
+    transfers: "Μεταγραφές",
+    transferRumors: "Φήμες Μεταγραφών",
   },
 } as const;

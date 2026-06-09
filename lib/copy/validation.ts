@@ -34,4 +34,11 @@ export const validationCopy = {
     displayNameMinLength:
       "Το όνομα εμφάνισης πρέπει να έχει τουλάχιστον 2 χαρακτήρες.",
   },
+  transferRumor: {
+    teamRequired: "Επίλεξε ομάδα.",
+    titleMinLength: "Ο τίτλος πρέπει να έχει τουλάχιστον 3 χαρακτήρες.",
+    titleMaxLength: "Ο τίτλος είναι πολύ μακρύς.",
+    bodyMinLength: "Η περιγραφή πρέπει να έχει τουλάχιστον 10 χαρακτήρες.",
+    bodyMaxLength: "Η περιγραφή είναι πολύ μακριά.",
+  },
 } as const;

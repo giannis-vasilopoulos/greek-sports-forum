@@ -6,6 +6,7 @@ import { fanProfiles } from "./profiles";
 import { leagues, teams } from "./leagues";
 import { threads, posts, postVotes } from "./forum";
 import { standingRows } from "./standings";
+import { transferRows } from "./transfers";
 import {
   postReports,
   moderationSanctions,
@@ -51,11 +52,29 @@ export const leagueRelations = relations(leagues, ({ many }) => ({
   fanProfiles: many(fanProfiles),
   threads: many(threads),
   standingRows: many(standingRows),
+  transferRows: many(transferRows),
 }));
 
 export const teamRelations = relations(teams, ({ one, many }) => ({
   league: one(leagues, { fields: [teams.leagueId], references: [leagues.id] }),
   fanProfiles: many(fanProfiles),
+}));
+
+export const transferRowRelations = relations(transferRows, ({ one }) => ({
+  league: one(leagues, {
+    fields: [transferRows.leagueId],
+    references: [leagues.id],
+  }),
+  fromTeam: one(teams, {
+    fields: [transferRows.fromTeamId],
+    references: [teams.id],
+    relationName: "transferFromTeam",
+  }),
+  toTeam: one(teams, {
+    fields: [transferRows.toTeamId],
+    references: [teams.id],
+    relationName: "transferToTeam",
+  }),
 }));
 
 export const threadRelations = relations(threads, ({ one, many }) => ({

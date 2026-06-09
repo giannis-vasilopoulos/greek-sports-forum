@@ -3,8 +3,17 @@ import { eq } from "drizzle-orm";
 
 import { db } from "@/db";
 import { leagues, threads } from "@/db/schema";
-import { STANDINGS_UI_SLUGS } from "@/lib/leagues/sources";
-import { leaguePath, leagueStandingsPath, threadPath } from "@/lib/seo/paths";
+import { STANDINGS_UI_SLUGS, TRANSFER_UI_SLUGS } from "@/lib/leagues/sources";
+import { getTeamsWithTransfersForSitemap } from "@/lib/transfers/queries";
+import {
+  leaguePath,
+  leagueStandingsPath,
+  teamTransferRumorsPath,
+  teamTransfersPath,
+  threadPath,
+  transferRumorsPath,
+  transfersPath,
+} from "@/lib/seo/paths";
 import { absoluteUrl } from "@/lib/seo/site";
 
 const STATIC_ROUTES: Array<{
@@ -16,6 +25,8 @@ const STATIC_ROUTES: Array<{
   { path: "/leagues", changeFrequency: "daily", priority: 0.9 },
   { path: "/match-threads", changeFrequency: "hourly", priority: 0.9 },
   { path: "/standings", changeFrequency: "daily", priority: 0.8 },
+  { path: transfersPath(), changeFrequency: "daily", priority: 0.7 },
+  { path: transferRumorsPath(), changeFrequency: "hourly", priority: 0.8 },
   { path: "/about", changeFrequency: "monthly", priority: 0.3 },
   { path: "/terms", changeFrequency: "monthly", priority: 0.3 },
   { path: "/privacy", changeFrequency: "monthly", priority: 0.3 },
@@ -58,6 +69,26 @@ async function dynamicEntries(): Promise<MetadataRoute.Sitemap> {
       }),
     );
 
+    const teamRows = await getTeamsWithTransfersForSitemap(TRANSFER_UI_SLUGS);
+
+    const teamTransfersEntries: MetadataRoute.Sitemap = teamRows.map(
+      ({ leagueSlug, teamUrlSlug }) => ({
+        url: absoluteUrl(teamTransfersPath(leagueSlug, teamUrlSlug)),
+        lastModified: new Date(),
+        changeFrequency: "daily",
+        priority: 0.65,
+      }),
+    );
+
+    const teamTransferRumorsEntries: MetadataRoute.Sitemap = teamRows.map(
+      ({ leagueSlug, teamUrlSlug }) => ({
+        url: absoluteUrl(teamTransferRumorsPath(leagueSlug, teamUrlSlug)),
+        lastModified: new Date(),
+        changeFrequency: "hourly",
+        priority: 0.65,
+      }),
+    );
+
     const threadRows = await db
       .select({
         id: threads.id,
@@ -76,7 +107,13 @@ async function dynamicEntries(): Promise<MetadataRoute.Sitemap> {
       priority: 0.6,
     }));
 
-    return [...leagueEntries, ...standingsEntries, ...threadEntries];
+    return [
+      ...leagueEntries,
+      ...standingsEntries,
+      ...teamTransfersEntries,
+      ...teamTransferRumorsEntries,
+      ...threadEntries,
+    ];
   } catch {
     return [];
   }

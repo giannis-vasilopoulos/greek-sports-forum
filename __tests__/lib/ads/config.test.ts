@@ -19,6 +19,8 @@ describe("ads config", () => {
     expect(AD_SLOT_REGISTRY["match-threads-mid"].format).toBe("rectangle");
     expect(AD_SLOT_REGISTRY["standings-top"].minHeight).toBe(90);
     expect(AD_SLOT_REGISTRY["standings-bottom"].format).toBe("rectangle");
+    expect(AD_SLOT_REGISTRY["transfers-top"].minHeight).toBe(90);
+    expect(AD_SLOT_REGISTRY["transfers-bottom"].format).toBe("rectangle");
   });
 
   it("computes reserved height including chrome", () => {
@@ -26,6 +28,8 @@ describe("ads config", () => {
     expect(getSlotReservedHeight("match-threads-mid")).toBe(278);
     expect(getSlotReservedHeight("standings-top")).toBe(118);
     expect(getSlotReservedHeight("standings-bottom")).toBe(278);
+    expect(getSlotReservedHeight("transfers-top")).toBe(118);
+    expect(getSlotReservedHeight("transfers-bottom")).toBe(278);
   });
 
   it("reads feature flags from env", () => {

@@ -65,3 +65,12 @@ export function findTeamIdByName(
 
   return null;
 }
+
+export function teamNamesMatch(
+  transferTeamName: string,
+  dbTeamName: string,
+): boolean {
+  return (
+    findTeamIdByName(transferTeamName, [{ id: 1, name: dbTeamName }]) === 1
+  );
+}

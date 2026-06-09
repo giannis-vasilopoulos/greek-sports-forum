@@ -39,3 +39,13 @@ export function StandingsTopAd() {
 export function StandingsBottomAd() {
   return <AdSlot id="standings-bottom" className="mt-8" />;
 }
+
+/** Top slot for transfers overview and league transfers pages. */
+export function TransfersTopAd() {
+  return <AdSlot id="transfers-top" className="mb-6" />;
+}
+
+/** Bottom slot after transfers table when rows are available. */
+export function TransfersBottomAd() {
+  return <AdSlot id="transfers-bottom" className="mt-8" />;
+}

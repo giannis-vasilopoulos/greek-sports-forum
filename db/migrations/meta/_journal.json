@@ -71,6 +71,20 @@
       "when": 1780489838489,
       "tag": "0009_third_puppet_master",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1780950201689,
+      "tag": "0010_happy_proteus",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1781030764080,
+      "tag": "0011_chilly_ego",
+      "breakpoints": true
     }
   ]
 }

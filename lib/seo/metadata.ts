@@ -3,7 +3,13 @@ import type { Metadata } from "next";
 import { copy } from "@/lib/copy";
 import { pageTitle } from "@/lib/copy/format";
 
-import { leagueStandingsPath } from "./paths";
+import {
+  leagueStandingsPath,
+  teamTransferRumorsPath,
+  teamTransfersPath,
+  transferRumorsPath,
+  transfersPath,
+} from "./paths";
 import {
   DEFAULT_DESCRIPTION,
   DEFAULT_OG_IMAGE,
@@ -151,6 +157,51 @@ export function buildLeagueStandingsMetadata(input: {
     title: pageTitle(`Βαθμολογία — ${input.leagueName}`),
     description: p.leagueStandings.description(input.leagueName),
     path: leagueStandingsPath(input.slug),
+  });
+}
+
+export function buildTransfersMetadata(): Metadata {
+  return buildPageMetadata({
+    title: pageTitle(p.transfers.titleSegment),
+    description: p.transfers.description,
+    path: transfersPath(),
+  });
+}
+
+export function buildTeamTransfersMetadata(input: {
+  teamName: string;
+  leagueName: string;
+  leagueSlug: string;
+  teamUrlSlug: string;
+}): Metadata {
+  return buildPageMetadata({
+    title: pageTitle(`Μεταγραφές — ${input.teamName}`),
+    description: p.teamTransfers.description(input.teamName, input.leagueName),
+    path: teamTransfersPath(input.leagueSlug, input.teamUrlSlug),
+  });
+}
+
+export function buildTransferRumorsMetadata(): Metadata {
+  return buildPageMetadata({
+    title: pageTitle(p.transferRumors.titleSegment),
+    description: p.transferRumors.description,
+    path: transferRumorsPath(),
+  });
+}
+
+export function buildTeamTransferRumorsMetadata(input: {
+  teamName: string;
+  leagueName: string;
+  leagueSlug: string;
+  teamUrlSlug: string;
+}): Metadata {
+  return buildPageMetadata({
+    title: pageTitle(`Φήμες Μεταγραφών — ${input.teamName}`),
+    description: p.teamTransferRumors.description(
+      input.teamName,
+      input.leagueName,
+    ),
+    path: teamTransferRumorsPath(input.leagueSlug, input.teamUrlSlug),
   });
 }
 

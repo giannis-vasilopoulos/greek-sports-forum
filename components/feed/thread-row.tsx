@@ -15,6 +15,7 @@ const TYPE_LABELS: Record<FeedThread["type"], string> = {
   discussion: t.typeDiscussion,
   news: t.typeNews,
   poll: t.typePoll,
+  transfer_rumor: t.typeTransferRumor,
 };
 
 interface ThreadRowProps {
@@ -29,7 +30,7 @@ export function ThreadRow({ thread, className }: ThreadRowProps) {
     <Link
       href={href}
       className={cn(
-        "group flex items-center gap-3 px-3 py-2.5 transition-colors hover:bg-secondary",
+        "group hover:bg-secondary flex items-center gap-3 px-3 py-2.5 transition-colors",
         className,
       )}
     >
@@ -44,7 +45,7 @@ export function ThreadRow({ thread, className }: ThreadRowProps) {
           {thread.isLive && (
             <Badge
               variant="destructive"
-              className="h-4 px-1.5 text-[10px] font-medium live-pulse"
+              className="live-pulse h-4 px-1.5 text-[10px] font-medium"
             >
               {t.live}
             </Badge>
@@ -53,17 +54,17 @@ export function ThreadRow({ thread, className }: ThreadRowProps) {
             {TYPE_LABELS[thread.type]}
           </Badge>
         </div>
-        <p className="truncate text-[13px] font-medium text-foreground">
+        <p className="text-foreground truncate text-[13px] font-medium">
           {thread.title}
         </p>
-        <p className="text-[11px] text-muted-foreground">
+        <p className="text-muted-foreground text-[11px]">
           {thread.authorName} · {thread.leagueName} ·{" "}
           {formatReplyCount(thread.replyCount)} · {thread.lastActivity}
         </p>
       </div>
 
       <ChevronRightIcon
-        className="size-4 shrink-0 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100"
+        className="text-muted-foreground size-4 shrink-0 opacity-0 transition-opacity group-hover:opacity-100"
         aria-hidden="true"
       />
     </Link>
@@ -79,7 +80,7 @@ export function ThreadRowList({ threads, className }: ThreadRowListProps) {
   return (
     <ul className={cn("flex flex-col", className)}>
       {threads.map((thread) => (
-        <li key={thread.id} className="border-b border-border last:border-b-0">
+        <li key={thread.id} className="border-border border-b last:border-b-0">
           <ThreadRow thread={thread} />
         </li>
       ))}

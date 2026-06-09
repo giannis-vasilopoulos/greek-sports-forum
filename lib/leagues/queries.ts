@@ -53,6 +53,32 @@ export type LeagueOption = {
   emoji: string;
 };
 
+export type LeagueTabOption = {
+  slug: string;
+  name: string;
+  emoji: string;
+  logoUrl: string | null;
+};
+
+export async function getLeagueTabOptions(
+  slugs: readonly string[],
+): Promise<LeagueTabOption[]> {
+  return runDbOrThrow(async () => {
+    const rows = await db.query.leagues.findMany({
+      where: inArray(leagues.slug, [...slugs]),
+      orderBy: asc(leagues.displayOrder),
+      columns: { slug: true, name: true, sport: true, logoUrl: true },
+    });
+
+    return rows.map((row) => ({
+      slug: row.slug,
+      name: row.name,
+      emoji: getLeagueEmoji(row.slug, row.sport),
+      logoUrl: row.logoUrl,
+    }));
+  });
+}
+
 export async function getLeagueOptionsForNav(): Promise<LeagueOption[]> {
   return runDbOrThrow(async () => {
     const rows = await db.query.leagues.findMany({

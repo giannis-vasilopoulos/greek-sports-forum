@@ -13,6 +13,12 @@ export const LEAGUES = [
 export const NAV_LINKS = [
   { href: "/match-threads", label: l.nav.matchThreads, liveIndicator: true },
   { href: "/standings", label: l.nav.standings, liveIndicator: false },
+  { href: "/transfers", label: l.nav.transfers, liveIndicator: false },
+  {
+    href: "/transfer-rumors",
+    label: l.nav.transferRumors,
+    liveIndicator: false,
+  },
 ] as const;
 
 export const FOOTER_INFO_LINKS = [

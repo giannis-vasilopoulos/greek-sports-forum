@@ -18,6 +18,7 @@ export const threadTypeEnum = pgEnum("thread_type", [
   "match_thread",
   "news",
   "poll",
+  "transfer_rumor",
 ]);
 
 export const matchStatusEnum = pgEnum("match_status", [

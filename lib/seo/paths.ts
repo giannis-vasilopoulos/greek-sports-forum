@@ -29,3 +29,33 @@ export function standingsPath(): string {
 export function leagueStandingsPath(slug: string): string {
   return `/leagues/${slug}/standings`;
 }
+
+export function teamTransfersPath(
+  leagueSlug: string,
+  teamUrlSlug: string,
+): string {
+  return `/leagues/${leagueSlug}/teams/${teamUrlSlug}/transfers`;
+}
+
+export function teamTransferRumorsPath(
+  leagueSlug: string,
+  teamUrlSlug: string,
+): string {
+  return `/leagues/${leagueSlug}/teams/${teamUrlSlug}/transfer-rumors`;
+}
+
+export function transfersPath(): string {
+  return "/transfers";
+}
+
+export function transferRumorsPath(): string {
+  return "/transfer-rumors";
+}
+
+export function transfersHubPath(leagueSlug: string): string {
+  return `/transfers?league=${leagueSlug}`;
+}
+
+export function transferRumorsHubPath(leagueSlug: string): string {
+  return `/transfer-rumors?league=${leagueSlug}`;
+}

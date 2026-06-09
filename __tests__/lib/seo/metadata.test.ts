@@ -14,6 +14,10 @@ import {
   buildSignInMetadata,
   buildSignUpMetadata,
   buildStandingsMetadata,
+  buildTransfersMetadata,
+  buildTeamTransfersMetadata,
+  buildTransferRumorsMetadata,
+  buildTeamTransferRumorsMetadata,
 } from "@/lib/seo/metadata";
 import { absoluteUrl } from "@/lib/seo/site";
 
@@ -80,6 +84,58 @@ describe("buildLeagueStandingsMetadata", () => {
       absoluteUrl("/leagues/super-league/standings"),
     );
     expect(metadata.title).toBe(pageTitle("Βαθμολογία — Super League"));
+  });
+});
+
+describe("buildTransfersMetadata", () => {
+  it("sets transfers overview canonical", () => {
+    const metadata = buildTransfersMetadata();
+    expect(metadata.alternates?.canonical).toBe(absoluteUrl("/transfers"));
+    expect(metadata.title).toBe(
+      pageTitle(copy.seo.pages.transfers.titleSegment),
+    );
+  });
+});
+
+describe("buildTeamTransfersMetadata", () => {
+  it("sets team transfers canonical", () => {
+    const metadata = buildTeamTransfersMetadata({
+      teamName: "Παναθηναϊκός",
+      leagueName: "Super League",
+      leagueSlug: "super-league",
+      teamUrlSlug: "panathinaikos",
+    });
+    expect(metadata.alternates?.canonical).toBe(
+      absoluteUrl("/leagues/super-league/teams/panathinaikos/transfers"),
+    );
+    expect(metadata.title).toBe(pageTitle("Μεταγραφές — Παναθηναϊκός"));
+  });
+});
+
+describe("buildTransferRumorsMetadata", () => {
+  it("sets transfer rumors overview canonical", () => {
+    const metadata = buildTransferRumorsMetadata();
+    expect(metadata.alternates?.canonical).toBe(
+      absoluteUrl("/transfer-rumors"),
+    );
+    expect(metadata.title).toBe(
+      pageTitle(copy.seo.pages.transferRumors.titleSegment),
+    );
+  });
+});
+
+describe("buildTeamTransferRumorsMetadata", () => {
+  it("sets team transfer rumors canonical", () => {
+    const metadata = buildTeamTransferRumorsMetadata({
+      teamName: "Παναθηναϊκός",
+      leagueName: "Super League",
+      leagueSlug: "super-league",
+      teamUrlSlug: "panathinaikos",
+    });
+    expect(metadata.alternates?.canonical).toBe(
+      absoluteUrl("/leagues/super-league/teams/panathinaikos/transfer-rumors"),
+    );
+    expect(metadata.title).toBe(pageTitle("Φήμες Μεταγραφών — Παναθηναϊκός"));
   });
 });
 

@@ -39,17 +39,19 @@ pnpm db:seed
 
 ```bash
 curl -H "Authorization: Bearer $CRON_SECRET" http://localhost:3000/api/cron/sync-standings
+curl -H "Authorization: Bearer $CRON_SECRET" http://localhost:3000/api/cron/sync-transfers
 ```
 
 Optional demo forum data: `pnpm db:seed:mock-fixtures` (best on a fresh DB).
 
-| Goal                         | Commands                                                              |
-| ---------------------------- | --------------------------------------------------------------------- |
-| Delete everything            | `docker compose down -v` → `docker compose up -d` → `pnpm db:migrate` |
-| Seed users + leagues + teams | `pnpm db:seed`                                                        |
-| Standings                    | `curl` to `/api/cron/sync-standings` with `CRON_SECRET`               |
-| Demo threads (optional)      | `pnpm db:seed:mock-fixtures`                                          |
-| Refresh team/league logos    | `pnpm db:seed` or `curl` to `/api/cron/sync-teams` with `CRON_SECRET` |
+| Goal                         | Commands                                                                                                                                                                                          |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Delete everything            | `docker compose down -v` → `docker compose up -d` → `pnpm db:migrate`                                                                                                                             |
+| Seed users + leagues + teams | `pnpm db:seed`                                                                                                                                                                                    |
+| Standings                    | `curl` to `/api/cron/sync-standings` with `CRON_SECRET`                                                                                                                                           |
+| Transfers                    | `curl` to `/api/cron/sync-transfers` with `CRON_SECRET` (needs `API_SPORTS_KEY`; free tier uses season 2024 — set `API_SPORTS_FOOTBALL_SEASON=2025` on paid plans; full sync is slow ~10 req/min) |
+| Demo threads (optional)      | `pnpm db:seed:mock-fixtures`                                                                                                                                                                      |
+| Refresh team/league logos    | `pnpm db:seed` or `curl` to `/api/cron/sync-teams` with `CRON_SECRET`                                                                                                                             |
 
 ## Team and league logos (Cloudflare R2)
 

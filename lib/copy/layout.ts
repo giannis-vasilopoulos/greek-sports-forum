@@ -6,6 +6,8 @@ export const layoutCopy = {
   nav: {
     matchThreads: "Match Threads",
     standings: "Βαθμολογίες",
+    transfers: "Μεταγραφές",
+    transferRumors: "Φήμες μεταγραφών",
     liveMatchesAria: "Ζωντανά ματς",
     openMenuAria: "Άνοιγμα μενού",
   },

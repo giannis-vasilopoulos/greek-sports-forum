@@ -13,7 +13,12 @@ export interface FeedMatch {
   kickoffTime?: string;
 }
 
-export type ThreadType = "match_thread" | "discussion" | "news" | "poll";
+export type ThreadType =
+  | "match_thread"
+  | "discussion"
+  | "news"
+  | "poll"
+  | "transfer_rumor";
 
 export interface FeedThread {
   id: number;
