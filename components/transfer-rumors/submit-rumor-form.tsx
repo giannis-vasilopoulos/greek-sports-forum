@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState, useTransition } from "react";
 
 import type { HubTeamOption } from "@/lib/transfers/page-data";
@@ -8,6 +9,7 @@ import {
   createTransferRumor,
   type CreateTransferRumorState,
 } from "@/lib/forum/actions/create-transfer-rumor";
+import { buildSignInHref } from "@/lib/auth/redirect";
 import { copy } from "@/lib/copy";
 import { Button } from "@/components/ui/button";
 import { FieldError, FieldGroup } from "@/components/ui/field";
@@ -32,6 +34,7 @@ export function SubmitRumorForm({
   isSignedIn,
   hasFanProfileForLeague,
 }: SubmitRumorFormProps) {
+  const pathname = usePathname();
   const [pending, startTransition] = useTransition();
   const [state, setState] = useState<CreateTransferRumorState>({});
 
@@ -40,7 +43,7 @@ export function SubmitRumorForm({
       <p className="border-border bg-muted/30 mb-6 rounded-lg border px-4 py-3 text-sm">
         {t.signInPrompt}{" "}
         <Link
-          href="/sign-in"
+          href={buildSignInHref(pathname)}
           className="text-primary font-medium hover:underline"
         >
           {t.signInLink}

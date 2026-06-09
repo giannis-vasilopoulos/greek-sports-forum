@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 
+import { buildPostAuthHref } from "@/lib/auth/redirect";
 import { copy } from "@/lib/copy";
 import { authClient } from "@/lib/auth-client";
 import { Button } from "@/components/ui/button";
@@ -12,6 +13,7 @@ const t = copy.auth.google;
 
 interface GoogleAuthButtonProps {
   className?: string;
+  redirectPath?: string;
 }
 
 function GoogleIcon({ className }: { className?: string }) {
@@ -42,9 +44,13 @@ function GoogleIcon({ className }: { className?: string }) {
   );
 }
 
-export function GoogleAuthButton({ className }: GoogleAuthButtonProps) {
+export function GoogleAuthButton({
+  className,
+  redirectPath,
+}: GoogleAuthButtonProps) {
   const [pending, setPending] = useState(false);
   const [error, setError] = useState<string | undefined>();
+  const postAuthHref = buildPostAuthHref(redirectPath);
 
   async function handleGoogleSignIn() {
     setError(undefined);
@@ -52,7 +58,7 @@ export function GoogleAuthButton({ className }: GoogleAuthButtonProps) {
 
     const { error: signInError } = await authClient.signIn.social({
       provider: "google",
-      callbackURL: "/auth/post-auth",
+      callbackURL: postAuthHref,
       newUserCallbackURL: "/onboarding",
     });
 

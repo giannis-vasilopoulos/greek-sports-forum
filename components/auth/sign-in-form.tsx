@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 
 import { GoogleAuthButton } from "@/components/auth/google-auth-button";
 import { PasswordInput } from "@/components/auth/password-input";
+import { buildPostAuthHref } from "@/lib/auth/redirect";
 import { copy } from "@/lib/copy";
 import { authClient } from "@/lib/auth-client";
 import { signInSchema, type SignInInput } from "@/lib/validation/auth";
@@ -32,8 +33,13 @@ import { cn } from "@/lib/utils";
 
 const t = copy.auth.signIn;
 
-export function SignInForm() {
+interface SignInFormProps {
+  redirectPath?: string;
+}
+
+export function SignInForm({ redirectPath }: SignInFormProps) {
   const router = useRouter();
+  const postAuthHref = buildPostAuthHref(redirectPath);
   const [formError, setFormError] = useState<string | undefined>();
   const [pending, setPending] = useState(false);
 
@@ -56,7 +62,7 @@ export function SignInForm() {
     const { error: signInError } = await authClient.signIn.email({
       email: values.email,
       password: values.password,
-      callbackURL: "/auth/post-auth",
+      callbackURL: postAuthHref,
     });
 
     if (signInError) {
@@ -65,7 +71,7 @@ export function SignInForm() {
       return;
     }
 
-    router.push("/auth/post-auth");
+    router.push(postAuthHref);
     router.refresh();
   }
 
@@ -113,7 +119,7 @@ export function SignInForm() {
               {pending ? t.submitPending : t.submit}
             </Button>
             <FieldSeparator>{copy.common.or}</FieldSeparator>
-            <GoogleAuthButton />
+            <GoogleAuthButton redirectPath={redirectPath} />
           </FieldGroup>
         </CardContent>
         <CardFooter className="flex flex-col gap-3 border-t-0 bg-transparent">
