@@ -50,6 +50,10 @@ export const seoCopy = {
         "Φήμες και συζητήσεις μεταγραφών από την κοινότητα της ΚΕΡΚΙΔΑ.",
       itemListName: "Φήμες Μεταγραφών",
     },
+    leagueTransferRumors: {
+      description: (leagueName: string) =>
+        `Φήμες μεταγραφών και συζητήσεις για το ${leagueName}.`,
+    },
     teamTransferRumors: {
       description: (teamName: string, leagueName: string) =>
         `Φήμες μεταγραφών και συζητήσεις για ${teamName} (${leagueName}).`,

@@ -4,7 +4,11 @@ import { TeamPickerHub } from "@/components/leagues/team-picker-hub";
 import { SubmitRumorForm } from "@/components/transfer-rumors/submit-rumor-form";
 import type { LeagueTabOption } from "@/lib/leagues/queries";
 import type { HubTeamOption } from "@/lib/transfers/page-data";
-import { teamTransferRumorsPath, transfersPath } from "@/lib/seo/paths";
+import {
+  leagueTransferRumorsPath,
+  teamTransferRumorsPath,
+  transfersPath,
+} from "@/lib/seo/paths";
 import { copy } from "@/lib/copy";
 
 interface TransferRumorsHubContentProps {
@@ -44,7 +48,7 @@ export function TransferRumorsHubContent({
         leagues={leagues}
         activeSlug={activeSlug}
         teams={teams}
-        basePath="/transfer-rumors"
+        hrefForLeague={leagueTransferRumorsPath}
         hrefForTeam={teamTransferRumorsPath}
         leagueTabsAriaLabel={copy.transferRumors.leagueTabsAriaLabel}
         teamGridAriaLabel={copy.transferRumors.teamGridAriaLabel}

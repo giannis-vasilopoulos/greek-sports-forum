@@ -11,7 +11,7 @@ interface TeamPickerHubProps {
   leagues: LeagueTabOption[];
   activeSlug: string;
   teams: HubTeamOption[];
-  basePath: string;
+  hrefForLeague: (slug: string) => string;
   hrefForTeam: (leagueSlug: string, teamUrlSlug: string) => string;
   leagueTabsAriaLabel: string;
   teamGridAriaLabel: string;
@@ -25,7 +25,7 @@ export function TeamPickerHub({
   leagues,
   activeSlug,
   teams,
-  basePath,
+  hrefForLeague,
   hrefForTeam,
   leagueTabsAriaLabel,
   teamGridAriaLabel,
@@ -39,7 +39,7 @@ export function TeamPickerHub({
       <LeaguePillTabs
         leagues={leagues}
         activeSlug={activeSlug}
-        hrefForSlug={(slug) => `${basePath}?league=${slug}`}
+        hrefForSlug={hrefForLeague}
         ariaLabel={leagueTabsAriaLabel}
         className="mb-6"
       />

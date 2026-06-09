@@ -4,7 +4,11 @@ import { ThreadRowList } from "@/components/feed/thread-row";
 import { SubmitRumorForm } from "@/components/transfer-rumors/submit-rumor-form";
 import type { FeedThread } from "@/components/feed/feed-data";
 import type { HubTeamOption } from "@/lib/transfers/page-data";
-import { teamTransfersPath, transfersPath } from "@/lib/seo/paths";
+import {
+  leagueTransferRumorsPath,
+  teamTransfersPath,
+  transfersPath,
+} from "@/lib/seo/paths";
 import { copy } from "@/lib/copy";
 
 interface TeamTransferRumorsPageContentProps {
@@ -30,7 +34,7 @@ export function TeamTransferRumorsPageContent({
   isSignedIn,
   hasFanProfileForLeague,
 }: TeamTransferRumorsPageContentProps) {
-  const hubHref = `/transfer-rumors?league=${leagueSlug}`;
+  const hubHref = leagueTransferRumorsPath(leagueSlug);
 
   return (
     <div className="mx-auto w-full max-w-3xl px-4 py-6">

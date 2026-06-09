@@ -8,6 +8,8 @@ import { getTeamsWithTransfersForSitemap } from "@/lib/transfers/queries";
 import {
   leaguePath,
   leagueStandingsPath,
+  leagueTransferRumorsPath,
+  leagueTransfersPath,
   teamTransferRumorsPath,
   teamTransfersPath,
   threadPath,
@@ -69,6 +71,23 @@ async function dynamicEntries(): Promise<MetadataRoute.Sitemap> {
       }),
     );
 
+    const leagueTransfersEntries: MetadataRoute.Sitemap = TRANSFER_UI_SLUGS.map(
+      (slug) => ({
+        url: absoluteUrl(leagueTransfersPath(slug)),
+        lastModified: new Date(),
+        changeFrequency: "daily",
+        priority: 0.7,
+      }),
+    );
+
+    const leagueTransferRumorsEntries: MetadataRoute.Sitemap =
+      TRANSFER_UI_SLUGS.map((slug) => ({
+        url: absoluteUrl(leagueTransferRumorsPath(slug)),
+        lastModified: new Date(),
+        changeFrequency: "hourly",
+        priority: 0.75,
+      }));
+
     const teamRows = await getTeamsWithTransfersForSitemap(TRANSFER_UI_SLUGS);
 
     const teamTransfersEntries: MetadataRoute.Sitemap = teamRows.map(
@@ -110,6 +129,8 @@ async function dynamicEntries(): Promise<MetadataRoute.Sitemap> {
     return [
       ...leagueEntries,
       ...standingsEntries,
+      ...leagueTransfersEntries,
+      ...leagueTransferRumorsEntries,
       ...teamTransfersEntries,
       ...teamTransferRumorsEntries,
       ...threadEntries,

@@ -5,7 +5,11 @@ import { TeamPickerHub } from "@/components/leagues/team-picker-hub";
 import { TransfersUnavailable } from "@/components/transfers/transfers-unavailable";
 import type { LeagueTabOption } from "@/lib/leagues/queries";
 import type { HubTeamOption } from "@/lib/transfers/page-data";
-import { teamTransfersPath, transferRumorsPath } from "@/lib/seo/paths";
+import {
+  leagueTransfersPath,
+  teamTransfersPath,
+  transferRumorsPath,
+} from "@/lib/seo/paths";
 import { copy } from "@/lib/copy";
 
 interface TransfersHubContentProps {
@@ -45,7 +49,7 @@ export function TransfersHubContent({
         leagues={leagues}
         activeSlug={activeSlug}
         teams={teams}
-        basePath="/transfers"
+        hrefForLeague={leagueTransfersPath}
         hrefForTeam={teamTransfersPath}
         leagueTabsAriaLabel={copy.transfers.leagueTabsAriaLabel}
         teamGridAriaLabel={copy.transfers.teamGridAriaLabel}

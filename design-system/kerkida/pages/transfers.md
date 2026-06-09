@@ -1,7 +1,7 @@
 # Transfers Page Overrides
 
 > **PROJECT:** ΚΕΡΚΙΔΑ
-> **Page Type:** Transfers hub and team transfers
+> **Page Type:** Transfers overview, league hub, and team transfers
 
 > Rules here **override** `design-system/kerkida/MASTER.md` where noted.
 
@@ -11,12 +11,12 @@
 
 - **Shell:** Single column, `max-w-3xl`, centered — no sidebars
 - **Hub order:** Page title → League subtitle → Cross-link to rumors → League tabs → Top ad → Team grid or unavailable
-- **Team page order:** Page title → League subtitle → Back to hub + cross-links → Top ad → Direction tabs (Άφιξη / Αποχώρηση) → Table or empty → Bottom ad (conditional)
-- **Routes:** `/transfers?league=` (defaults to Super League) and `/leagues/{slug}/teams/{team-slug}/transfers`
+- **Team page order:** Page title → League subtitle → Back to league hub + cross-links → Top ad → Direction tabs (Άφιξη / Αποχώρηση) → Table or empty → Bottom ad (conditional)
+- **Routes:** `/transfers` (default Super League), `/leagues/{slug}/transfers`, `/leagues/{slug}/teams/{team-slug}/transfers`
 
 ## Typography
 
-- Page H1: `copy.transfers.pageTitle` ("Μεταγραφές") on hub; `copy.transfers.teamPageTitle` on team pages
+- Page H1: `copy.transfers.pageTitle` on hubs; `copy.transfers.teamPageTitle` on team pages
 - League subtitle: `text-sm text-muted-foreground`
 - Table: compact `text-sm`
 
@@ -27,7 +27,7 @@
 
 ## Components
 
-- **TeamPickerHub + LeaguePillTabs:** league filter via `?league=` query
+- **TeamPickerHub + LeaguePillTabs:** league tabs link to `/leagues/{slug}/transfers`
 - **TeamTransfersTableSection:** client-side Άφιξη / Αποχώρηση filter
 - **TransfersTable:** player, from → to, date, fee (no direction column on team pages)
 - **TransfersUnavailable:** deferred leagues (NBA, Euroleague)

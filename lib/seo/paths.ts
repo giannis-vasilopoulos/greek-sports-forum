@@ -48,14 +48,14 @@ export function transfersPath(): string {
   return "/transfers";
 }
 
+export function leagueTransfersPath(slug: string): string {
+  return `/leagues/${slug}/transfers`;
+}
+
 export function transferRumorsPath(): string {
   return "/transfer-rumors";
 }
 
-export function transfersHubPath(leagueSlug: string): string {
-  return `/transfers?league=${leagueSlug}`;
-}
-
-export function transferRumorsHubPath(leagueSlug: string): string {
-  return `/transfer-rumors?league=${leagueSlug}`;
+export function leagueTransferRumorsPath(slug: string): string {
+  return `/leagues/${slug}/transfer-rumors`;
 }

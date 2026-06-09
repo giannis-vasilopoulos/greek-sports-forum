@@ -4,23 +4,25 @@ English Latin slugs in paths. Greek in UI and metadata titles/descriptions.
 
 ## Public — indexable
 
-| URL                                                 | Page type            | Example                                                     |
-| --------------------------------------------------- | -------------------- | ----------------------------------------------------------- |
-| `/`                                                 | home                 | `/`                                                         |
-| `/leagues`                                          | leagues-index        | `/leagues`                                                  |
-| `/leagues/{slug}`                                   | league-hub           | `/leagues/super-league`                                     |
-| `/leagues/{slug}/threads`                           | league-threads       | `/leagues/super-league/threads`                             |
-| `/leagues/{slug}/threads/{id}-{slug}`               | thread               | `/leagues/super-league/threads/42-panathinaikos-aek`        |
-| `/leagues/{slug}/teams/{team-slug}`                 | team                 | `/leagues/super-league/teams/panathinaikos`                 |
-| `/match-threads`                                    | match-threads        | `/match-threads`                                            |
-| `/standings`                                        | standings            | `/standings`                                                |
-| `/leagues/{slug}/standings`                         | league-standings     | `/leagues/super-league/standings`                           |
-| `/transfers`                                        | transfers            | `/transfers` (hub; `?league=` filter)                       |
-| `/leagues/{slug}/teams/{team-slug}/transfers`       | team-transfers       | `/leagues/super-league/teams/panathinaikos/transfers`       |
-| `/transfer-rumors`                                  | transfer-rumors      | `/transfer-rumors` (hub; `?league=` filter)                 |
-| `/leagues/{slug}/teams/{team-slug}/transfer-rumors` | team-transfer-rumors | `/leagues/super-league/teams/panathinaikos/transfer-rumors` |
-| `/members`                                          | members-index        | `/members`                                                  |
-| `/members/{username}`                               | member               | `/members/nikos_13`                                         |
+| URL                                                 | Page type              | Example                                                     |
+| --------------------------------------------------- | ---------------------- | ----------------------------------------------------------- |
+| `/`                                                 | home                   | `/`                                                         |
+| `/leagues`                                          | leagues-index          | `/leagues`                                                  |
+| `/leagues/{slug}`                                   | league-hub             | `/leagues/super-league`                                     |
+| `/leagues/{slug}/threads`                           | league-threads         | `/leagues/super-league/threads`                             |
+| `/leagues/{slug}/threads/{id}-{slug}`               | thread                 | `/leagues/super-league/threads/42-panathinaikos-aek`        |
+| `/leagues/{slug}/teams/{team-slug}`                 | team                   | `/leagues/super-league/teams/panathinaikos`                 |
+| `/match-threads`                                    | match-threads          | `/match-threads`                                            |
+| `/standings`                                        | standings              | `/standings`                                                |
+| `/leagues/{slug}/standings`                         | league-standings       | `/leagues/super-league/standings`                           |
+| `/transfers`                                        | transfers              | `/transfers` (overview hub, default Super League)           |
+| `/leagues/{slug}/transfers`                         | league-transfers       | `/leagues/super-league/transfers` (team-picker hub)         |
+| `/leagues/{slug}/teams/{team-slug}/transfers`       | team-transfers         | `/leagues/super-league/teams/panathinaikos/transfers`       |
+| `/transfer-rumors`                                  | transfer-rumors        | `/transfer-rumors` (overview hub)                           |
+| `/leagues/{slug}/transfer-rumors`                   | league-transfer-rumors | `/leagues/super-league/transfer-rumors` (team-picker hub)   |
+| `/leagues/{slug}/teams/{team-slug}/transfer-rumors` | team-transfer-rumors   | `/leagues/super-league/teams/panathinaikos/transfer-rumors` |
+| `/members`                                          | members-index          | `/members`                                                  |
+| `/members/{username}`                               | member                 | `/members/nikos_13`                                         |
 
 ### League slugs (DB canonical — `db/seed.ts`)
 
@@ -81,6 +83,8 @@ Nav/footer may show a curated subset (`components/layout/site-data.ts`).
 ```
 / → /leagues → /leagues/{slug} → /leagues/{slug}/threads → /leagues/{slug}/threads/{id}-{slug}
               → /leagues/{slug}/standings
+              → /leagues/{slug}/transfers
+              → /leagues/{slug}/transfer-rumors
               → /leagues/{slug}/teams/{team-slug}
               → /leagues/{slug}/teams/{team-slug}/transfers
               → /leagues/{slug}/teams/{team-slug}/transfer-rumors

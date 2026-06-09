@@ -7,7 +7,11 @@ import {
 import { TeamTransfersTableSection } from "@/components/transfers/team-transfers-table-section";
 import { TransfersUnavailable } from "@/components/transfers/transfers-unavailable";
 import type { TransfersTableRow } from "@/lib/transfers/queries";
-import { teamTransferRumorsPath, transferRumorsPath } from "@/lib/seo/paths";
+import {
+  leagueTransfersPath,
+  teamTransferRumorsPath,
+  transferRumorsPath,
+} from "@/lib/seo/paths";
 import { copy } from "@/lib/copy";
 
 interface TeamTransfersPageContentProps {
@@ -27,7 +31,7 @@ export function TeamTransfersPageContent({
   rows,
   deferred,
 }: TeamTransfersPageContentProps) {
-  const hubHref = `/transfers?league=${leagueSlug}`;
+  const hubHref = leagueTransfersPath(leagueSlug);
 
   return (
     <div className="mx-auto w-full max-w-3xl px-4 py-6">

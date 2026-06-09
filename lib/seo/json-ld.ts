@@ -233,6 +233,33 @@ export function buildTransfersJsonLd(): JsonLd {
   };
 }
 
+export function buildLeagueTransfersJsonLd(input: {
+  leagueName: string;
+  slug: string;
+}): JsonLd {
+  const pageName = pageTitle(`Μεταγραφές — ${input.leagueName}`);
+  const pageDescription = seoPages.leagueTransfers.description(
+    input.leagueName,
+  );
+  const path = `/leagues/${input.slug}/transfers`;
+
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      buildWebPageJsonLd({
+        name: pageName,
+        description: pageDescription,
+        path,
+      }),
+      buildBreadcrumbJsonLd([
+        { name: crumbs.home, path: "/" },
+        { name: crumbs.transfers, path: "/transfers" },
+        { name: input.leagueName, path },
+      ]),
+    ],
+  };
+}
+
 export function buildTeamTransfersJsonLd(input: {
   teamName: string;
   leagueName: string;
@@ -259,7 +286,7 @@ export function buildTeamTransfersJsonLd(input: {
         { name: crumbs.transfers, path: "/transfers" },
         {
           name: input.leagueName,
-          path: `/transfers?league=${input.leagueSlug}`,
+          path: `/leagues/${input.leagueSlug}/transfers`,
         },
         { name: input.teamName, path },
       ]),
@@ -307,6 +334,33 @@ export function buildTransferRumorsJsonLd(
   };
 }
 
+export function buildLeagueTransferRumorsJsonLd(input: {
+  leagueName: string;
+  slug: string;
+}): JsonLd {
+  const pageName = pageTitle(`Φήμες Μεταγραφών — ${input.leagueName}`);
+  const pageDescription = seoPages.leagueTransferRumors.description(
+    input.leagueName,
+  );
+  const path = `/leagues/${input.slug}/transfer-rumors`;
+
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      buildWebPageJsonLd({
+        name: pageName,
+        description: pageDescription,
+        path,
+      }),
+      buildBreadcrumbJsonLd([
+        { name: crumbs.home, path: "/" },
+        { name: crumbs.transferRumors, path: "/transfer-rumors" },
+        { name: input.leagueName, path },
+      ]),
+    ],
+  };
+}
+
 export function buildTeamTransferRumorsJsonLd(
   input: TransferRumorsJsonLdInput & {
     teamName: string;
@@ -349,7 +403,7 @@ export function buildTeamTransferRumorsJsonLd(
       { name: crumbs.transferRumors, path: "/transfer-rumors" },
       {
         name: input.leagueName,
-        path: `/transfer-rumors?league=${input.leagueSlug}`,
+        path: `/leagues/${input.leagueSlug}/transfer-rumors`,
       },
       { name: input.teamName, path },
     ]),

@@ -15,8 +15,10 @@ import {
   buildSignUpMetadata,
   buildStandingsMetadata,
   buildTransfersMetadata,
+  buildLeagueTransfersMetadata,
   buildTeamTransfersMetadata,
   buildTransferRumorsMetadata,
+  buildLeagueTransferRumorsMetadata,
   buildTeamTransferRumorsMetadata,
 } from "@/lib/seo/metadata";
 import { absoluteUrl } from "@/lib/seo/site";
@@ -97,6 +99,19 @@ describe("buildTransfersMetadata", () => {
   });
 });
 
+describe("buildLeagueTransfersMetadata", () => {
+  it("sets league transfers hub canonical", () => {
+    const metadata = buildLeagueTransfersMetadata({
+      leagueName: "Super League",
+      slug: "super-league",
+    });
+    expect(metadata.alternates?.canonical).toBe(
+      absoluteUrl("/leagues/super-league/transfers"),
+    );
+    expect(metadata.title).toBe(pageTitle("Μεταγραφές — Super League"));
+  });
+});
+
 describe("buildTeamTransfersMetadata", () => {
   it("sets team transfers canonical", () => {
     const metadata = buildTeamTransfersMetadata({
@@ -121,6 +136,19 @@ describe("buildTransferRumorsMetadata", () => {
     expect(metadata.title).toBe(
       pageTitle(copy.seo.pages.transferRumors.titleSegment),
     );
+  });
+});
+
+describe("buildLeagueTransferRumorsMetadata", () => {
+  it("sets league transfer rumors hub canonical", () => {
+    const metadata = buildLeagueTransferRumorsMetadata({
+      leagueName: "Super League",
+      slug: "super-league",
+    });
+    expect(metadata.alternates?.canonical).toBe(
+      absoluteUrl("/leagues/super-league/transfer-rumors"),
+    );
+    expect(metadata.title).toBe(pageTitle("Φήμες Μεταγραφών — Super League"));
   });
 });
 

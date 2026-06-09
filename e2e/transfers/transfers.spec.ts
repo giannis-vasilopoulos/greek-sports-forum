@@ -16,14 +16,17 @@ test.describe("Transfers", () => {
     ).toBeVisible();
   });
 
-  test("nba hub shows temporarily unavailable", async ({ page }) => {
-    await page.goto("/transfers?league=nba");
-    await expect(page.getByText("Προσωρινά μη διαθέσιμο")).toBeVisible();
+  test("league transfers hub loads team picker", async ({ page }) => {
+    await page.goto("/leagues/super-league/transfers");
+    await expect(page).toHaveTitle(/Μεταγραφές.*Super League.*ΚΕΡΚΙΔΑ/);
+    await expect(
+      page.getByRole("navigation", { name: "Επιλογή ομάδας" }),
+    ).toBeVisible();
   });
 
-  test("league transfers route returns 404", async ({ page }) => {
-    const response = await page.goto("/leagues/super-league/transfers");
-    expect(response?.status()).toBe(404);
+  test("nba league hub shows temporarily unavailable", async ({ page }) => {
+    await page.goto("/leagues/nba/transfers");
+    await expect(page.getByText("Προσωρινά μη διαθέσιμο")).toBeVisible();
   });
 
   test("links to transfer rumors", async ({ page }) => {
@@ -45,7 +48,7 @@ test.describe("Transfers", () => {
     ).toBeVisible();
     await expect(
       page.getByRole("link", { name: /Όλες οι ομάδες — Super League/ }),
-    ).toHaveAttribute("href", "/transfers?league=super-league");
+    ).toHaveAttribute("href", "/leagues/super-league/transfers");
   });
 
   test("team transfers page has arrival and departure tabs", async ({

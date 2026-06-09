@@ -5,6 +5,8 @@ import { pageTitle } from "@/lib/copy/format";
 
 import {
   leagueStandingsPath,
+  leagueTransferRumorsPath,
+  leagueTransfersPath,
   teamTransferRumorsPath,
   teamTransfersPath,
   transferRumorsPath,
@@ -168,6 +170,17 @@ export function buildTransfersMetadata(): Metadata {
   });
 }
 
+export function buildLeagueTransfersMetadata(input: {
+  leagueName: string;
+  slug: string;
+}): Metadata {
+  return buildPageMetadata({
+    title: pageTitle(`Μεταγραφές — ${input.leagueName}`),
+    description: p.leagueTransfers.description(input.leagueName),
+    path: leagueTransfersPath(input.slug),
+  });
+}
+
 export function buildTeamTransfersMetadata(input: {
   teamName: string;
   leagueName: string;
@@ -186,6 +199,17 @@ export function buildTransferRumorsMetadata(): Metadata {
     title: pageTitle(p.transferRumors.titleSegment),
     description: p.transferRumors.description,
     path: transferRumorsPath(),
+  });
+}
+
+export function buildLeagueTransferRumorsMetadata(input: {
+  leagueName: string;
+  slug: string;
+}): Metadata {
+  return buildPageMetadata({
+    title: pageTitle(`Φήμες Μεταγραφών — ${input.leagueName}`),
+    description: p.leagueTransferRumors.description(input.leagueName),
+    path: leagueTransferRumorsPath(input.slug),
   });
 }
 

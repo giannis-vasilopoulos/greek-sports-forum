@@ -19,9 +19,12 @@ test.describe("Transfer rumors", () => {
     ).toBeVisible();
   });
 
-  test("league transfer-rumors route returns 404", async ({ page }) => {
-    const response = await page.goto("/leagues/super-league/transfer-rumors");
-    expect(response?.status()).toBe(404);
+  test("league transfer-rumors hub loads team picker", async ({ page }) => {
+    await page.goto("/leagues/super-league/transfer-rumors");
+    await expect(page).toHaveTitle(/Φήμες Μεταγραφών.*Super League.*ΚΕΡΚΙΔΑ/);
+    await expect(
+      page.getByRole("navigation", { name: "Επιλογή ομάδας" }),
+    ).toBeVisible();
   });
 
   test("team transfer-rumors page loads feed or empty state", async ({
