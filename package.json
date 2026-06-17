@@ -25,7 +25,7 @@
     "db:push": "drizzle-kit push",
     "db:seed": "tsx db/seed.ts",
     "db:local:reset": "docker compose down -v && docker compose up -d && pnpm db:migrate && pnpm db:seed",
-    "db:seed:mock-fixtures": "tsx db/seed-mock-fixtures.ts"
+    "db:seed:mock": "tsx db/seed-mock.ts"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.1061.0",

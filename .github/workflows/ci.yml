@@ -91,7 +91,7 @@ jobs:
         run: pnpm db:migrate
 
       - name: Seed mock fixtures
-        run: pnpm db:seed:mock-fixtures
+        run: pnpm db:seed:mock
         env:
           SEED_ADMIN_EMAIL: admin@test.local
           SEED_ADMIN_PASSWORD: testpassword123

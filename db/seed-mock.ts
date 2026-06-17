@@ -1,6 +1,6 @@
 import "dotenv/config";
 
-import { seedMockFixtures } from "./seed/mock-fixtures";
+import { seedMockFixtures } from "./seed/mock";
 
 seedMockFixtures()
   .then(() => process.exit(0))

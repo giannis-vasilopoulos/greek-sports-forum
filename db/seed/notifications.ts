@@ -1,7 +1,9 @@
 import { eq } from "drizzle-orm";
 
+import { upsertMockFanProfile } from "@/db/seed/mock/fan-profiles";
+
 import { db } from "../index";
-import { fanProfiles, leagues, notifications, threads, user } from "../schema";
+import { leagues, notifications, threads, user } from "../schema";
 
 type SeedNotification = {
   type: "reply" | "like" | "mention" | "match_starting";
@@ -62,32 +64,6 @@ const SEED_NOTIFICATIONS: SeedNotification[] = [
   },
 ];
 
-async function upsertActorFanProfile(input: {
-  userId: string;
-  leagueId: number;
-  favoriteTeamId: number;
-  displayName: string;
-}) {
-  const [profile] = await db
-    .insert(fanProfiles)
-    .values({
-      userId: input.userId,
-      leagueId: input.leagueId,
-      favoriteTeamId: input.favoriteTeamId,
-      displayName: input.displayName,
-    })
-    .onConflictDoUpdate({
-      target: [fanProfiles.userId, fanProfiles.leagueId],
-      set: {
-        displayName: input.displayName,
-        favoriteTeamId: input.favoriteTeamId,
-      },
-    })
-    .returning();
-
-  return profile;
-}
-
 export async function seedNotifications() {
   const testUser = await db.query.user.findFirst({
     where: eq(user.username, "testuser"),
@@ -120,7 +96,7 @@ export async function seedNotifications() {
   let actorProfileId: number | undefined;
 
   if (adminUser && superLeague && paokTeam) {
-    const actorProfile = await upsertActorFanProfile({
+    const actorProfile = await upsertMockFanProfile({
       userId: adminUser.id,
       leagueId: superLeague.id,
       favoriteTeamId: paokTeam.id,
