@@ -1,5 +1,4 @@
-import { expect, test } from "@playwright/test";
-
+import { expect, test } from "@/e2e/fixtures";
 import { copy } from "@/lib/copy";
 
 const c = copy.ads.cookie;

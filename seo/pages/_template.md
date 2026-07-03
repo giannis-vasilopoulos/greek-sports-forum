@@ -69,6 +69,7 @@ Copy this file when adding a new page type. Replace `{placeholders}`.
 
 - [ ] Spec file complete
 - [ ] `generateMetadata` via `buildPageMetadata()` or dedicated builder
+- [ ] `notFound()` in `generateMetadata` when the page 404s (no fallback metadata)
 - [ ] `<JsonLd />` with schemas from spec
 - [ ] Entry in `app/sitemap.ts` if indexable
 - [ ] E2e or unit test for title/canonical

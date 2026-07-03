@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, test } from "@/e2e/fixtures";
 
 test.describe("SEO infrastructure", () => {
   test("home has canonical and JSON-LD", async ({ page }) => {

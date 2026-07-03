@@ -4,16 +4,9 @@ import { notFound } from "next/navigation";
 import { TransferRumorsHubContent } from "@/components/transfer-rumors/transfer-rumors-hub-content";
 import { JsonLd } from "@/components/seo/json-ld";
 import { getLeagueBySlug } from "@/lib/leagues/queries";
-import {
-  isTransferExcluded,
-  isTransferUiSlug,
-  TRANSFER_UI_SLUGS,
-} from "@/lib/leagues/sources";
+import { isTransferExcluded, TRANSFER_UI_SLUGS } from "@/lib/leagues/sources";
 import { buildLeagueTransferRumorsJsonLd } from "@/lib/seo/json-ld";
-import {
-  buildLeagueTransferRumorsMetadata,
-  buildTransferRumorsMetadata,
-} from "@/lib/seo/metadata";
+import { buildLeagueTransferRumorsMetadata } from "@/lib/seo/metadata";
 import { loadTransferRumorsHub } from "@/lib/transfers/page-data";
 
 interface PageProps {
@@ -25,13 +18,16 @@ export async function generateMetadata({
 }: PageProps): Promise<Metadata> {
   const { slug } = await params;
 
-  if (!isTransferUiSlug(slug)) {
-    return buildTransferRumorsMetadata();
+  if (
+    isTransferExcluded(slug) ||
+    !(TRANSFER_UI_SLUGS as readonly string[]).includes(slug)
+  ) {
+    notFound();
   }
 
   const league = await getLeagueBySlug(slug);
   if (!league) {
-    return buildTransferRumorsMetadata();
+    notFound();
   }
 
   return buildLeagueTransferRumorsMetadata({

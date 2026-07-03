@@ -9,6 +9,7 @@ import { notificationsCopy } from "@/lib/copy/notifications";
 import { profileCopy } from "@/lib/copy/profile";
 import { seoCopy } from "@/lib/copy/seo";
 import { standingsCopy } from "@/lib/copy/standings";
+import { threadCopy } from "@/lib/copy/thread";
 import { transferRumorsCopy } from "@/lib/copy/transfer-rumors";
 import { transfersCopy } from "@/lib/copy/transfers";
 import { validationCopy } from "@/lib/copy/validation";
@@ -27,6 +28,7 @@ export const copy = {
   ads: adsCopy,
   standings: standingsCopy,
   transfers: transfersCopy,
+  thread: threadCopy,
   transferRumors: transferRumorsCopy,
   profile: profileCopy,
   notifications: notificationsCopy,

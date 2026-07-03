@@ -22,7 +22,7 @@ export type ThreadContext = {
   leagueId: number;
   teamId: number | null;
   isLocked: boolean;
-  type?: "discussion" | "match_thread" | "news" | "poll";
+  type?: "discussion" | "match_thread" | "news" | "poll" | "transfer_rumor";
   matchStatus?:
     | "scheduled"
     | "live"

@@ -68,6 +68,13 @@ e2e/
 - Name spec after the feature: `e2e/<feature>/<feature>.spec.ts`
 - Add or extend the matching folder when shipping a feature — avoid monolithic specs
 - Assert user-visible outcomes (headings, navigation, form errors), not implementation details
+- Import `test` and `expect` from [`e2e/fixtures.ts`](../../../e2e/fixtures.ts), not `@playwright/test` — every spec gets an automatic **browser error guard** that fails on `pageerror` and `console.error` (see [`e2e/helpers/browser-errors.ts`](../../../e2e/helpers/browser-errors.ts))
+
+```typescript
+import { expect, test } from "@/e2e/fixtures";
+```
+
+Add regression coverage when a feature touches client-only state (`localStorage`, hydration-sensitive UI, effects). Example: thread draft restore in `e2e/thread/thread-detail.spec.ts`.
 
 ## Agent workflow
 

@@ -42,6 +42,7 @@ Follow the order in [`seo/README.md`](../../../seo/README.md):
 4. `<JsonLd />` matching spec
 5. Sitemap entry if indexable
 6. Vitest for builder logic; e2e for title/canonical when touching pages
+7. Invalid or missing resources: `notFound()` in `generateMetadata` and the page (or shared loader) — no fallback metadata for 404 routes
 
 ## Language
 

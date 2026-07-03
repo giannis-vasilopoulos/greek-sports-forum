@@ -14,6 +14,26 @@ export function threadPath(
   return `/leagues/${leagueSlug}/threads/${threadId}-${threadSlug}`;
 }
 
+export type ParsedThreadSlug = {
+  id: number;
+  slug: string;
+};
+
+export function parseThreadSlug(threadSlug: string): ParsedThreadSlug | null {
+  const dashIndex = threadSlug.indexOf("-");
+  if (dashIndex <= 0) return null;
+
+  const idPart = threadSlug.slice(0, dashIndex);
+  const slug = threadSlug.slice(dashIndex + 1);
+  const id = Number(idPart);
+
+  if (!Number.isInteger(id) || id <= 0 || slug.length === 0) {
+    return null;
+  }
+
+  return { id, slug };
+}
+
 export function teamPath(leagueSlug: string, teamSlug: string): string {
   return `/leagues/${leagueSlug}/teams/${teamSlug}`;
 }

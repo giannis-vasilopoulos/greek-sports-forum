@@ -11,10 +11,7 @@ import {
 import { getLeagueBySlug } from "@/lib/leagues/queries";
 import { isStandingsExcluded, STANDINGS_UI_SLUGS } from "@/lib/leagues/sources";
 import { buildLeagueStandingsJsonLd } from "@/lib/seo/json-ld";
-import {
-  buildLeagueStandingsMetadata,
-  buildStandingsMetadata,
-} from "@/lib/seo/metadata";
+import { buildLeagueStandingsMetadata } from "@/lib/seo/metadata";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -25,13 +22,16 @@ export async function generateMetadata({
 }: PageProps): Promise<Metadata> {
   const { slug } = await params;
 
-  if (!(STANDINGS_UI_SLUGS as readonly string[]).includes(slug)) {
-    return buildStandingsMetadata();
+  if (
+    isStandingsExcluded(slug) ||
+    !(STANDINGS_UI_SLUGS as readonly string[]).includes(slug)
+  ) {
+    notFound();
   }
 
   const league = await getLeagueBySlug(slug);
   if (!league) {
-    return buildStandingsMetadata();
+    notFound();
   }
 
   return buildLeagueStandingsMetadata({

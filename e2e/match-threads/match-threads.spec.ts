@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, test } from "@/e2e/fixtures";
 
 test("match threads page is reachable with SEO metadata", async ({ page }) => {
   await page.goto("/match-threads");

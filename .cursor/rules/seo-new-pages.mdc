@@ -22,5 +22,6 @@ Before editing or creating `app/**/page.tsx`, read in order:
 - Render JSON-LD via `<JsonLd data={...} />` from `components/seo/json-ld.tsx`
 - Update `seo/urls.md` and `app/sitemap.ts` when adding indexable routes
 - Do not hardcode titles, descriptions, or canonical URLs in page files
+- When a route 404s, call `notFound()` in `generateMetadata` too — never return fallback metadata the page will not render (see `seo/README.md`)
 
 For UI work, also read `design-system/kerkida/pages/{page}.md` when it exists.

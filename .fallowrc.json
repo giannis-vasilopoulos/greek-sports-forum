@@ -3,7 +3,12 @@
   "ignorePatterns": ["components/ui/**"],
   "ignoreExportsUsedInFile": true,
   "duplicates": {
-    "ignore": ["__tests__/**", "db/seed/**"]
+    "ignore": ["__tests__/**", "db/seed/**", "e2e/**"]
+  },
+  "health": {
+    "ignore": ["db/seed/**"],
+    "maxCognitive": 16,
+    "maxCrap": 400
   },
   "rules": {
     "unused-files": "error",

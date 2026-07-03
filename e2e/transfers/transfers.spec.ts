@@ -1,4 +1,4 @@
-import { expect, test } from "@playwright/test";
+import { expect, test } from "@/e2e/fixtures";
 
 test.describe("Transfers", () => {
   test("overview has canonical and title", async ({ page }) => {

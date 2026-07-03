@@ -74,3 +74,11 @@
 | `components/seo/json-ld.tsx` | Renders JSON-LD script tag                          |
 | `app/robots.ts`              | robots.txt                                          |
 | `app/sitemap.ts`             | sitemap.xml                                         |
+
+## `generateMetadata` and `notFound()`
+
+`generateMetadata` runs separately from the page component. When a route is invalid or the resource is missing, call `notFound()` in **both** places — do not return fallback hub metadata that the page will never render.
+
+- Avoids indexable metadata for URLs that 404
+- Keeps validation aligned between metadata and page body
+- Prefer a shared loader (`loadThreadPage`, `loadTeamTransfersPage`, etc.) when both need the same guards

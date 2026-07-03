@@ -41,4 +41,9 @@ export const validationCopy = {
     bodyMinLength: "Η περιγραφή πρέπει να έχει τουλάχιστον 10 χαρακτήρες.",
     bodyMaxLength: "Η περιγραφή είναι πολύ μακριά.",
   },
+  reply: {
+    contentMinLength: "Η απάντηση πρέπει να έχει τουλάχιστον 2 χαρακτήρες.",
+    contentMaxLength: "Η απάντηση είναι πολύ μακριά.",
+    threadRequired: "Το θέμα δεν βρέθηκε.",
+  },
 } as const;
