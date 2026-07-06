@@ -20,6 +20,7 @@ import { PostList, useReplyTarget } from "@/components/thread/post-list";
 import { ReplyComposer } from "@/components/thread/reply-composer";
 import { ThreadHeader } from "@/components/thread/thread-header";
 import type { FanProfile } from "@/components/layout/site-data";
+import { getThreadDisplayMode } from "@/lib/forum/display-mode";
 import type {
   ThreadDetailBundle,
   ThreadPost,
@@ -112,6 +113,7 @@ export function ThreadPageContent({
 
             <PostList
               posts={posts}
+              displayMode={getThreadDisplayMode(thread.type)}
               isSignedIn={isSignedIn}
               viewerFanProfileId={viewerFanProfileId}
               onReply={handleReplyWithScroll}

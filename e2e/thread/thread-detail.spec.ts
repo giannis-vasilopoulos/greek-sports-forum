@@ -102,6 +102,32 @@ test.describe("thread detail", () => {
     await expect(page.getByText(/^Απάντηση σε /).first()).toBeVisible();
   });
 
+  test("nested replies render under their parent in the reply tree", async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1280, height: 720 });
+    await page.goto(SHOWCASE_THREAD_PATH);
+    await dismissCookieBannerIfVisible(page);
+
+    const parentText = "ΓΚΟΟΟΛ! 1-0 Ολυμπιακός!";
+    const nestedText = "Ακόμα νωρίς — η ομάδα μας ανεβαίνει ρυθμικά.";
+
+    await expect(page.getByText(parentText)).toBeVisible({
+      timeout: NAV_TIMEOUT_MS,
+    });
+    await expect(page.getByText(nestedText)).toBeVisible({
+      timeout: NAV_TIMEOUT_MS,
+    });
+
+    const parentBranch = page
+      .locator("div")
+      .filter({ has: page.getByText(parentText) })
+      .filter({ has: page.getByText(nestedText) })
+      .first();
+
+    await expect(parentBranch).toBeVisible();
+  });
+
   test("mobile composer starts collapsed and expands on tap", async ({
     page,
   }) => {

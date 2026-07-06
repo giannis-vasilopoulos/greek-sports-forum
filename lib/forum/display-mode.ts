@@ -6,5 +6,5 @@ export type ThreadDisplayMode = "flat" | "nested";
 
 export function getThreadDisplayMode(type: ThreadType): ThreadDisplayMode {
   void type;
-  return "flat";
+  return "nested";
 }

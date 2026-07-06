@@ -27,8 +27,8 @@ describe("threadPath", () => {
 });
 
 describe("getThreadDisplayMode", () => {
-  it("returns flat in v1", () => {
-    expect(getThreadDisplayMode("discussion")).toBe("flat");
-    expect(getThreadDisplayMode("match_thread")).toBe("flat");
+  it("returns nested for all thread types", () => {
+    expect(getThreadDisplayMode("discussion")).toBe("nested");
+    expect(getThreadDisplayMode("match_thread")).toBe("nested");
   });
 });

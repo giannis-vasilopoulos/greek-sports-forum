@@ -30,6 +30,14 @@ export const threadCopy = {
     reply: "Απάντηση",
     op: "Αρχική δημοσίευση",
     listAriaLabel: "Απαντήσεις στο θέμα",
+    showAllReplies: (count: number) =>
+      `Εμφάνιση όλων των απαντήσεων (${count}) — χρονολογικά`,
+    showingBestReplies: (visible: number, total: number) =>
+      `Εμφανίζονται οι ${visible} κορυφαίες από ${total} απαντήσεις`,
+    collapseBranch: "Σύμπτυξη κλάδου απαντήσεων",
+    expandBranch: "Ανάπτυξη κλάδου απαντήσεων",
+    hiddenReplies: (count: number) =>
+      count === 1 ? "1 απάντηση κρυμμένη" : `${count} απαντήσεις κρυμμένες`,
   },
   vote: {
     up: "Θετική ψήφος",
