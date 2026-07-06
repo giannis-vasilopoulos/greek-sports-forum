@@ -1,5 +1,7 @@
 "use client";
 
+import { useRef, useState } from "react";
+
 import {
   ThreadInContentAd,
   ThreadTopAd,
@@ -18,7 +20,11 @@ import { PostList, useReplyTarget } from "@/components/thread/post-list";
 import { ReplyComposer } from "@/components/thread/reply-composer";
 import { ThreadHeader } from "@/components/thread/thread-header";
 import type { FanProfile } from "@/components/layout/site-data";
-import type { ThreadDetailBundle } from "@/lib/forum/queries/thread-detail";
+import type {
+  ThreadDetailBundle,
+  ThreadPost,
+} from "@/lib/forum/queries/thread-detail";
+import { cn } from "@/lib/utils";
 
 interface ThreadPageContentProps {
   data: ThreadDetailBundle;
@@ -49,10 +55,25 @@ export function ThreadPageContent({
   canReply,
   blockMessage,
 }: ThreadPageContentProps) {
+  const composerRef = useRef<HTMLDivElement>(null);
+  const [mobileExpanded, setMobileExpanded] = useState(false);
   const { replyTarget, handleReply, clearReplyTarget } = useReplyTarget();
   const { thread, posts } = data;
 
   const inContentAdIndex = Math.min(5, posts.length - 1);
+
+  function handleReplyWithScroll(post: ThreadPost) {
+    handleReply(post);
+
+    if (window.innerWidth >= 1024) {
+      composerRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    } else {
+      setMobileExpanded(true);
+    }
+  }
 
   return (
     <>
@@ -66,22 +87,16 @@ export function ThreadPageContent({
           />
         }
         main={
-          <div className="flex flex-col gap-4 pb-32 lg:pb-4">
+          <div
+            className={cn(
+              "flex flex-col gap-4 lg:pb-4",
+              mobileExpanded ? "pb-32" : "pb-20",
+            )}
+          >
             <ThreadHeader thread={thread} />
             <ThreadTopAd />
 
-            <PostList
-              posts={posts}
-              isSignedIn={isSignedIn}
-              viewerFanProfileId={viewerFanProfileId}
-              onReply={handleReply}
-            />
-
-            {posts.length > inContentAdIndex && inContentAdIndex >= 0 && (
-              <ThreadInContentAd />
-            )}
-
-            <div className="hidden lg:block">
+            <div ref={composerRef} className="hidden scroll-mt-[60px] lg:block">
               <ReplyComposer
                 key={`desktop-${thread.id}`}
                 threadId={thread.id}
@@ -94,6 +109,17 @@ export function ThreadPageContent({
                 onClearReplyTarget={clearReplyTarget}
               />
             </div>
+
+            <PostList
+              posts={posts}
+              isSignedIn={isSignedIn}
+              viewerFanProfileId={viewerFanProfileId}
+              onReply={handleReplyWithScroll}
+            />
+
+            {posts.length > inContentAdIndex && inContentAdIndex >= 0 && (
+              <ThreadInContentAd />
+            )}
           </div>
         }
         right={
@@ -116,6 +142,8 @@ export function ThreadPageContent({
         replyTarget={replyTarget}
         onClearReplyTarget={clearReplyTarget}
         sticky
+        expanded={mobileExpanded}
+        onExpandedChange={setMobileExpanded}
         className="lg:hidden"
       />
     </>

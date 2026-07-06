@@ -23,6 +23,8 @@ export const threadCopy = {
     fanProfilePrompt: "Ολοκλήρωσε το fan profile σου για αυτό το πρωτάθλημα.",
     fanProfileLink: "Fan profile",
     rateLimitWait: "Περίμενε λίγο πριν ξαναγράψεις.",
+    expandComposer: "Άνοιγμα πεδίου απάντησης",
+    collapseComposer: "Σύμπτυξη",
   },
   post: {
     reply: "Απάντηση",

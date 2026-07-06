@@ -10,8 +10,8 @@
 ## Layout
 
 - **Shell:** `FeedShell` — left 168px · main flex-1 · right 200px
-- **Main order:** Breadcrumb header → `ThreadTopAd` → post stream → `ThreadInContentAd` (after ~5 posts) → desktop composer
-- **Mobile:** Sticky `ReplyComposer` fixed to bottom; main column `pb-32` spacer
+- **Main order:** Breadcrumb header → `ThreadTopAd` → desktop composer → post stream → `ThreadInContentAd` (after ~5 posts)
+- **Mobile:** Collapsed sticky `ReplyComposer` fixed to bottom (placeholder + sign-in link); expands on tap, reply, or draft restore; main column `pb-20` collapsed / `pb-32` expanded; Cookies pill stacks above composer via `--bottom-chrome-height`
 
 ## Conversion
 

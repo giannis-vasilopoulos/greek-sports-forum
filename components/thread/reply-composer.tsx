@@ -2,12 +2,13 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useRef, useState, useTransition } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 
 import { submitReply } from "@/components/thread/reply-submit";
 import { useReplyDraft } from "@/components/thread/use-reply-draft";
 import { buildSignInHref } from "@/lib/auth/redirect";
 import { copy } from "@/lib/copy";
+import { useBottomChromePublisher } from "@/lib/layout/bottom-chrome";
 import { Button } from "@/components/ui/button";
 import { FieldError, FieldGroup } from "@/components/ui/field";
 import { Label } from "@/components/ui/label";
@@ -32,6 +33,8 @@ interface ReplyComposerProps {
   onClearReplyTarget?: () => void;
   className?: string;
   sticky?: boolean;
+  expanded?: boolean;
+  onExpandedChange?: (expanded: boolean) => void;
 }
 
 // fallow-ignore-next-line complexity
@@ -45,6 +48,8 @@ export function ReplyComposer({
   onClearReplyTarget,
   className,
   sticky = false,
+  expanded = true,
+  onExpandedChange,
 }: ReplyComposerProps) {
   const pathname = usePathname();
   const router = useRouter();
@@ -54,16 +59,31 @@ export function ReplyComposer({
   const [draftBannerDismissed, setDraftBannerDismissed] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const outerRef = useBottomChromePublisher(sticky);
 
+  const fieldId = sticky
+    ? `reply-mobile-${threadId}`
+    : `reply-desktop-${threadId}`;
   const content = localContent ?? storedDraft?.content ?? "";
   const showDraftBanner =
     !draftBannerDismissed &&
     Boolean(storedDraft?.content) &&
     localContent === null;
+  const isCollapsed = sticky && !expanded;
 
   function resetForm() {
     setLocalContent("");
     setDraftBannerDismissed(true);
+    if (sticky) {
+      onExpandedChange?.(false);
+    }
+  }
+
+  function handleClearReplyTarget() {
+    onClearReplyTarget?.();
+    if (sticky) {
+      onExpandedChange?.(false);
+    }
   }
 
   function submitReplyForm() {
@@ -82,7 +102,7 @@ export function ReplyComposer({
         router,
         setError,
         resetForm,
-        onClearReplyTarget,
+        onClearReplyTarget: handleClearReplyTarget,
       });
     });
   }
@@ -99,8 +119,56 @@ export function ReplyComposer({
     }
   }
 
+  useEffect(() => {
+    if (!replyTarget) return;
+
+    onExpandedChange?.(true);
+    requestAnimationFrame(() => {
+      textareaRef.current?.focus({ preventScroll: !sticky });
+    });
+  }, [replyTarget, sticky, onExpandedChange]);
+
+  useEffect(() => {
+    if (!showDraftBanner) return;
+    onExpandedChange?.(true);
+  }, [showDraftBanner, onExpandedChange]);
+
+  if (isCollapsed) {
+    return (
+      <div
+        ref={outerRef}
+        className={cn(
+          "border-border bg-background fixed right-0 bottom-0 left-0 z-40 border-t px-4 py-2.5 pb-[max(0.75rem,env(safe-area-inset-bottom))] shadow-[0_-4px_24px_rgba(0,0,0,0.06)]",
+          className,
+        )}
+      >
+        <div className="flex items-center gap-3">
+          <button
+            type="button"
+            onClick={() => onExpandedChange?.(true)}
+            aria-label={t.expandComposer}
+            className="text-muted-foreground min-w-0 flex-1 truncate text-left text-[13px]"
+          >
+            {replyTarget?.replyToAuthor
+              ? t.replyTo(replyTarget.replyToAuthor)
+              : t.placeholder}
+          </button>
+          {!isSignedIn && (
+            <Link
+              href={buildSignInHref(pathname)}
+              className="text-primary shrink-0 text-[12px] font-medium hover:underline"
+            >
+              {t.signInLink}
+            </Link>
+          )}
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div
+      ref={outerRef}
       className={cn(
         "border-border bg-background",
         sticky &&
@@ -108,6 +176,18 @@ export function ReplyComposer({
         className,
       )}
     >
+      {sticky && onExpandedChange && (
+        <div className="mb-2 flex justify-end">
+          <button
+            type="button"
+            onClick={() => onExpandedChange(false)}
+            className="text-muted-foreground hover:text-foreground cursor-pointer text-[11px] font-medium"
+          >
+            {t.collapseComposer}
+          </button>
+        </div>
+      )}
+
       {!isSignedIn && (
         <p className="text-muted-foreground mb-2 text-[12px]">
           {copy.thread.conversion.joinDiscussion}{" "}
@@ -144,7 +224,7 @@ export function ReplyComposer({
           {onClearReplyTarget && (
             <button
               type="button"
-              onClick={onClearReplyTarget}
+              onClick={handleClearReplyTarget}
               className="text-muted-foreground hover:text-foreground cursor-pointer"
             >
               {t.cancelReply}
@@ -156,12 +236,12 @@ export function ReplyComposer({
       <form onSubmit={handleSubmit}>
         <FieldGroup>
           <div className="flex flex-col gap-1.5">
-            <Label htmlFor={`reply-${threadId}`} className="sr-only">
+            <Label htmlFor={fieldId} className="sr-only">
               {t.label}
             </Label>
             <Textarea
               ref={textareaRef}
-              id={`reply-${threadId}`}
+              id={fieldId}
               value={content}
               onChange={(event) => setLocalContent(event.target.value)}
               onKeyDown={handleKeyDown}

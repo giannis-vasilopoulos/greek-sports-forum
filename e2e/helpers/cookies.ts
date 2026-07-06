@@ -11,3 +11,18 @@ export async function dismissCookieBannerIfVisible(page: Page) {
     await expect(banner).not.toBeVisible();
   }
 }
+
+export async function preAcceptCookiesInStorage(page: Page) {
+  await page.addInitScript(() => {
+    localStorage.setItem(
+      "kerkida-cookie-consent",
+      JSON.stringify({
+        necessary: true,
+        analytics: false,
+        marketing: false,
+        decided: true,
+        updatedAt: new Date().toISOString(),
+      }),
+    );
+  });
+}

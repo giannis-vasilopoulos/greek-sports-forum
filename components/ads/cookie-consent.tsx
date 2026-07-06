@@ -23,6 +23,7 @@ import {
   useConsentPreferences,
 } from "@/lib/ads/use-consent-store";
 import { copy } from "@/lib/copy";
+import { cn } from "@/lib/utils";
 
 const c = copy.ads.cookie;
 
@@ -40,12 +41,12 @@ function ConsentToggle({
   onChange: (checked: boolean) => void;
 }) {
   return (
-    <div className="flex items-start justify-between gap-4 rounded-lg border border-border p-4">
+    <div className="border-border flex items-start justify-between gap-4 rounded-lg border p-4">
       <div className="space-y-1">
-        <label htmlFor={id} className="text-sm font-medium text-foreground">
+        <label htmlFor={id} className="text-foreground text-sm font-medium">
           {label}
         </label>
-        <p className="text-sm text-muted-foreground">{description}</p>
+        <p className="text-muted-foreground text-sm">{description}</p>
       </div>
       <input
         id={id}
@@ -54,7 +55,7 @@ function ConsentToggle({
         onChange={(event) => {
           onChange(event.target.checked);
         }}
-        className="mt-1 size-4 shrink-0 accent-primary"
+        className="accent-primary mt-1 size-4 shrink-0"
       />
     </div>
   );
@@ -85,17 +86,17 @@ function CookieSettingsSheet({
 }) {
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent side="bottom" className="max-h-[85vh] p-4 overflow-y-auto">
+      <SheetContent side="bottom" className="max-h-[85vh] overflow-y-auto p-4">
         <SheetHeader>
           <SheetTitle>{c.sheetTitle}</SheetTitle>
           <SheetDescription>{description}</SheetDescription>
         </SheetHeader>
         <div className="mt-6 space-y-3">
-          <div className="rounded-lg border border-border bg-muted/30 p-4">
-            <p className="text-sm font-medium text-foreground">
+          <div className="border-border bg-muted/30 rounded-lg border p-4">
+            <p className="text-foreground text-sm font-medium">
               {c.requiredTitle}
             </p>
-            <p className="mt-1 text-sm text-muted-foreground">
+            <p className="text-muted-foreground mt-1 text-sm">
               {c.requiredDescription}
             </p>
           </div>
@@ -125,7 +126,7 @@ function CookieSettingsSheet({
             {c.rejectAll}
           </Button>
         </div>
-        <p className="mt-4 text-xs text-muted-foreground">
+        <p className="text-muted-foreground mt-4 text-xs">
           {c.readPrivacyPrefix}{" "}
           <Link href="/privacy" className="underline underline-offset-4">
             {c.readPrivacyLink}
@@ -191,7 +192,11 @@ export function CookieConsent() {
         <button
           type="button"
           onClick={openSettings}
-          className="fixed bottom-4 left-4 z-40 rounded-full border border-border bg-background px-3 py-1.5 text-xs text-muted-foreground shadow-sm transition-colors hover:text-foreground"
+          className={cn(
+            "border-border bg-background text-muted-foreground hover:text-foreground fixed left-4 z-40 rounded-full border px-3 py-1.5 text-xs shadow-sm transition-colors",
+            "bottom-[calc(var(--bottom-chrome-height,0px)+0.75rem+env(safe-area-inset-bottom,0px))]",
+            "lg:bottom-4",
+          )}
           aria-label={c.settingsAria}
         >
           {c.floatingButton}
@@ -218,19 +223,19 @@ export function CookieConsent() {
         open={true}
         aria-labelledby="cookie-consent-title"
         aria-describedby="cookie-consent-description"
-        className="fixed w-full inset-x-0 bottom-0 z-50 border-t border-border bg-background/95 p-4 shadow-lg backdrop-blur supports-[backdrop-filter]:bg-background/90"
+        className="border-border bg-background/95 supports-[backdrop-filter]:bg-background/90 fixed inset-x-0 bottom-0 z-50 w-full border-t p-4 shadow-lg backdrop-blur"
       >
         <div className="mx-auto flex max-w-6xl flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div className="space-y-1">
             <h2
               id="cookie-consent-title"
-              className="text-sm font-semibold text-foreground"
+              className="text-foreground text-sm font-semibold"
             >
               {c.bannerTitle}
             </h2>
             <p
               id="cookie-consent-description"
-              className="text-sm text-muted-foreground"
+              className="text-muted-foreground text-sm"
             >
               {c.bannerDescription}{" "}
               <Link href="/privacy" className="underline underline-offset-4">
