@@ -84,6 +84,17 @@ export function readStoredConsent(): ConsentPreferences {
   return parseConsentPreferences(localStorage.getItem(CONSENT_STORAGE_KEY));
 }
 
+export function subscribeToConsent(onStoreChange: () => void): () => void {
+  if (!isBrowser()) {
+    return () => {};
+  }
+
+  globalThis.addEventListener(CONSENT_UPDATED_EVENT, onStoreChange);
+  return () => {
+    globalThis.removeEventListener(CONSENT_UPDATED_EVENT, onStoreChange);
+  };
+}
+
 export function writeStoredConsent(preferences: ConsentPreferences): void {
   if (!isBrowser()) {
     return;

@@ -8,7 +8,7 @@ import {
   getAdsProvider,
   isAdsEnabled,
 } from "@/lib/ads/config";
-import { useConsentPreferences } from "@/lib/ads/use-consent-store";
+import { useConsentPreferences } from "@/hooks/ads/use-consent-store";
 
 export function AdsenseScript() {
   const consent = useConsentPreferences();

@@ -29,6 +29,22 @@ const eslintConfig = defineConfig([
         },
       ],
       "no-console": ["warn", { allow: ["warn", "error"] }],
+      "max-lines": [
+        "error",
+        { max: 300, skipBlankLines: true, skipComments: true },
+      ],
+    },
+  },
+  {
+    files: [
+      "components/ui/**",
+      "__tests__/**",
+      "e2e/**",
+      "db/seed/**",
+      "db/seed.ts",
+    ],
+    rules: {
+      "max-lines": "off",
     },
   },
   {

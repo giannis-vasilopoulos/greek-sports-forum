@@ -16,7 +16,8 @@ import type {
 import { FeedShell } from "@/components/feed/feed-shell";
 import { LeftSidebar } from "@/components/feed/left-sidebar";
 import { RightSidebar } from "@/components/feed/right-sidebar";
-import { PostList, useReplyTarget } from "@/components/thread/post-list";
+import { PostList } from "@/components/thread/post-list";
+import { useReplyTarget } from "@/hooks/thread/use-reply-target";
 import { ReplyComposer } from "@/components/thread/reply-composer";
 import { ThreadHeader } from "@/components/thread/thread-header";
 import type { FanProfile } from "@/components/layout/site-data";

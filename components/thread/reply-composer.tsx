@@ -5,10 +5,10 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState, useTransition } from "react";
 
 import { submitReply } from "@/components/thread/reply-submit";
-import { useReplyDraft } from "@/components/thread/use-reply-draft";
+import { useReplyDraft } from "@/hooks/thread/use-reply-draft";
+import { useBottomChromePublisher } from "@/hooks/layout/use-bottom-chrome-publisher";
 import { buildSignInHref } from "@/lib/auth/redirect";
 import { copy } from "@/lib/copy";
-import { useBottomChromePublisher } from "@/lib/layout/bottom-chrome";
 import { Button } from "@/components/ui/button";
 import { FieldError, FieldGroup } from "@/components/ui/field";
 import { Label } from "@/components/ui/label";

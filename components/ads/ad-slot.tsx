@@ -1,13 +1,13 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 
 import { AdDisclosure } from "@/components/ads/ad-disclosure";
 import { HouseAd } from "@/components/ads/house/house-ad";
 import { getBrowserGlobal } from "@/lib/ads/browser";
-import { hasMarketingConsent } from "@/lib/ads/consent";
-import { useConsentPreferences } from "@/lib/ads/use-consent-store";
+import { useMarketingConsentGranted } from "@/hooks/ads/use-marketing-consent-granted";
+import { useLazyVisible } from "@/hooks/ads/use-lazy-visible";
 import {
   AD_SLOT_REGISTRY,
   getAdSenseClientId,
@@ -24,47 +24,6 @@ import { cn } from "@/lib/utils";
 interface AdSlotProps {
   id: AdSlotId;
   className?: string;
-}
-
-function useMarketingConsentGranted(): boolean {
-  const consent = useConsentPreferences();
-  return hasMarketingConsent(consent);
-}
-
-function useLazyVisible(lazy: boolean): {
-  ref: React.RefObject<HTMLDivElement | null>;
-  visible: boolean;
-} {
-  const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(!lazy);
-
-  useEffect(() => {
-    if (!lazy) {
-      return;
-    }
-
-    const node = ref.current;
-    if (!node) {
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries.some((entry) => entry.isIntersecting)) {
-          setVisible(true);
-          observer.disconnect();
-        }
-      },
-      { rootMargin: "200px 0px" },
-    );
-
-    observer.observe(node);
-    return () => {
-      observer.disconnect();
-    };
-  }, [lazy]);
-
-  return { ref, visible };
 }
 
 function AdSenseUnit({ slotId }: { slotId: AdSlotId }) {

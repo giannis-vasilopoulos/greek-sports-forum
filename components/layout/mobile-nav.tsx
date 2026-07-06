@@ -13,7 +13,7 @@ import {
   getInitials,
   getLeagueHref,
 } from "@/components/layout/site-data";
-import { useSetActiveFanProfile } from "@/components/profile/use-set-active-fan-profile";
+import { useSetActiveFanProfile } from "@/hooks/profile/use-set-active-fan-profile";
 import { Notifications } from "@/components/layout/notifications";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -90,7 +90,7 @@ export function MobileNav({
 
           {activeFanProfile && fanProfiles.length > 0 && (
             <div className="px-4">
-              <p className="mb-2 text-xs font-medium text-muted-foreground">
+              <p className="text-muted-foreground mb-2 text-xs font-medium">
                 {l.mobileNav.activeFanProfile}
               </p>
               <div className="flex flex-col gap-1">
@@ -104,7 +104,7 @@ export function MobileNav({
                       closeAndNavigate();
                     }}
                     className={cn(
-                      "flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-left text-sm hover:bg-muted disabled:opacity-60",
+                      "hover:bg-muted flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-left text-sm disabled:opacity-60",
                       profile.id === activeFanProfile?.id && "bg-muted",
                     )}
                   >
@@ -126,7 +126,7 @@ export function MobileNav({
           )}
 
           <nav className="flex flex-col gap-1 px-4">
-            <p className="mb-1 text-xs font-medium text-muted-foreground">
+            <p className="text-muted-foreground mb-1 text-xs font-medium">
               {l.mobileNav.leaguesHeading}
             </p>
             {leagues.map((league) => (
@@ -135,7 +135,7 @@ export function MobileNav({
                 href={getLeagueHref(league.slug)}
                 onClick={closeAndNavigate}
                 className={cn(
-                  "flex items-center gap-2 rounded-lg px-2 py-1.5 text-sm hover:bg-muted",
+                  "hover:bg-muted flex items-center gap-2 rounded-lg px-2 py-1.5 text-sm",
                   isActive(getLeagueHref(league.slug)) && "bg-muted",
                 )}
               >
@@ -159,14 +159,14 @@ export function MobileNav({
                 href={link.href}
                 onClick={closeAndNavigate}
                 className={cn(
-                  "flex items-center gap-2 rounded-lg px-2 py-1.5 text-sm hover:bg-muted",
+                  "hover:bg-muted flex items-center gap-2 rounded-lg px-2 py-1.5 text-sm",
                   isActive(link.href) && "bg-muted",
                 )}
               >
                 {link.label}
                 {link.liveIndicator && hasLiveMatches && (
                   <span
-                    className="size-2 shrink-0 rounded-full bg-destructive animate-pulse"
+                    className="bg-destructive size-2 shrink-0 animate-pulse rounded-full"
                     aria-label={l.nav.liveMatchesAria}
                   />
                 )}
@@ -189,7 +189,7 @@ export function MobileNav({
                   <div>
                     <p className="text-sm font-medium">{user.name}</p>
                     {user.username && (
-                      <p className="text-xs text-muted-foreground">
+                      <p className="text-muted-foreground text-xs">
                         @{user.username}
                       </p>
                     )}
@@ -199,28 +199,28 @@ export function MobileNav({
                   <Link
                     href="/profile"
                     onClick={closeAndNavigate}
-                    className="rounded-lg px-2 py-1.5 text-sm hover:bg-muted"
+                    className="hover:bg-muted rounded-lg px-2 py-1.5 text-sm"
                   >
                     {l.mobileNav.myProfile}
                   </Link>
                   <Link
                     href="/fan-profiles"
                     onClick={closeAndNavigate}
-                    className="rounded-lg px-2 py-1.5 text-sm hover:bg-muted"
+                    className="hover:bg-muted rounded-lg px-2 py-1.5 text-sm"
                   >
                     {l.mobileNav.myFanProfiles}
                   </Link>
                   <Link
                     href="/notifications"
                     onClick={closeAndNavigate}
-                    className="rounded-lg px-2 py-1.5 text-sm hover:bg-muted"
+                    className="hover:bg-muted rounded-lg px-2 py-1.5 text-sm"
                   >
                     {copy.notifications.nav.label}
                   </Link>
                   <Link
                     href="/settings"
                     onClick={closeAndNavigate}
-                    className="rounded-lg px-2 py-1.5 text-sm hover:bg-muted"
+                    className="hover:bg-muted rounded-lg px-2 py-1.5 text-sm"
                   >
                     {l.mobileNav.settings}
                   </Link>

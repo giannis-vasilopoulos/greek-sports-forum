@@ -1,9 +1,8 @@
 "use client";
 
-import { copy } from "@/lib/copy";
 import { Button } from "@/components/ui/button";
-
-import { useSetActiveFanProfile } from "./use-set-active-fan-profile";
+import { useSetActiveFanProfile } from "@/hooks/profile/use-set-active-fan-profile";
+import { copy } from "@/lib/copy";
 
 const t = copy.profile.fanProfiles;
 

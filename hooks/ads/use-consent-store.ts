@@ -2,26 +2,14 @@
 
 import { useSyncExternalStore } from "react";
 
-import { isBrowser } from "@/lib/ads/browser";
 import {
-  CONSENT_UPDATED_EVENT,
   DEFAULT_CONSENT,
   parseConsentPreferences,
   readStoredConsent,
   serializeConsentPreferences,
+  subscribeToConsent,
   type ConsentPreferences,
 } from "@/lib/ads/consent";
-
-export function subscribeToConsent(onStoreChange: () => void): () => void {
-  if (!isBrowser()) {
-    return () => {};
-  }
-
-  globalThis.addEventListener(CONSENT_UPDATED_EVENT, onStoreChange);
-  return () => {
-    globalThis.removeEventListener(CONSENT_UPDATED_EVENT, onStoreChange);
-  };
-}
 
 function getConsentSnapshot(): string {
   return serializeConsentPreferences(readStoredConsent());

@@ -5,7 +5,7 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 import { ReplyComposer } from "@/components/thread/reply-composer";
 import { copy } from "@/lib/copy";
 
-vi.mock("@/components/thread/use-reply-draft", () => ({
+vi.mock("@/hooks/thread/use-reply-draft", () => ({
   useReplyDraft: () => null,
 }));
 

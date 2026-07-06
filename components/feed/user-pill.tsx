@@ -6,7 +6,7 @@ import { ChevronDownIcon } from "lucide-react";
 import { SignOutButton } from "@/components/auth/sign-out-button";
 import type { FanProfile } from "@/components/layout/site-data";
 import { getInitials } from "@/components/layout/site-data";
-import { useSetActiveFanProfile } from "@/components/profile/use-set-active-fan-profile";
+import { useSetActiveFanProfile } from "@/hooks/profile/use-set-active-fan-profile";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -43,7 +43,7 @@ export function UserPill({
         <button
           type="button"
           className={cn(
-            "inline-flex items-center gap-2 rounded-[20px] border-[0.5px] border-border bg-background px-2 py-1 transition-colors hover:bg-muted/50",
+            "border-border bg-background hover:bg-muted/50 inline-flex items-center gap-2 rounded-[20px] border-[0.5px] px-2 py-1 transition-colors",
             className,
           )}
           aria-label={copy.feed.userMenu.ariaLabel}
@@ -60,7 +60,7 @@ export function UserPill({
           {activeFanProfile && (
             <span
               className={cn(
-                "inline-flex items-center gap-0.5 rounded-full bg-accent px-1.5 py-0.5 text-[10px] font-medium text-accent-foreground",
+                "bg-accent text-accent-foreground inline-flex items-center gap-0.5 rounded-full px-1.5 py-0.5 text-[10px] font-medium",
               )}
             >
               <EntityLogo
@@ -75,7 +75,7 @@ export function UserPill({
             </span>
           )}
           <ChevronDownIcon
-            className="size-3 shrink-0 text-muted-foreground"
+            className="text-muted-foreground size-3 shrink-0"
             aria-hidden="true"
           />
         </button>
@@ -96,7 +96,7 @@ export function UserPill({
         {fanProfiles.length > 0 && (
           <>
             <DropdownMenuSeparator />
-            <p className="px-2 py-1.5 text-xs font-medium text-muted-foreground">
+            <p className="text-muted-foreground px-2 py-1.5 text-xs font-medium">
               {m.switchFanProfile}
             </p>
             {fanProfiles.map((profile) => (
@@ -113,7 +113,7 @@ export function UserPill({
                 />
                 <div className="flex flex-col gap-1">
                   <span className="flex-1">{profile.teamName}</span>
-                  <span className="text-xs text-muted-foreground">
+                  <span className="text-muted-foreground text-xs">
                     {profile.leagueName}
                   </span>
                 </div>

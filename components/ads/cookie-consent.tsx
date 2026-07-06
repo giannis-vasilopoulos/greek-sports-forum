@@ -21,7 +21,7 @@ import {
 import {
   useClientHydrated,
   useConsentPreferences,
-} from "@/lib/ads/use-consent-store";
+} from "@/hooks/ads/use-consent-store";
 import { copy } from "@/lib/copy";
 import { cn } from "@/lib/utils";
 

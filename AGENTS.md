@@ -182,6 +182,11 @@ app/                    # Next.js App Router (routes, layouts, API routes)
   page.tsx              # Home page
 components/
   ui/                   # shadcn/ui primitives (add via CLI, don't hand-roll)
+hooks/
+  thread/               # Thread hooks (use-reply-draft, use-reply-target, …)
+  profile/              # Profile hooks
+  ads/                  # Consent / ad hooks
+  layout/               # Layout hooks (e.g. bottom chrome)
 db/
   schema.ts             # Drizzle schema (auth tables today)
   migrations/           # Generated SQL migrations
@@ -208,12 +213,25 @@ Use `@/*` for imports (maps to project root):
 import { db } from "@/db";
 import { auth } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
+import { useReplyDraft } from "@/hooks/thread/use-reply-draft";
 import { cn } from "@/lib/utils";
 ```
 
 ---
 
 ## Code conventions
+
+### File size
+
+- Production `.ts` / `.tsx` files are capped at **300 lines** (ESLint `max-lines`, blank lines and comments excluded).
+- Exempt: `components/ui/**`, `__tests__/**`, `e2e/**`, `db/seed/**`, `db/seed.ts`.
+- When a file approaches the limit, split by feature (submodules with barrel re-exports under `lib/`, co-located subcomponents under `components/`).
+
+### React hooks
+
+- All React hooks live under `hooks/<feature>/use-*.ts` (import via `@/hooks/...`).
+- Add `"use client"` when the hook uses browser APIs or React client features.
+- Do not define or export `use*` hooks from `components/` or `lib/` — keep those modules UI or server logic only.
 
 ### TypeScript
 
