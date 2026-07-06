@@ -10,7 +10,10 @@ import { copy } from "@/lib/copy";
 import { runDbResult } from "@/lib/db/run";
 import { shouldCollapsePost } from "@/lib/forum/moderation";
 import { canVote } from "@/lib/forum/permissions";
-import { applyReputationEvent } from "@/lib/forum/reputation";
+import {
+  applyReputationEvent,
+  reverseReputationEvent,
+} from "@/lib/forum/reputation";
 import { buildWriteSubject } from "@/lib/forum/subject";
 import { threadPath } from "@/lib/seo/paths";
 import { votePostSchema, type VotePostInput } from "@/lib/validation/replies";
@@ -29,14 +32,11 @@ async function applyReputationForVoteChange(
   if (previous === next) return;
 
   if (previous === 1) {
-    await applyReputationEvent(authorFanProfileId, "post_downvoted", {
-      postId,
-    });
-    await applyReputationEvent(authorFanProfileId, "post_downvoted", {
-      postId,
-    });
+    await reverseReputationEvent(authorFanProfileId, "post_liked", { postId });
   } else if (previous === -1) {
-    await applyReputationEvent(authorFanProfileId, "post_liked", { postId });
+    await reverseReputationEvent(authorFanProfileId, "post_downvoted", {
+      postId,
+    });
   }
 
   if (next === 1) {

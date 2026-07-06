@@ -12,6 +12,11 @@ describe("reputation events", () => {
     expect(getReputationDelta("post_liked")).toBe(2);
   });
 
+  it("reverses event deltas with opposite sign", () => {
+    expect(-getReputationDelta("post_liked")).toBe(-2);
+    expect(-getReputationDelta("post_downvoted")).toBe(1);
+  });
+
   it("documents mod penalties", () => {
     expect(reputationEventDeltas.warning_received).toBe(-15);
     expect(reputationEventDeltas.report_confirmed).toBe(-20);
