@@ -12,9 +12,9 @@ export function MatchBar({ matches, className }: MatchBarProps) {
   if (matches.length === 0) return null;
 
   return (
-    <div className={cn("border-b border-border bg-background", className)}>
+    <div className={cn("border-border bg-background border-b", className)}>
       <div
-        className="flex gap-2 overflow-x-auto px-4 py-2.5 scrollbar-none"
+        className="flex scrollbar-none gap-2 overflow-x-auto px-4 py-2.5"
         aria-label={copy.feed.matchBar.ariaLabel}
       >
         {matches.map((match) => (

@@ -13,18 +13,18 @@ export function FeedShell({ left, main, right, className }: FeedShellProps) {
   return (
     <div className={cn("mx-auto w-full max-w-7xl", className)}>
       <div className="flex flex-col lg:flex-row">
-        <aside className="hidden w-[168px] shrink-0 border-r border-border lg:block">
+        <aside className="border-border hidden w-[168px] shrink-0 border-r lg:block">
           <div className="sticky top-[52px] px-3 py-4">{left}</div>
         </aside>
 
         <div className="min-w-0 flex-1 px-4 py-4">{main}</div>
 
-        <aside className="hidden w-[200px] shrink-0 border-l border-border lg:block">
+        <aside className="border-border hidden w-[200px] shrink-0 border-l lg:block">
           <div className="sticky top-[52px] px-3 py-4">{right}</div>
         </aside>
       </div>
 
-      <aside className="border-t border-border px-4 py-4 lg:hidden">
+      <aside className="border-border border-t px-4 py-4 lg:hidden">
         {right}
       </aside>
     </div>

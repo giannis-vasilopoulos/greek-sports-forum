@@ -34,7 +34,7 @@ export default async function ProfilePage() {
     <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col gap-6 px-4 py-12">
       <div>
         <h1 className="text-xl font-semibold">{t.title}</h1>
-        <p className="mt-1 text-sm text-muted-foreground">{t.description}</p>
+        <p className="text-muted-foreground mt-1 text-sm">{t.description}</p>
       </div>
 
       <Card>
@@ -81,7 +81,7 @@ export default async function ProfilePage() {
                   {copy.profile.fanProfiles.activeBadge}
                 </Badge>
               </div>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-muted-foreground text-sm">
                 {activeProfile.leagueName} · {activeProfile.teamName}
               </p>
             </div>

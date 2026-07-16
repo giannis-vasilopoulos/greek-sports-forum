@@ -25,13 +25,13 @@ export function Header({
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 h-[52px] border-b border-border bg-background",
+        "border-border bg-background sticky top-0 z-50 h-[52px] border-b",
       )}
     >
       <div className="mx-auto flex h-full max-w-7xl items-center gap-4 px-4">
         <Link
           href="/"
-          className="shrink-0 text-[15px] font-medium tracking-[0.08em] text-foreground"
+          className="text-foreground shrink-0 text-[15px] font-medium tracking-[0.08em]"
         >
           {l.brand}
         </Link>
