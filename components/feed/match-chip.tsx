@@ -17,10 +17,10 @@ export function MatchChip({ match, className }: MatchChipProps) {
   return (
     <div
       className={cn(
-        "flex min-w-[160px] shrink-0 flex-col gap-1 rounded-lg border bg-card px-3 py-2",
+        "bg-card flex min-w-[160px] shrink-0 flex-col gap-1 rounded-lg border px-3 py-2",
         isLive
-          ? "border-[1.5px] border-destructive"
-          : "border-[1.5px] border-primary/40",
+          ? "border-destructive border-[1.5px]"
+          : "border-primary/40 border-[1.5px]",
         className,
       )}
     >
@@ -44,9 +44,9 @@ export function MatchChip({ match, className }: MatchChipProps) {
           </span>
         )}
       </div>
-      <p className="text-[10px] text-muted-foreground">
+      <p className="text-muted-foreground text-[10px]">
         {isLive && match.minute && (
-          <span className="font-medium text-destructive live-pulse">
+          <span className="text-destructive live-pulse font-medium">
             {t.thread.live} {match.minute}
           </span>
         )}

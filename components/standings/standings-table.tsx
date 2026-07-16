@@ -40,7 +40,7 @@ export function StandingsTable({
 
   if (rows.length === 0) {
     return (
-      <p className="text-sm text-muted-foreground">
+      <p className="text-muted-foreground text-sm">
         {copy.standings.emptySync}
       </p>
     );
@@ -50,26 +50,26 @@ export function StandingsTable({
     <div className={cn("overflow-x-auto", className)}>
       <table className="w-full min-w-[320px] text-sm" aria-label={t.ariaLabel}>
         <thead>
-          <tr className="border-b border-border text-left text-[11px] text-muted-foreground">
-            <th className="pb-2 pr-2 font-medium w-10">{t.rank}</th>
-            <th className="pb-2 pr-2 font-medium">{t.team}</th>
+          <tr className="border-border text-muted-foreground border-b text-left text-[11px]">
+            <th className="w-10 pr-2 pb-2 font-medium">{t.rank}</th>
+            <th className="pr-2 pb-2 font-medium">{t.team}</th>
             {extended ? (
               <>
-                <th className="pb-2 px-1 font-medium text-center w-8">
+                <th className="w-8 px-1 pb-2 text-center font-medium">
                   {t.played}
                 </th>
-                <th className="pb-2 px-1 font-medium text-center w-8">
+                <th className="w-8 px-1 pb-2 text-center font-medium">
                   {t.won}
                 </th>
-                <th className="pb-2 px-1 font-medium text-center w-8">
+                <th className="w-8 px-1 pb-2 text-center font-medium">
                   {t.drawn}
                 </th>
-                <th className="pb-2 px-1 font-medium text-center w-8">
+                <th className="w-8 px-1 pb-2 text-center font-medium">
                   {t.lost}
                 </th>
               </>
             ) : null}
-            <th className="pb-2 pl-2 font-medium text-right w-12">
+            <th className="w-12 pb-2 pl-2 text-right font-medium">
               {t.points}
             </th>
           </tr>
@@ -77,8 +77,8 @@ export function StandingsTable({
         <tbody>
           {rows.map((row) => (
             <Fragment key={row.rank}>
-              <tr className="border-b border-border/60 last:border-0">
-                <td className="py-2 pr-2 tabular-nums text-muted-foreground">
+              <tr className="border-border/60 border-b last:border-0">
+                <td className="text-muted-foreground py-2 pr-2 tabular-nums">
                   {row.rank}
                 </td>
                 <td className="py-2 pr-2 font-medium">
@@ -94,16 +94,16 @@ export function StandingsTable({
                 </td>
                 {extended ? (
                   <>
-                    <td className="py-2 px-1 text-center tabular-nums">
+                    <td className="px-1 py-2 text-center tabular-nums">
                       {row.played ?? "—"}
                     </td>
-                    <td className="py-2 px-1 text-center tabular-nums">
+                    <td className="px-1 py-2 text-center tabular-nums">
                       {row.won ?? "—"}
                     </td>
-                    <td className="py-2 px-1 text-center tabular-nums">
+                    <td className="px-1 py-2 text-center tabular-nums">
                       {row.drawn ?? "—"}
                     </td>
-                    <td className="py-2 px-1 text-center tabular-nums">
+                    <td className="px-1 py-2 text-center tabular-nums">
                       {row.lost ?? "—"}
                     </td>
                   </>
@@ -115,7 +115,7 @@ export function StandingsTable({
               {phaseBreaks.has(row.rank) ? (
                 <tr
                   key={`phase-${row.rank}`}
-                  className="border-b-2 border-border"
+                  className="border-border border-b-2"
                   aria-hidden={phaseSeparatorLabel(row.rank) === ""}
                 >
                   <td colSpan={extended ? 8 : 3}>

@@ -24,15 +24,15 @@ export default function PrivacyPage() {
       />
       <div className="mx-auto w-full max-w-3xl px-4 py-12 md:py-16">
         <header className="mb-10 space-y-3">
-          <h1 className="text-3xl font-medium tracking-tight text-foreground md:text-4xl">
+          <h1 className="text-foreground text-3xl font-medium tracking-tight md:text-4xl">
             {privacy.heading}
           </h1>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-muted-foreground text-sm">
             Τελευταία ενημέρωση: 30 Μαΐου 2026
           </p>
         </header>
 
-        <div className="prose prose-neutral dark:prose-invert max-w-none space-y-8 text-foreground">
+        <div className="prose prose-neutral dark:prose-invert text-foreground max-w-none space-y-8">
           <section className="space-y-3">
             <h2 className="text-xl font-medium">1. Ποιοι είμαστε</h2>
             <p className="text-muted-foreground">
@@ -45,7 +45,7 @@ export default function PrivacyPage() {
 
           <section className="space-y-3">
             <h2 className="text-xl font-medium">2. Δεδομένα που συλλέγουμε</h2>
-            <ul className="list-disc space-y-2 pl-5 text-muted-foreground">
+            <ul className="text-muted-foreground list-disc space-y-2 pl-5">
               <li>
                 Στοιχεία λογαριασμού (όνομα, email, όνομα χρήστη) όταν
                 εγγράφεστε ή συνδέεστε.
@@ -71,7 +71,7 @@ export default function PrivacyPage() {
               Χρησιμοποιούμε cookies για να λειτουργεί ο ιστότοπος και, με τη
               συγκατάθεσή σας, για αναλυτικά στοιχεία και διαφημίσεις.
             </p>
-            <ul className="list-disc space-y-2 pl-5 text-muted-foreground">
+            <ul className="text-muted-foreground list-disc space-y-2 pl-5">
               <li>
                 <strong className="text-foreground">Απαραίτητα:</strong>{" "}
                 απαιτούνται για σύνδεση, ασφάλεια και βασική λειτουργία.

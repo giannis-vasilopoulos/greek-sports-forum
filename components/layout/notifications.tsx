@@ -41,7 +41,7 @@ export function Notifications({
           <BellIcon />
           {unreadCount > 0 && (
             <span
-              className="absolute top-1.5 right-1.5 size-2 rounded-full bg-destructive live-pulse"
+              className="bg-destructive live-pulse absolute top-1.5 right-1.5 size-2 rounded-full"
               aria-hidden="true"
             />
           )}
@@ -53,7 +53,7 @@ export function Notifications({
         </div>
         <Separator />
         {displayItems.length === 0 ? (
-          <p className="px-3 py-4 text-sm text-muted-foreground">{t.empty}</p>
+          <p className="text-muted-foreground px-3 py-4 text-sm">{t.empty}</p>
         ) : (
           <ul className="flex flex-col">
             {displayItems.map((item) => {
@@ -66,7 +66,7 @@ export function Notifications({
                   </Avatar>
                   <div className="min-w-0 flex-1">
                     <p className="text-sm leading-snug">{item.text}</p>
-                    <p className="text-xs text-muted-foreground">{item.time}</p>
+                    <p className="text-muted-foreground text-xs">{item.time}</p>
                   </div>
                 </>
               );
@@ -77,7 +77,7 @@ export function Notifications({
                     <Link
                       href={item.href}
                       className={cn(
-                        "flex items-start gap-2.5 px-3 py-2.5 hover:bg-muted/50",
+                        "hover:bg-muted/50 flex items-start gap-2.5 px-3 py-2.5",
                         item.isRead === false && "bg-muted/30",
                       )}
                     >

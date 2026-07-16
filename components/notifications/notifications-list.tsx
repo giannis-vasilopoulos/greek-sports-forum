@@ -22,11 +22,11 @@ function NotificationRow({ item }: { item: NotificationItem }) {
       </Avatar>
       <div className="min-w-0 flex-1">
         <p className="text-sm leading-snug">{item.text}</p>
-        <p className="text-xs text-muted-foreground">{item.time}</p>
+        <p className="text-muted-foreground text-xs">{item.time}</p>
       </div>
       {item.isRead === false && (
         <span
-          className="mt-2 size-2 shrink-0 rounded-full bg-primary"
+          className="bg-primary mt-2 size-2 shrink-0 rounded-full"
           aria-hidden="true"
         />
       )}
@@ -58,14 +58,14 @@ export function NotificationsList({
 }: NotificationsListProps) {
   if (items.length === 0) {
     return (
-      <p className="py-8 text-center text-sm text-muted-foreground">
+      <p className="text-muted-foreground py-8 text-center text-sm">
         {emptyMessage}
       </p>
     );
   }
 
   return (
-    <ul className="divide-y divide-border rounded-lg border border-border">
+    <ul className="divide-border border-border divide-y rounded-lg border">
       {items.map((item) => (
         <NotificationRow key={item.id} item={item} />
       ))}

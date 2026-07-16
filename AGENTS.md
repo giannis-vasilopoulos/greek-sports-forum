@@ -131,7 +131,7 @@ Docker Compose defaults (`docker-compose.yml`):
 | `pnpm start`            | Run production server                          |
 | `pnpm lint`             | ESLint (Next.js core-web-vitals + TypeScript)  |
 | `pnpm typecheck`        | TypeScript check (`tsc --noEmit`)              |
-| `pnpm format`           | Prettier write                                 |
+| `pnpm format`           | Prettier write (also via Husky pre-commit)     |
 | `pnpm format:check`     | Prettier check (CI)                            |
 | `pnpm fallow:audit`     | PR-scope dead-code gate (same as CI)           |
 | `pnpm fallow:dead-code` | Full-repo cleanup report (local)               |
@@ -148,14 +148,14 @@ Docker Compose defaults (`docker-compose.yml`):
 
 ### Git hooks
 
-Husky runs on every commit:
+Husky + lint-staged is the only local Prettier **write** path. On every commit:
 
-| Hook       | Runs                                                   |
-| ---------- | ------------------------------------------------------ |
-| pre-commit | ESLint fix, Prettier write, typecheck (when TS staged) |
-| commit-msg | commitlint (Conventional Commits)                      |
+| Hook       | Runs                                                                    |
+| ---------- | ----------------------------------------------------------------------- |
+| pre-commit | ESLint fix, `pnpm format` (via lint-staged), typecheck (when TS staged) |
+| commit-msg | commitlint (Conventional Commits)                                       |
 
-CI (`.github/workflows/ci.yml`) runs lint, typecheck, format check, fallow audit, unit tests, build, and e2e on every push to `main` and on pull requests.
+CI (`.github/workflows/ci.yml`) runs lint, typecheck, `pnpm format:check`, fallow audit, unit tests, build, and e2e on every push to `main` and on pull requests. Do not skip hooks with `--no-verify` unless you have a strong reason — CI will fail on formatting drift.
 
 ### Verification before finishing work
 
@@ -168,7 +168,7 @@ pnpm test
 pnpm build
 ```
 
-All four must pass before claiming work is complete. Run `pnpm fallow:audit` when touching `lib/`, `db/`, or `components/` outside `components/ui/`. Run `pnpm test:e2e` when the change touches pages, auth, or full request flows (requires Docker Postgres and `.env.local`). One-time Playwright browser install: `pnpm exec playwright install`.
+All four must pass before claiming work is complete. Formatting is applied on commit via Husky; run `pnpm format` / `pnpm format:check` manually if you need a clean tree before committing. Run `pnpm fallow:audit` when touching `lib/`, `db/`, or `components/` outside `components/ui/`. Run `pnpm test:e2e` when the change touches pages, auth, or full request flows (requires Docker Postgres and `.env.local`). One-time Playwright browser install: `pnpm exec playwright install`.
 
 ---
 

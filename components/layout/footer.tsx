@@ -70,17 +70,17 @@ const l = copy.layout;
 
 export function Footer({ leagues = [] }: FooterProps) {
   return (
-    <footer className="border-t border-border bg-background">
+    <footer className="border-border bg-background border-t">
       <div className="mx-auto max-w-7xl px-4 py-8 md:py-12">
         <div className="grid gap-8 md:grid-cols-3 md:gap-12">
           <div className="flex flex-col gap-4">
             <Link
               href="/"
-              className="text-[15px] font-medium tracking-[0.08em] text-foreground"
+              className="text-foreground text-[15px] font-medium tracking-[0.08em]"
             >
               {l.brand}
             </Link>
-            <p className="text-sm text-muted-foreground">{l.tagline}</p>
+            <p className="text-muted-foreground text-sm">{l.tagline}</p>
             <div className="flex items-center gap-1">
               <Button variant="ghost" size="icon" asChild>
                 <a
@@ -124,7 +124,7 @@ export function Footer({ leagues = [] }: FooterProps) {
                 <li key={league.slug}>
                   <Link
                     href={getLeagueHref(league.slug)}
-                    className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                    className="text-muted-foreground hover:text-foreground text-sm transition-colors"
                   >
                     <span className="mr-1.5 inline-flex align-middle">
                       <EntityLogo
@@ -148,7 +148,7 @@ export function Footer({ leagues = [] }: FooterProps) {
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                    className="text-muted-foreground hover:text-foreground text-sm transition-colors"
                   >
                     {link.label}
                   </Link>
@@ -160,7 +160,7 @@ export function Footer({ leagues = [] }: FooterProps) {
 
         <Separator className="my-8" />
 
-        <div className="flex flex-col-reverse items-start justify-between gap-2 text-xs text-muted-foreground md:flex-row md:items-center">
+        <div className="text-muted-foreground flex flex-col-reverse items-start justify-between gap-2 text-xs md:flex-row md:items-center">
           <p>{l.footer.copyright}</p>
           <p>{l.footer.madeFor}</p>
         </div>

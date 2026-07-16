@@ -85,7 +85,7 @@ export function MatchThreadsContent({
           />
 
           {filteredThreads.length === 0 ? (
-            <p className="py-8 text-center text-[13px] text-muted-foreground">
+            <p className="text-muted-foreground py-8 text-center text-[13px]">
               {copy.feed.matchThreads.emptyFiltered}
             </p>
           ) : (
