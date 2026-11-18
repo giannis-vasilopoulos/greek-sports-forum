@@ -27,7 +27,7 @@ export function LeftSidebar({
   return (
     <div className={cn("flex flex-col gap-4", className)}>
       {user && (
-        <div className="flex flex-col gap-2 rounded-lg border border-border bg-card p-3">
+        <div className="border-border bg-card flex flex-col gap-2 rounded-lg border p-3">
           <div className="flex items-center gap-2">
             <Avatar size="md">
               {user.image && <AvatarImage src={user.image} alt={user.name} />}
@@ -40,7 +40,7 @@ export function LeftSidebar({
                 {user.username ?? user.name}
               </p>
               {activeFanProfile && (
-                <p className="truncate text-[11px] text-muted-foreground">
+                <p className="text-muted-foreground truncate text-[11px]">
                   <span className="inline-flex items-center gap-1">
                     <EntityLogo
                       src={activeFanProfile.teamLogoUrl}
@@ -56,7 +56,7 @@ export function LeftSidebar({
           </div>
           <Link
             href="/profile"
-            className="text-[11px] font-medium text-primary hover:underline"
+            className="text-primary text-[11px] font-medium hover:underline"
           >
             {copy.feed.sidebar.viewProfile}
           </Link>

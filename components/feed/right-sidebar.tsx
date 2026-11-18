@@ -35,7 +35,7 @@ export function RightSidebar({
               className="flex items-center justify-between text-[12px]"
             >
               <span className="flex items-center gap-2">
-                <span className="w-4 text-muted-foreground tabular-nums">
+                <span className="text-muted-foreground w-4 tabular-nums">
                   {row.rank}
                 </span>
                 <span className="font-medium">{row.team}</span>
@@ -46,7 +46,7 @@ export function RightSidebar({
         </ul>
         <Link
           href="/standings"
-          className="mt-2 inline-block text-[11px] font-medium text-primary hover:underline"
+          className="text-primary mt-2 inline-block text-[11px] font-medium hover:underline"
         >
           {s.fullStandings}
         </Link>
@@ -60,7 +60,7 @@ export function RightSidebar({
               <p className="font-medium">
                 {match.homeTeam} vs {match.awayTeam}
               </p>
-              <p className="text-[11px] text-muted-foreground">
+              <p className="text-muted-foreground text-[11px]">
                 {match.kickoffTime} · {match.leagueName}
               </p>
             </li>
@@ -75,11 +75,11 @@ export function RightSidebar({
             <li key={thread.id}>
               <Link
                 href={threadPath(thread.leagueSlug, thread.id, thread.slug)}
-                className="block text-[12px] font-medium hover:text-primary"
+                className="hover:text-primary block text-[12px] font-medium"
               >
                 {thread.title}
               </Link>
-              <p className="text-[11px] text-muted-foreground">
+              <p className="text-muted-foreground text-[11px]">
                 {formatReplyCount(thread.replyCount)}
               </p>
             </li>

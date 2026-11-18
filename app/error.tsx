@@ -26,10 +26,10 @@ export default function Error({
   return (
     <div className="flex flex-1 flex-col items-center justify-center gap-6 px-6 py-24">
       <div className="max-w-md text-center">
-        <h1 className="text-2xl font-semibold tracking-tight text-foreground">
+        <h1 className="text-foreground text-2xl font-semibold tracking-tight">
           {title}
         </h1>
-        <p className="mt-2 text-muted-foreground">{description}</p>
+        <p className="text-muted-foreground mt-2">{description}</p>
       </div>
       <Button type="button" onClick={reset}>
         Try again

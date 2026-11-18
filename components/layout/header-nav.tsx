@@ -84,7 +84,7 @@ export function HeaderNav({ leagues, hasLiveMatches = false }: HeaderNavProps) {
                 {link.label}
                 {link.liveIndicator && hasLiveMatches && (
                   <span
-                    className="size-2 shrink-0 rounded-full bg-destructive animate-pulse"
+                    className="bg-destructive size-2 shrink-0 animate-pulse rounded-full"
                     aria-label={copy.layout.nav.liveMatchesAria}
                   />
                 )}

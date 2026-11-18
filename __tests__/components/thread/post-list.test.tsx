@@ -191,7 +191,7 @@ describe("PostList nested mode", () => {
     );
 
     expect(screen.getByText("Top-level reply")).toBeInTheDocument();
-    expect(screen.queryByText("Nested branch")).not.toBeInTheDocument();
+    expect(screen.getByText("Nested branch")).toBeInTheDocument();
     expect(screen.queryByText("Grandchild reply")).not.toBeInTheDocument();
 
     const branchArticle = screen.getByText("BranchUser").closest("article");

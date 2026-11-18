@@ -9,7 +9,7 @@ export function AdDisclosure({ className }: AdDisclosureProps) {
   return (
     <p
       className={cn(
-        "text-xs font-medium tracking-wide text-muted-foreground uppercase",
+        "text-muted-foreground text-xs font-medium tracking-wide uppercase",
         className,
       )}
       aria-label={copy.ads.aria.ad}

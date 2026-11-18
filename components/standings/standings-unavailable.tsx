@@ -7,14 +7,14 @@ const s = copy.standings;
 
 export function StandingsUnavailable() {
   return (
-    <div className="rounded-lg border border-border bg-muted/30 px-6 py-10 text-center">
+    <div className="border-border bg-muted/30 rounded-lg border px-6 py-10 text-center">
       <p className="text-lg font-medium">{s.temporarilyUnavailable}</p>
-      <p className="mt-2 text-sm text-muted-foreground">
+      <p className="text-muted-foreground mt-2 text-sm">
         {s.temporarilyUnavailableHint}
       </p>
       <Link
         href={standingsPath()}
-        className="mt-4 inline-block text-sm font-medium text-primary hover:underline"
+        className="text-primary mt-4 inline-block text-sm font-medium hover:underline"
       >
         {s.backToOverview}
       </Link>
