@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { headers } from "next/headers";
+import { ThemeProvider } from "next-themes";
 
 import { AdsenseScript } from "@/components/ads/adsense-script";
 import { ConsentModeBootstrap } from "@/components/ads/consent-mode-bootstrap";
@@ -61,15 +62,24 @@ export default async function RootLayout({
     <html
       lang="el"
       className={`${inter.variable} ${firaXC.variable} h-full antialiased`}
+      // next-themes sets the theme class on <html> before hydration.
+      suppressHydrationWarning
     >
       <body className="flex min-h-full flex-col">
-        <ConsentModeBootstrap />
-        <Header {...headerData} />
-        <main className="flex-1">{children}</main>
-        <Footer leagues={headerData.leagues} />
-        <CookieConsent />
-        <Ga4Analytics />
-        <AdsenseScript />
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <ConsentModeBootstrap />
+          <Header {...headerData} />
+          <main className="flex-1">{children}</main>
+          <Footer leagues={headerData.leagues} />
+          <CookieConsent />
+          <Ga4Analytics />
+          <AdsenseScript />
+        </ThemeProvider>
       </body>
     </html>
   );
