@@ -9,6 +9,62 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-fira-xc), "Arial Narrow", sans-serif;
+
+  --font-weight-regular: 400; /* body, comments, table numbers */
+  --font-weight-medium: 500; /* meta, timestamps, team names in tables, nav items */
+  --font-weight-semibold: 600; /* thread titles, H1–H4, buttons, labels, usernames, tabs */
+  --font-weight-bold: 700; /* points column, wordmark, scores (Inter), Fira chips (700 italic) */
+  --font-weight-black: 800; /* Fira only: scorebug + page H1 (800 italic) */
+
+  /* Inter scale (rem @16px). Line-height + tracking travel with the size. */
+  --text-h1: 1.75rem;
+  --text-h1--line-height: 1.2;
+  --text-h1--letter-spacing: -0.015em;
+  --text-h1--font-weight: 600;
+  --text-h2: 1.375rem;
+  --text-h2--line-height: 1.25;
+  --text-h2--letter-spacing: -0.01em;
+  --text-h2--font-weight: 600;
+  --text-h3: 1.125rem;
+  --text-h3--line-height: 1.3;
+  --text-h3--font-weight: 600;
+  --text-h4: 1rem;
+  --text-h4--line-height: 1.35;
+  --text-h4--font-weight: 600;
+  --text-title: 1.0625rem;
+  --text-title--line-height: 1.35;
+  --text-title--font-weight: 600; /* thread titles, clamp 3 */
+  --text-body: 0.9375rem;
+  --text-body--line-height: 1.55;
+  --text-body-sm: 0.875rem;
+  --text-body-sm--line-height: 1.5;
+  --text-meta: 0.8125rem;
+  --text-meta--line-height: 1.4;
+  --text-meta--font-weight: 500;
+  --text-label: 0.75rem;
+  --text-label--line-height: 1.3;
+  --text-label--letter-spacing: 0.06em;
+  --text-label--font-weight: 600; /* + uppercase */
+  --text-numeric: 0.9375rem;
+  --text-numeric--line-height: 1.2; /* + tabular-nums */
+  /* Fira Sans Extra Condensed, italic, uppercase */
+  --text-display: 3.5rem;
+  --text-display--line-height: 0.95;
+  --text-display--letter-spacing: 0.005em;
+  --text-display--font-weight: 800;
+  --text-display-sm: 2.25rem;
+  --text-display-sm--line-height: 0.95;
+  --text-display-sm--font-weight: 800;
+  --text-score: 2.875rem;
+  --text-score--line-height: 1;
+  --text-score--font-weight: 800;
+  --text-team: 1.375rem;
+  --text-team--line-height: 1;
+  --text-team--font-weight: 800;
+  --text-score-chip: 1.125rem;
+  --text-score-chip--line-height: 1;
+  --text-score-chip--font-weight: 700;
+
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -334,32 +390,9 @@
 }
 
 @layer utilities {
+  /* Deprecated: use .text-overline (row 5) */
   .section-label {
-    @apply text-muted-foreground text-[11px] font-medium tracking-[0.06em] uppercase;
-  }
-
-  .text-hint {
-    @apply text-[10px];
-  }
-
-  .text-meta {
-    @apply text-[11px];
-  }
-
-  .text-secondary-size {
-    @apply text-xs;
-  }
-
-  .text-body-size {
-    @apply text-[13px];
-  }
-
-  .text-title-size {
-    @apply text-[15px];
-  }
-
-  .text-heading-size {
-    @apply text-lg;
+    @apply text-label text-muted-foreground uppercase;
   }
 
   .live-pulse {
