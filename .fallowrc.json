@@ -1,6 +1,6 @@
 {
   "$schema": "https://raw.githubusercontent.com/fallow-rs/fallow/main/schema.json",
-  "ignorePatterns": ["components/ui/**"],
+  "ignorePatterns": ["components/ui/**", "docs/design/**"],
   "ignoreExportsUsedInFile": true,
   "duplicates": {
     "ignore": ["__tests__/**", "db/seed/**", "e2e/**"]

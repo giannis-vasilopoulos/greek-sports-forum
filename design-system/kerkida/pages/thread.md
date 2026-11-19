@@ -1,37 +1,41 @@
-# Thread Detail Page Overrides
+# Page override: Thread detail
 
-> **PROJECT:** ΚΕΡΚΙΔΑ
-> **Page Type:** Thread detail / participation
+**Route**: `/leagues/{league}/threads/{id}-{slug}` · **Canvas board**: S04 · Thread
 
-> Rules here **override** `design-system/kerkida/MASTER.md` where noted.
+## Variants
 
----
+1. **Discussion**: default.
+2. **Live match thread** (`thread.type === "match_thread"` and match live/halftime).
+3. **Guest**: any thread, not signed in.
 
 ## Layout
 
-- **Shell:** `FeedShell` — left 168px · main flex-1 · right 200px
-- **Main order:** Breadcrumb header → `ThreadTopAd` → desktop composer → post stream → `ThreadInContentAd` (after ~5 posts)
-- **Mobile:** Collapsed sticky `ReplyComposer` fixed to bottom (placeholder + sign-in link); expands on tap, reply, or draft restore; main column `pb-20` collapsed / `pb-32` expanded; Cookies pill stacks above composer via `--bottom-chrome-height`
+| Zone         | Mobile                                                                                                                                      | Desktop                                                                                   |
+| ------------ | ------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| Header       | Focused: `AppHeader back={{ href: leagueHub, label: "Super League · Συζητήσεις" }}`; **no** league bar, **no** match bar, **no** bottom nav | normal header + `LeagueBar showScopes={false} active={league}`                            |
+| Score        | live: `ScoreBug variant="compact"` sticky under header (48px)                                                                               | live: `ScoreBug variant="hero"` as `AppShell.top`                                         |
+| Title        | breadcrumb hidden; type badge + (pinned/LIVE) + `h1.text-h1` (22 mobile), **Inter**, sentence case, `line-clamp-3`                          | breadcrumb (Super League › Συζητήσεις), `text-h1` 28                                      |
+| Meta         | `AuthorLine` + Ακολούθηση + copy link                                                                                                       | same                                                                                      |
+| OP           | `PostCard isRoot isOp`                                                                                                                      | same, Card surface                                                                        |
+| Composer     | `ReplyComposer` mobile bar fixed bottom (replaces bottom nav); expands to bottom Sheet                                                      | inline under OP                                                                           |
+| Sort         | “N απαντήσεις” + pill tabs Κορυφαία · Νεότερα · Παλαιότερα (live: **Νεότερα** first & default)                                              | same                                                                                      |
+| Best-first   | `BestFirstBanner shown total allHref` when sort = Κορυφαία and total > shown                                                                | same                                                                                      |
+| Replies      | `<ul>` of `PostCard`; nesting indent 12px+2px line (mobile) / 20px (desktop); max depth 6 then `continueHref`                               | same                                                                                      |
+| In-thread ad | after the 5th **top-level** reply, then every 10; never inside a chain                                                                      | `leaderboard`                                                                             |
+| Rail         | —                                                                                                                                           | thread info (league, teams tagged, followers), trending, sticky MPU; live: mini standings |
 
-## Conversion
+## Behaviour
 
-- Guests: full read + enabled composer; submit saves draft → sign-in redirect → restore on return
-- Signed-in: sticky composer, Ctrl+Enter submit, reply-to quote strip
-- Votes: compact vertical rail; guest vote → sign-in redirect
+- Collapse: `defaultCollapsed` for replies with score < −5 (`moderation="low_score"`) and for chains deeper than 4 on mobile.
+- Live: new replies are queued; button “N νέες απαντήσεις” (announced at most once per 30″). Score changes via `ScoreAnnouncer`.
+- Deep link `#post-{id}`: expand ancestors, scroll with `scroll-padding-top`, highlight 2s with `bg-accent`.
+- Guest: `VoteButtons disabled disabledReason="Συνδέσου για να ψηφίσεις"`; `ReplyComposer gate={{ kind: "guest" }}`; draft kept in localStorage.
+- Locked thread: `gate.kind="locked"`, votes still allowed.
 
-## Typography & color
+## FUTURE (data not available)
 
-- Thread title: 18px/500
-- Post body: 13px/400
-- Meta: 11px muted
-- OP card: `bg-muted/20` rounded border
-- Tokens: KERKIDA teal `primary`, live `destructive` pulse badge
+Match tabs (Γεγονότα / Ενδεκάδες / Στατιστικά) and «στο 25′» timestamps: do not render placeholders.
 
-## Components
+## Accessibility
 
-- `ThreadHeader` — breadcrumb, badges, social proof (reply count + last activity)
-- `PostCard` — vote rail + avatar + content + reply action; OP uses muted card; nested replies use cumulative indent + `border-l` (cap 6 × 12px); branch collapse control (`−` / `+`) on replies with children (depth ≥ 1) hides subtree client-side; OP has no collapse control
-- `PostList` — OP rendered once; Reddit-style nested tree under OP; reply list always visible; only individual branches collapse; **default:** depth 1 expanded (full body), depth 2+ with children collapsed (hidden-count summary); user can toggle any branch with children
-- `PostList` best-first — when top-level replies exceed 12, show top 12 by score with helper line + «Εμφάνιση όλων των απαντήσεων (N) — χρονολογικά»; expand reveals full chronological list
-- `ReplyComposer` — draft-then-signup, fan-profile gate, rate-limit inline message
-- `VoteControls` — up/down with score
+Back → h1 → author → follow → OP → sort → replies → composer. Each post `<article aria-labelledby>`; nesting via nested `<ul>`. Collapse toggles have a 44px hit area. Ctrl/⌘+Enter submits, Esc cancels quote.
