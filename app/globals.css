@@ -148,13 +148,50 @@
   --color-ad-surface-foreground: var(--ad-surface-foreground);
   --color-ad-border: var(--ad-border);
   --color-overlay: var(--overlay);
-  --radius-sm: calc(var(--radius) * 0.6);
-  --radius-md: calc(var(--radius) * 0.8);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) * 1.4);
-  --radius-2xl: calc(var(--radius) * 1.8);
+  /* ---------- Radius (base 10px) ---------- */
+  --radius-sm: calc(var(--radius) * 0.6); /* 6  tags, form squares */
+  --radius-md: calc(var(--radius) * 0.8); /* 8  buttons, inputs */
+  --radius-lg: var(--radius); /* 10 chips */
+  --radius-xl: calc(var(--radius) * 1.2); /* 12 cards, tables */
+  --radius-2xl: calc(var(--radius) * 1.6); /* 16 sheets, page panels */
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+
+  /* ---------- Elevation ---------- */
+  --shadow-xs: var(--elev-xs);
+  --shadow-sm: var(--elev-sm);
+  --shadow-md: var(--elev-md);
+  --shadow-lg: var(--elev-lg);
+}
+
+/* Motion lives in a non-inline @theme block so the keyframes are emitted once. */
+@theme {
+  /* ---------- Motion ---------- */
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-enter: cubic-bezier(0, 0, 0.2, 1);
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+  --animate-live-pulse: live-pulse 1.6s cubic-bezier(0, 0, 0.2, 1) infinite;
+  --animate-score-flash: score-flash 0.9s var(--ease-standard) 1;
+  @keyframes live-pulse {
+    0% {
+      box-shadow: 0 0 0 0 color-mix(in oklch, var(--live) 70%, transparent);
+    }
+    70% {
+      box-shadow: 0 0 0 6px transparent;
+    }
+    100% {
+      box-shadow: 0 0 0 0 transparent;
+    }
+  }
+  @keyframes score-flash {
+    0% {
+      background-color: var(--live);
+      color: var(--live-foreground);
+    }
+    100% {
+      background-color: transparent;
+    }
+  }
 }
 
 :root {
@@ -266,6 +303,73 @@
 
   /* Surfaces */
   --overlay: oklch(0.18 0.01 270 / 45%); /* #101116 */
+
+  /* Elevation (light): soft, cool-tinted */
+  --elev-xs: 0 1px 2px oklch(0.22 0.01 270 / 6%);
+  --elev-sm:
+    0 1px 3px oklch(0.22 0.01 270 / 10%), 0 1px 2px oklch(0.22 0.01 270 / 6%);
+  --elev-md:
+    0 4px 12px oklch(0.22 0.01 270 / 10%), 0 2px 4px oklch(0.22 0.01 270 / 6%);
+  --elev-lg:
+    0 12px 32px oklch(0.22 0.01 270 / 14%), 0 4px 8px oklch(0.22 0.01 270 / 6%);
+
+  /* Motion durations */
+  --duration-instant: 0ms;
+  --duration-fast: 120ms; /* hover, press, vote toggle */
+  --duration-base: 180ms; /* popovers, tabs, accordions */
+  --duration-slow: 280ms; /* sheets, drawers, cookie bar */
+  --duration-pulse: 1600ms; /* live dot */
+
+  /* Z-index layers */
+  --z-base: 0;
+  --z-sticky: 10; /* sticky table header, sub-nav, match bar */
+  --z-header: 30; /* app header (56px mobile / 64px desktop) */
+  --z-composer: 40; /* sticky reply composer */
+  --z-cookie: 50; /* cookie bar (covers composer until answered) */
+  --z-popover: 60; /* dropdown, popover, hover card, select */
+  --z-overlay: 70; /* sheet / modal scrim */
+  --z-sheet: 71; /* sheet, drawer, dialog */
+  --z-toast: 90;
+  --z-tooltip: 100;
+
+  /* Logo / avatar sizes (WebP @64px source, 2× of 32) */
+  --logo-xs: 16px; /* inline in text, league nav, user flair */
+  --logo-sm: 20px; /* match chips, compact tables */
+  --logo-md: 24px; /* standings, thread rows */
+  --logo-lg: 32px; /* scorebug, team header */
+  --avatar-sm: 24px;
+  --avatar-md: 28px;
+  --avatar-lg: 40px;
+
+  /* Icon sizes (Lucide) — stroke: 2 at ≤16, 1.75 at 20–24, 1.5 at ≥32 */
+  --icon-xs: 14px;
+  --icon-sm: 16px;
+  --icon-md: 20px;
+  --icon-lg: 24px;
+  --icon-xl: 32px;
+
+  /* Density — comfortable (default) */
+  --row-h: 48px; /* table rows */
+  --row-thread-py: 12px; /* thread row vertical padding */
+  --cell-px: 16px;
+  --row-font: var(--text-body);
+  --control-h: 40px; /* buttons/inputs; 44px on touch (pointer: coarse) */
+}
+
+[data-density="compact"] {
+  --row-h: 36px;
+  --row-thread-py: 8px;
+  --cell-px: 12px;
+  --row-font: var(--text-body-sm);
+  --control-h: 32px;
+}
+@media (pointer: coarse) {
+  :root {
+    --control-h: 44px;
+  }
+  [data-density="compact"] {
+    --control-h: 44px;
+  }
 }
 
 .dark {
@@ -375,6 +479,12 @@
 
   /* Surfaces */
   --overlay: oklch(0.05 0 0 / 65%); /* #000000 */
+
+  /* Elevation (dark): surfaces get lighter as they rise; shadows only separate from the page */
+  --elev-xs: 0 0 0 1px oklch(1 0 0 / 4%);
+  --elev-sm: 0 1px 2px oklch(0 0 0 / 40%), 0 0 0 1px oklch(1 0 0 / 5%);
+  --elev-md: 0 6px 16px oklch(0 0 0 / 45%), 0 0 0 1px oklch(1 0 0 / 6%);
+  --elev-lg: 0 16px 40px oklch(0 0 0 / 55%), 0 0 0 1px oklch(1 0 0 / 7%);
 }
 
 @layer base {
@@ -386,10 +496,45 @@
   }
   html {
     @apply font-sans;
+    scroll-padding-top: 8rem;
+  } /* sticky header 56–64 + league bar 56 */
+  :lang(el) {
+    hyphens: manual;
   }
 }
 
 @layer utilities {
+  .text-overline {
+    @apply text-label text-muted-foreground uppercase;
+  } /* replaces .section-label */
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+  .border-emphasis {
+    border-width: 1.5px;
+  } /* live chip, open rumour card. Replaces border-[1.5px] */
+  /* System display face: scores, team names on the scorebug, fixed page H1. Never user content. */
+  .text-system {
+    font-family: var(--font-display);
+    font-style: italic;
+    text-transform: uppercase;
+    font-variant-numeric: tabular-nums;
+  }
+  .thread-title {
+    @apply text-title text-foreground;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    overflow-wrap: anywhere;
+  }
+  .live-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 9999px;
+    background: currentColor;
+    animation: var(--animate-live-pulse);
+  }
   /* Deprecated: use .text-overline (row 5) */
   .section-label {
     @apply text-label text-muted-foreground uppercase;
@@ -398,4 +543,18 @@
   .live-pulse {
     @apply animate-pulse;
   }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .live-dot {
+    animation: none;
+  } /* static dot; the word LIVE carries the state */
 }
