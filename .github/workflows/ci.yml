@@ -60,7 +60,7 @@ jobs:
 
   e2e:
     name: E2E
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     needs: quality
     services:
       postgres:
