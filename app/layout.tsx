@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Geist_Mono, Inter } from "next/font/google";
 import { headers } from "next/headers";
 
 import { AdsenseScript } from "@/components/ads/adsense-script";
@@ -20,18 +19,8 @@ import {
   getSiteUrl,
 } from "@/lib/seo/site";
 
+import { firaXC, inter } from "./fonts";
 import "./globals.css";
-
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin", "latin-ext"],
-  weight: ["400", "500"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   metadataBase: getSiteUrl(),
@@ -71,7 +60,7 @@ export default async function RootLayout({
   return (
     <html
       lang="el"
-      className={`${inter.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${inter.variable} ${firaXC.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">
         <ConsentModeBootstrap />
