@@ -203,6 +203,9 @@ drizzle.config.ts       # Drizzle Kit config
 docker-compose.yml      # Local PostgreSQL
 components.json         # shadcn/ui config
 seo/                    # SEO specs (URLs, metadata, JSON-LD) — read before new routes
+design-system/kerkida/  # Design system source of truth (MASTER, COMPONENTS, MIGRATION, REFACTOR-PLAN, pages/)
+docs/
+  design/               # Local only (gitignored): handoff/ code to port, screens/ visual targets
 ```
 
 ### Path aliases
@@ -341,6 +344,26 @@ Unauthenticated requests to matched paths redirect to `/sign-in`. Extend `matche
 For design-heavy features (layouts, landing pages, visual exploration), follow `.cursor/skills/ui-ux-pro-max/SKILL.md` after reading the styling and shadcn skills above.
 
 That skill uses searchable design data and Python scripts under `.cursor/skills/ui-ux-pro-max/scripts/`.
+
+### Redesign (ΚΕΡΚΙΔΑ design system v1)
+
+- Source of truth: [`design-system/kerkida/MASTER.md`](design-system/kerkida/MASTER.md), `COMPONENTS.md`, and `pages/*.md`.
+- Roadmap: [`design-system/kerkida/REFACTOR-PLAN.md`](design-system/kerkida/REFACTOR-PLAN.md) (one PR per row, one branch per PR; split any row that exceeds 200 changed lines). Track old → new with [`MIGRATION.md`](design-system/kerkida/MIGRATION.md).
+- Local-only assets (gitignored, may be missing): `docs/design/handoff/` holds the handoff code to port, and `docs/design/screens/` the visual targets. When a screen disagrees with `design-system/kerkida/`, the design system wins.
+- Until REFACTOR-PLAN Phase 1 (PRs 1–5) is merged, use only tokens that exist in `app/globals.css`. Tailwind silently drops unknown classes such as `bg-live` and `text-label`.
+- Do not run `ui-ux-pro-max --persist` into `design-system/kerkida/`, because it overwrites `MASTER.md`. Edit those files by hand.
+- Handoff code is not repo-ready. When porting, move hooks to `hooks/`, Greek strings to `lib/copy/`, and feature widgets to their feature folders under `components/`.
+
+### Modern Web Guidance (Chrome)
+
+If the [Modern Web Guidance](https://developer.chrome.com/docs/modern-web-guidance) skills are installed, use them for **CSS, performance (Core Web Vitals), forms/autofill, accessibility, and security**.
+
+Precedence when they conflict with repo conventions:
+
+- **UI components** — shadcn/Radix primitives and the repo skills win. Do not replace them with native `<dialog>`, Popover API, or anchor-positioned tooltips/menus.
+- **Theming, dark mode, typography** — the `tailwind-styling` skill and `design-system/kerkida/` tokens win.
+- **Next.js behavior** (routing, images, scripts, prefetching, transitions) — `node_modules/next/dist/docs/` wins.
+- Do not run `legacy-scan` or "modernize" refactors repo-wide; apply guidance only to the code being changed.
 
 ---
 

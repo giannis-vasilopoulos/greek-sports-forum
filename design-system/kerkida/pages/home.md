@@ -1,40 +1,41 @@
-# Home Page Overrides
+# Page override: Home feed
 
-> **PROJECT:** ΚΕΡΚΙΔΑ
-> **Page Type:** Community feed (home)
-
-> Rules here **override** `design-system/kerkida/MASTER.md` where noted.
-
----
+**Routes**: `/` · `/match-threads` (same page, `active="live"` scope, sort “Live”) · `/?live=1`
+**Canvas board**: S03 · Αρχική
 
 ## Layout
 
-- **Shell:** `FeedShell` — left sidebar 168px · main flex-1 · right sidebar 200px (desktop)
-- **Above shell:** `MatchBar` — full-width horizontal scroll of match chips
-- **Main order:** Top ad → League tabs → Thread rows → Mid ad
-- **Mobile:** Hide fixed sidebars; league tabs remain; right sidebar content stacks below thread list
+| Zone       | Mobile (<md)                                                                | Desktop (≥md / rail ≥xl)                                                       |
+| ---------- | --------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
+| Header     | `AppHeader` 56 (wordmark · bell · avatar)                                   | 64 with primary nav, `active="home"` (`"matches"` on /match-threads)           |
+| League bar | `LeagueBar showScopes active="all"`, 3 league pills + grid button           | all pills, “Όλες” popover                                                      |
+| Match bar  | `MatchBar` (chips 160, snap)                                                | chips 176 + arrows                                                             |
+| Top ad     | `AdSlot size="mobile-banner" placement="top"` under the match bar           | `AdSlot size="leaderboard"` first item in `main`                               |
+| Feed head  | Pill tabs Δημοφιλή · Νέα · Live N + icon button “Νέο θέμα” (44)             | `SectionHeader title="Για σένα"` + tabs + `Button size="sm"` Νέο θέμα          |
+| Feed       | `ThreadList` (edge-to-edge) of comfortable `ThreadRow`                      | rounded card list; `density` from user setting (compact ≥lg only)              |
+| In-feed ad | after row 6, then every 10 (`mobile-feed` / `leaderboard`)                  | same                                                                           |
+| Rail       | widgets move **below** the feed on <xl (mini standings, upcoming, trending) | `rail`: mini standings (active profile league), upcoming, trending, sticky MPU |
+| Bottom     | `BottomNav`                                                                 | footer                                                                         |
 
-## Typography
+## Overrides of MASTER
 
-- Page H1: sr-only "Match Threads" (brand title comes from metadata)
-- Section labels: `.section-label` (11px uppercase, 0.06em tracking)
-- Thread list uses `ThreadRow` component specs from MASTER
+- After 120px of scroll the match bar scrolls away and `LeagueBar.ticker` shows the most important live match (followed team first, else highest-profile league).
+- New threads never auto-insert: show `Button variant="secondary" size="sm"` “N νέα θέματα” pinned under the league bar.
+- Pinned threads only at the top of a league-scoped feed, max 2.
 
-## Color (page)
+## States
 
-- Match bar background: `bg-background` with `border-b border-border`
-- Active league tab: `bg-foreground text-background`
-- Live thread badge: destructive palette with pulse
+- Loading: 6 × `ThreadRowSkeleton`, `MatchBar matches={null}`.
+- Empty (league with no threads): `EmptyState icon={InboxIcon} title="Κανένα θέμα ακόμα" action=<Button>Νέο θέμα</Button>`.
+- Error: `EmptyState` + “Δοκίμασε ξανά”.
+- First visit: `CookieConsent open` (bottom-left desktop, above bottom nav on mobile).
 
-## Components
+## Accessibility
 
-- **MatchBar:** horizontal scroll row of `MatchChip`
-- **LeagueTab:** filter row for all leagues + live filter
-- **ThreadRow:** list of match threads with live/type badges
-- **LeftSidebar:** league nav + compact profile
-- **RightSidebar:** standings snippet, upcoming matches, trending threads
+Skip link → header → league bar → match bar → sort tabs → Νέο θέμα → list → rail → footer. One Tab stop per thread row. `ScoreAnnouncer` lives inside `MatchBar`.
 
-## Ads
+## Acceptance
 
-- Top: `MatchThreadsTopAd` before thread list
-- Mid: `MatchThreadsMidAd` after ~6 thread rows
+- [ ] No left sidebar; no header Leagues dropdown; no in-feed league tabs.
+- [ ] Ad heights reserved (CLS 0 in Lighthouse on 4G).
+- [ ] All rows ≥44px tall; LIVE has text and pulse.

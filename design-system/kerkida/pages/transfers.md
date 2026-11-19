@@ -1,38 +1,25 @@
-# Transfers Page Overrides
+# Page override: Transfers
 
-> **PROJECT:** ΚΕΡΚΙΔΑ
-> **Page Type:** Transfers overview, league hub, and team transfers
+**Routes**: `/transfers` (league picker → redirect to active league) · `/leagues/{league}/transfers` (team picker grid, also hub tab) · `/leagues/{league}/teams/{team}/transfers` (team tab) · **Canvas board**: S08
 
-> Rules here **override** `design-system/kerkida/MASTER.md` where noted.
+## Team transfers layout
 
----
+| Zone          | Mobile                                                                                                                                                                                                         | Desktop                                            |
+| ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------- |
+| Header / nav  | `active="transfers"`, `BottomNav`                                                                                                                                                                              | same                                               |
+| League bar    | `showScopes={false}`                                                                                                                                                                                           | same                                               |
+| Entity header | `EntityHeader` compact: `TeamLogo size="lg"`, **ΠΑΟΚ** (`text-system text-display-sm`), «Η ομάδα σου», meta (league · θέση · βαθμοί · `FormGuide`) + `PageTabs` (Συζητήσεις · Αγώνες · **Μεταγραφές** · Φήμες) | same, `size="2xl"` logo when not compact           |
+| Summary       | 2×2 stat cards: Αφίξεις, Αποχωρήσεις, Δαπάνη, Δανεισμοί (`tabular-nums`)                                                                                                                                       | 4 in a row                                         |
+| List          | `TransfersTable` → card list (<md)                                                                                                                                                                             | table (≥md) with season Select                     |
+| Ad            | `table-bottom` after the list                                                                                                                                                                                  | `leaderboard`                                      |
+| Rail          | —                                                                                                                                                                                                              | top open rumour (`RumorCard`) “Από τις Φήμες”, MPU |
 
-## Layout
+## League transfers (team picker)
 
-- **Shell:** Single column, `max-w-3xl`, centered — no sidebars
-- **Hub order:** Page title → League subtitle → Cross-link to rumors → League tabs → Top ad → Team grid or unavailable
-- **Team page order:** Page title → League subtitle → Back to league hub + cross-links → Top ad → Direction tabs (Άφιξη / Αποχώρηση) → Table or empty → Bottom ad (conditional)
-- **Routes:** `/transfers` (default Super League), `/leagues/{slug}/transfers`, `/leagues/{slug}/teams/{team-slug}/transfers`
+Team grid (`grid-cols-2 sm:grid-cols-3 lg:grid-cols-7`), each tile `TeamLogo size="lg"` + name + position; favourite team first and highlighted (`bg-accent border-primary`). Replaces the current 2-column button list with mixed-case duplicates (ΑΕΚ / Α.Ε.Κ.): de-duplicate team records in data first.
 
-## Typography
+## Rules
 
-- Page H1: `copy.transfers.pageTitle` on hubs; `copy.transfers.teamPageTitle` on team pages
-- League subtitle: `text-sm text-muted-foreground`
-- Table: compact `text-sm`
-
-## Color (page)
-
-- Active league tab: pill nav consistent with standings league tabs
-- Active direction tab: primary pill on team pages
-
-## Components
-
-- **TeamPickerHub + LeaguePillTabs:** league tabs link to `/leagues/{slug}/transfers`
-- **TeamTransfersTableSection:** client-side Άφιξη / Αποχώρηση filter
-- **TransfersTable:** player, from → to, date, fee (no direction column on team pages)
-- **TransfersUnavailable:** deferred leagues (NBA, Euroleague)
-
-## Ads
-
-- Top: `TransfersTopAd` after league tabs (hub) or cross-links (team), before grid/table
-- Bottom: `TransfersBottomAd` after the table when rows exist (team page only)
+- All labels Greek: Μεταγραφή, Δανεισμός, Επιστροφή από δανεισμό, Ελεύθερος, “—” (title “Άγνωστο”). Use `formatFeeEl`.
+- Direction = icon + word (Άφιξη/Αποχώρηση), never colour alone. Colours: `arrival` (cobalt), `departure` (magenta).
+- Filter is in-page (Radix Tabs), synced to `?type=in|out` with `router.replace` (no history spam).
