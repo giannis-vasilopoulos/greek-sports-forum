@@ -10,6 +10,7 @@ import { resolveSlgrSeasonId } from "@/lib/slgr/season";
 import { teamSlug } from "@/lib/teams/slug";
 
 import { leagues, teams } from "./schema";
+import { TEAM_COLORS } from "./seed/team-colors";
 import { seedUsers } from "./seed/users";
 
 import { db } from "./index";
@@ -564,12 +565,17 @@ export async function seed() {
           })
         : null;
 
+      const [color1, color2] = TEAM_COLORS[t.slug] ?? [null, null];
+      if (l.slug === "super-league" && !color1) {
+        console.warn(`  No colours for ${t.slug}; add it to TEAM_COLORS`);
+      }
+
       await db
         .insert(teams)
-        .values({ ...t, leagueId: league.id, logoUrl })
+        .values({ ...t, leagueId: league.id, logoUrl, color1, color2 })
         .onConflictDoUpdate({
           target: teams.slug,
-          set: { name: t.name, logoUrl },
+          set: { name: t.name, logoUrl, color1, color2 },
         });
     }
 
