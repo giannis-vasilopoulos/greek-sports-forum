@@ -5,6 +5,7 @@ import { db } from "@/db";
 import { account, fanProfiles, leagues, teams, user } from "@/db/schema";
 
 import { runSeedCli } from "./cli";
+import { mockTeamDbSlug } from "./teams";
 import { MOCK_THREADS } from "./threads";
 import { upsertMockFanProfile } from "./fan-profiles";
 
@@ -250,7 +251,10 @@ export async function seedMockPostAuthors(): Promise<AuthorPool> {
         name: persona.name,
       });
 
-      const favoriteTeamId = await resolveTeamId(league.id, persona.teamSlug);
+      const favoriteTeamId = await resolveTeamId(
+        league.id,
+        mockTeamDbSlug(leagueSlug, persona.teamSlug),
+      );
       if (!favoriteTeamId) continue;
 
       const profile = await upsertMockFanProfile({

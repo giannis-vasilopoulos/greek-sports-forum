@@ -4,7 +4,7 @@ import { db } from "@/db";
 import { fanProfiles, leagues, user } from "@/db/schema";
 
 import { runSeedCli } from "./cli";
-import { MOCK_TEAMS } from "./teams";
+import { MOCK_TEAMS, mockTeamDbSlug } from "./teams";
 import { MOCK_THREADS } from "./threads";
 
 export async function upsertMockFanProfile(input: {
@@ -80,7 +80,10 @@ export async function seedMockFanProfiles(options?: {
 
     const firstTeam = await db.query.teams.findFirst({
       where: (t, { and, eq: eqFn }) =>
-        and(eqFn(t.leagueId, leagueId), eqFn(t.slug, leagueTeams[0].slug)),
+        and(
+          eqFn(t.leagueId, leagueId),
+          eqFn(t.slug, mockTeamDbSlug(leagueSlug, leagueTeams[0].slug)),
+        ),
       columns: { id: true },
     });
 

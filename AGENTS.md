@@ -133,7 +133,7 @@ Docker Compose defaults (`docker-compose.yml`):
 | `pnpm typecheck`        | TypeScript check (`tsc --noEmit`)              |
 | `pnpm format`           | Prettier write (also via Husky pre-commit)     |
 | `pnpm format:check`     | Prettier check (CI)                            |
-| `pnpm fallow:audit`     | PR-scope dead-code gate (same as CI)           |
+| `pnpm fallow:audit`     | PR-scope dead-code gate (local)                |
 | `pnpm fallow:dead-code` | Full-repo cleanup report (local)               |
 | `pnpm fallow:health`    | Complexity / CRAP hotspots (local)             |
 | `pnpm fallow:dupes`     | Code duplication scan (local, optional)        |
@@ -155,7 +155,7 @@ Husky + lint-staged is the only local Prettier **write** path. On every commit:
 | pre-commit | ESLint fix, `pnpm format` (via lint-staged), typecheck (when TS staged) |
 | commit-msg | commitlint (Conventional Commits)                                       |
 
-CI (`.github/workflows/ci.yml`) runs lint, typecheck, `pnpm format:check`, fallow audit, unit tests, build, and e2e on every push to `main` and on pull requests. Do not skip hooks with `--no-verify` unless you have a strong reason — CI will fail on formatting drift.
+CI (`.github/workflows/ci.yml`) runs lint, typecheck, `pnpm format:check`, unit tests, and build on every push to `main` and on pull requests. Do not skip hooks with `--no-verify` unless you have a strong reason — CI will fail on formatting drift.
 
 ### Verification before finishing work
 

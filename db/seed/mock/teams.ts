@@ -33,6 +33,11 @@ export const MOCK_TEAMS: Record<
   ],
 };
 
+/** DB slug is league-prefixed; see `getTeamByLeagueAndUrlSlug`. */
+export function mockTeamDbSlug(leagueSlug: string, teamSlug: string): string {
+  return `${leagueSlug}-${teamSlug}`;
+}
+
 async function resolveLeagueIds(
   leagueIds?: Map<string, number>,
 ): Promise<Map<string, number>> {
@@ -66,7 +71,11 @@ export async function seedMockTeams(leagueIds?: Map<string, number>) {
     for (const team of leagueTeams) {
       await db
         .insert(teams)
-        .values({ ...team, leagueId })
+        .values({
+          slug: mockTeamDbSlug(leagueSlug, team.slug),
+          name: team.name,
+          leagueId,
+        })
         .onConflictDoUpdate({
           target: teams.slug,
           set: { name: team.name, leagueId },

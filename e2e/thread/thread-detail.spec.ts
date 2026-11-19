@@ -91,15 +91,19 @@ test.describe("thread detail", () => {
     await page.goto(SHOWCASE_THREAD_PATH);
     await dismissCookieBannerIfVisible(page);
 
-    await page
-      .getByRole("button", { name: copy.thread.post.reply })
-      .first()
-      .click();
+    // A click before hydration is a no-op; retry until the reply strip shows.
+    const replyStrip = page.getByText(/^Απάντηση σε /).first();
+    await expect(async () => {
+      await page
+        .getByRole("button", { name: copy.thread.post.reply })
+        .first()
+        .click();
+      await expect(replyStrip).toBeVisible({ timeout: 1_000 });
+    }).toPass({ timeout: NAV_TIMEOUT_MS });
 
     const composer = page.getByLabel(copy.thread.composer.label).first();
     await expect(composer).toBeVisible({ timeout: NAV_TIMEOUT_MS });
     await expect(composer).toBeInViewport({ timeout: NAV_TIMEOUT_MS });
-    await expect(page.getByText(/^Απάντηση σε /).first()).toBeVisible();
   });
 
   test("nested replies render under their parent in the reply tree", async ({
