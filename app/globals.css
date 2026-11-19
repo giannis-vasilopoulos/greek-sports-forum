@@ -41,6 +41,57 @@
   --color-card: var(--card);
   --color-cta: var(--cta);
   --color-cta-foreground: var(--cta-foreground);
+  --color-live: var(--live);
+  --color-live-border: var(--live-border);
+  --color-live-foreground: var(--live-foreground);
+  --color-live-text: var(--live-text);
+  --color-halftime: var(--halftime);
+  --color-halftime-foreground: var(--halftime-foreground);
+  --color-finished: var(--finished);
+  --color-finished-foreground: var(--finished-foreground);
+  --color-scheduled: var(--scheduled);
+  --color-scheduled-foreground: var(--scheduled-foreground);
+  --color-postponed: var(--postponed);
+  --color-postponed-foreground: var(--postponed-foreground);
+  --color-scorebug: var(--scorebug);
+  --color-scorebug-raised: var(--scorebug-raised);
+  --color-scorebug-foreground: var(--scorebug-foreground);
+  --color-scorebug-muted: var(--scorebug-muted);
+  --color-upvote: var(--upvote);
+  --color-downvote: var(--downvote);
+  --color-win: var(--win);
+  --color-win-foreground: var(--win-foreground);
+  --color-draw: var(--draw);
+  --color-draw-foreground: var(--draw-foreground);
+  --color-loss: var(--loss);
+  --color-loss-foreground: var(--loss-foreground);
+  --color-arrival: var(--arrival);
+  --color-arrival-subtle: var(--arrival-subtle);
+  --color-departure: var(--departure);
+  --color-departure-subtle: var(--departure-subtle);
+  --color-rumor: var(--rumor);
+  --color-rumor-foreground: var(--rumor-foreground);
+  --color-rep-1: var(--rep-1);
+  --color-rep-1-foreground: var(--rep-1-foreground);
+  --color-rep-2: var(--rep-2);
+  --color-rep-2-foreground: var(--rep-2-foreground);
+  --color-rep-3: var(--rep-3);
+  --color-rep-3-foreground: var(--rep-3-foreground);
+  --color-rep-4: var(--rep-4);
+  --color-rep-4-foreground: var(--rep-4-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
+  --color-zone-playoff: var(--zone-playoff);
+  --color-zone-mid: var(--zone-mid);
+  --color-zone-relegation: var(--zone-relegation);
+  --color-ad-surface: var(--ad-surface);
+  --color-ad-surface-foreground: var(--ad-surface-foreground);
+  --color-ad-border: var(--ad-border);
+  --color-overlay: var(--overlay);
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
@@ -92,6 +143,73 @@
   --sidebar-accent-foreground: oklch(0.44 0.2 268); /* #273FBE */
   --sidebar-border: oklch(0.91 0.005 270); /* #E0E1E5 */
   --sidebar-ring: oklch(0.5 0.2 268); /* #3453D3 */
+
+  /* Match status */
+  --live: oklch(0.72 0.17 58); /* #F1840B */
+  --live-border: oklch(0.53 0.144 48); /* #AB4B01 */
+  --live-foreground: oklch(0.22 0.04 50); /* #291508 */
+  --live-text: oklch(0.53 0.144 48); /* #AB4B01 */
+  --halftime: oklch(0.95 0.033 65); /* #FFEBD8 */
+  --halftime-foreground: oklch(0.47 0.128 48); /* #923F00 */
+  --finished: oklch(0.94 0.004 270); /* #EAEBEE */
+  --finished-foreground: oklch(0.42 0.012 270); /* #4A4D54 */
+  --scheduled: oklch(0.95 0.023 268); /* #E8EEFF */
+  --scheduled-foreground: oklch(0.44 0.2 268); /* #273FBE */
+  --postponed: oklch(0.95 0.02 305); /* #F1EBFA */
+  --postponed-foreground: oklch(0.45 0.15 305); /* #693996 */
+  --scorebug: oklch(0.22 0.012 270); /* #181A20 */
+  --scorebug-raised: oklch(0.3 0.014 270); /* #2B2E35 */
+  --scorebug-foreground: oklch(0.99 0 0); /* #FCFCFC */
+  --scorebug-muted: oklch(0.8 0.01 270); /* #BBBDC4 */
+
+  /* Votes & form */
+  --upvote: oklch(0.5 0.2 268); /* #3453D3 */
+  --downvote: oklch(0.5 0.19 305); /* #7D3AB7 */
+  --win: oklch(0.5 0.2 268); /* #3453D3 */
+  --win-foreground: oklch(0.99 0 0); /* #FCFCFC */
+  --draw: oklch(0.82 0.006 270); /* #C2C4C8 */
+  --draw-foreground: oklch(0.22 0.01 270); /* #191A1F */
+  --loss: oklch(1 0 0); /* #FFFFFF */
+  --loss-foreground: oklch(0.49 0.012 270); /* #5E6067 */
+
+  /* Transfers */
+  --arrival: oklch(0.48 0.2 268); /* #304CCC */
+  --arrival-subtle: oklch(0.95 0.023 268); /* #E8EEFF */
+  --departure: oklch(0.5 0.2 330); /* #9D2398 */
+  --departure-subtle: oklch(0.955 0.025 330); /* #FAEAF8 */
+  --rumor: oklch(0.96 0.025 85); /* #FAF1DF */
+  --rumor-foreground: oklch(0.44 0.08 70); /* #6E4A1A */
+
+  /* Reputation */
+  --rep-1: oklch(0.94 0.004 270); /* #EAEBEE */
+  --rep-1-foreground: oklch(0.42 0.012 270); /* #4A4D54 */
+  --rep-2: oklch(0.93 0.032 268); /* #DFE8FE */
+  --rep-2-foreground: oklch(0.44 0.17 268); /* #2C45AE */
+  --rep-3: oklch(0.5 0.2 268); /* #3453D3 */
+  --rep-3-foreground: oklch(0.99 0 0); /* #FCFCFC */
+  --rep-4: oklch(0.22 0.01 270); /* #191A1F */
+  --rep-4-foreground: oklch(0.99 0 0); /* #FCFCFC */
+
+  /* Feedback */
+  --success: oklch(0.5 0.088 215); /* #016F82 */
+  --success-foreground: oklch(0.99 0 0); /* #FCFCFC */
+  --warning: oklch(0.84 0.15 85); /* #F7C243 */
+  --warning-foreground: oklch(0.24 0.05 70); /* #2E1A01 */
+  --info: oklch(0.52 0.148 250); /* #006BBA */
+  --info-foreground: oklch(0.99 0 0); /* #FCFCFC */
+
+  /* Zones */
+  --zone-playoff: oklch(0.5 0.2 268); /* #3453D3 */
+  --zone-mid: oklch(0.64 0.012 270); /* #898C94 */
+  --zone-relegation: oklch(0.52 0.19 27); /* #BE2323 */
+
+  /* Ads */
+  --ad-surface: oklch(0.965 0.012 85); /* #F7F3EB */
+  --ad-surface-foreground: oklch(0.47 0.015 80); /* #5F5A52 */
+  --ad-border: oklch(0.88 0.015 85); /* #DCD7CD */
+
+  /* Surfaces */
+  --overlay: oklch(0.18 0.01 270 / 45%); /* #101116 */
 }
 
 .dark {
@@ -134,6 +252,73 @@
   --sidebar-accent-foreground: oklch(0.86 0.068 268); /* #BED0FF */
   --sidebar-border: oklch(0.3 0.01 270); /* #2C2E33 */
   --sidebar-ring: oklch(0.74 0.132 268); /* #87A7FE */
+
+  /* Match status */
+  --live: oklch(0.76 0.16 60); /* #F99532 */
+  --live-border: oklch(0.76 0.16 60); /* #F99532 */
+  --live-foreground: oklch(0.22 0.04 50); /* #291508 */
+  --live-text: oklch(0.8 0.14 62); /* #FDA856 */
+  --halftime: oklch(0.32 0.06 60); /* #492B0F */
+  --halftime-foreground: oklch(0.84 0.11 65); /* #FCBC7C */
+  --finished: oklch(0.29 0.008 270); /* #2A2B2F */
+  --finished-foreground: oklch(0.8 0.01 270); /* #BBBDC4 */
+  --scheduled: oklch(0.3 0.06 268); /* #212C4C */
+  --scheduled-foreground: oklch(0.86 0.068 268); /* #BED0FF */
+  --postponed: oklch(0.3 0.05 305); /* #342742 */
+  --postponed-foreground: oklch(0.84 0.08 305); /* #D6BEF5 */
+  --scorebug: oklch(0.26 0.012 270); /* #22242A */
+  --scorebug-raised: oklch(0.34 0.014 270); /* #35383F */
+  --scorebug-foreground: oklch(0.99 0 0); /* #FCFCFC */
+  --scorebug-muted: oklch(0.8 0.01 270); /* #BBBDC4 */
+
+  /* Votes & form */
+  --upvote: oklch(0.74 0.132 268); /* #87A7FE */
+  --downvote: oklch(0.74 0.13 305); /* #BE95EC */
+  --win: oklch(0.74 0.132 268); /* #87A7FE */
+  --win-foreground: oklch(0.18 0.03 268); /* #0C111F */
+  --draw: oklch(0.44 0.008 270); /* #515257 */
+  --draw-foreground: oklch(0.965 0.003 270); /* #F2F3F5 */
+  --loss: oklch(0.218 0.008 270); /* #191A1E */
+  --loss-foreground: oklch(0.76 0.012 270); /* #AEB1B9 */
+
+  /* Transfers */
+  --arrival: oklch(0.76 0.122 268); /* #90AEFF */
+  --arrival-subtle: oklch(0.3 0.06 268); /* #212C4C */
+  --departure: oklch(0.76 0.14 330); /* #E38FDB */
+  --departure-subtle: oklch(0.3 0.06 330); /* #3E223C */
+  --rumor: oklch(0.3 0.035 85); /* #362D19 */
+  --rumor-foreground: oklch(0.86 0.06 85); /* #E3CFA5 */
+
+  /* Reputation */
+  --rep-1: oklch(0.3 0.008 270); /* #2C2E32 */
+  --rep-1-foreground: oklch(0.8 0.01 270); /* #BBBDC4 */
+  --rep-2: oklch(0.32 0.07 268); /* #233056 */
+  --rep-2-foreground: oklch(0.86 0.068 268); /* #BED0FF */
+  --rep-3: oklch(0.74 0.132 268); /* #87A7FE */
+  --rep-3-foreground: oklch(0.18 0.03 268); /* #0C111F */
+  --rep-4: oklch(0.965 0.003 270); /* #F2F3F5 */
+  --rep-4-foreground: oklch(0.18 0.006 270); /* #101114 */
+
+  /* Feedback */
+  --success: oklch(0.78 0.1 210); /* #5FC9DB */
+  --success-foreground: oklch(0.18 0.03 215); /* #01151A */
+  --warning: oklch(0.82 0.14 85); /* #EEBC4A */
+  --warning-foreground: oklch(0.22 0.05 70); /* #291600 */
+  --info: oklch(0.76 0.11 250); /* #79B6F4 */
+  --info-foreground: oklch(0.18 0.03 250); /* #07121E */
+
+  /* Zones */
+  --zone-playoff: oklch(0.74 0.132 268); /* #87A7FE */
+  --zone-mid: oklch(0.56 0.012 270); /* #72747C */
+  --zone-relegation: oklch(0.72 0.16 25); /* #F97770 */
+
+  /* Ads */
+  --ad-surface: oklch(0.235 0.012 85); /* #211E18 */
+  --ad-surface-foreground: oklch(0.76 0.015 85); /* #B5B1A7 */
+  --ad-border: oklch(0.33 0.015 85); /* #39352D */
+
+  /* Surfaces */
+  --overlay: oklch(0.05 0 0 / 65%); /* #000000 */
 }
 
 @layer base {
