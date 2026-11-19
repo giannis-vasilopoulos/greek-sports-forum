@@ -26,7 +26,10 @@ export const transfersCopy = {
   feeLabels: {
     free: "Ελεύθερος",
     loan: "Δανεισμός",
+    loanReturn: "Επιστροφή από δανεισμό",
     unknown: "Άγνωστο",
+    millions: (amount: string) => `€ ${amount} εκ.`,
+    thousands: (amount: string) => `€ ${amount} χιλ.`,
   },
 } as const;
 

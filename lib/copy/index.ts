@@ -1,9 +1,11 @@
 import { adsCopy } from "@/lib/copy/ads";
 import { authCopy } from "@/lib/copy/auth";
 import { commonCopy } from "@/lib/copy/common";
+import { datetimeCopy } from "@/lib/copy/datetime";
 import { feedCopy } from "@/lib/copy/feed";
 import { forumCopy } from "@/lib/copy/forum";
 import { layoutCopy } from "@/lib/copy/layout";
+import { matchCopy } from "@/lib/copy/match";
 import { moderationCopy } from "@/lib/copy/moderation";
 import { notificationsCopy } from "@/lib/copy/notifications";
 import { profileCopy } from "@/lib/copy/profile";
@@ -32,6 +34,8 @@ export const copy = {
   transferRumors: transferRumorsCopy,
   profile: profileCopy,
   notifications: notificationsCopy,
+  datetime: datetimeCopy,
+  match: matchCopy,
 } as const;
 
 export type Copy = typeof copy;
