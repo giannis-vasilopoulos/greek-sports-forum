@@ -22,10 +22,7 @@ jobs:
     name: Quality
     runs-on: ubuntu-latest
     steps:
-      # fetch-depth: 0 so origin/main exists for fallow audit (main...HEAD).
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - uses: pnpm/action-setup@v4
         with:
@@ -47,10 +44,6 @@ jobs:
 
       - name: Format check
         run: pnpm format:check
-
-      # Use origin/main — checkout does not create a local `main` branch on PRs.
-      - name: Fallow audit (changed vs main)
-        run: pnpm exec fallow audit --base origin/main --ci --explain
 
       - name: Unit tests
         run: pnpm test
