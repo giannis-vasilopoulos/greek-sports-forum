@@ -1,4 +1,5 @@
 import { expect, test } from "@/e2e/fixtures";
+import { copy } from "@/lib/copy";
 
 test.describe("Transfer rumors", () => {
   test("overview has canonical and title", async ({ page }) => {
@@ -15,7 +16,7 @@ test.describe("Transfer rumors", () => {
       page.getByRole("navigation", { name: "Επιλογή ομάδας" }),
     ).toBeVisible();
     await expect(
-      page.getByText(/Πρέπει να συνδεθείτε για να υποβάλετε φήμη/),
+      page.getByText(copy.transferRumors.form.signInPrompt),
     ).toBeVisible();
   });
 
