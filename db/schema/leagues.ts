@@ -40,6 +40,8 @@ export const teams = pgTable(
     name: text("name").notNull(),
     slug: text("slug").notNull().unique(),
     logoUrl: text("logo_url"),
+    color1: text("color_1"), // club colours (CSS colour) for the avatar ring
+    color2: text("color_2"),
     group: text("group"), // "north" | "south" | null για leagues χωρίς όμιλους
   },
   (t) => [index("team_league_idx").on(t.leagueId)],

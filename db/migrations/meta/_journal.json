@@ -85,6 +85,13 @@
       "when": 1781030764080,
       "tag": "0011_chilly_ego",
       "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1795112550300,
+      "tag": "0012_clear_valeria_richards",
+      "breakpoints": true
     }
   ]
 }
