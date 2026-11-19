@@ -23,6 +23,14 @@ Line counts below are estimates based on the handoff files.
 | 6   | **Domain types + format helpers**                                     | `lib/kerkida/types.ts`, `lib/kerkida/format.ts` + unit tests                                                                                                                                                                                                       | 200    | Pure TS                                                      | Tests for `formatRelativeEl`, `formatFeeEl`, `matchAriaLabel`     |
 | 6b  | **Team colours in data** (backend)                                    | migration: `teams.color_1`, `teams.color_2` (+ seed for Super League)                                                                                                                                                                                              | n/a    | Nullable columns                                             | —                                                                 |
 
+## Phase 1b: Base UI switch ([ADR 0001](../../docs/adr/0001-shadcn-base-ui.md))
+
+| #   | PR                                                                                                                                                                                                                                                                                                              | ~Lines           | Ships alone because                                             | Verify                                                                                     |
+| --- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------- | --------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| 6c  | **Radix → Base UI**: `components.json` `style: "base-nova"`; regenerate the 14 existing `components/ui` files with the shadcn CLI (excluded from count); migrate call sites (`asChild` → `render`, `nativeButton={false}`, `onOpenChange` details, `data-open`); drop `radix-ui`; update docs listed in the ADR | 100 (call sites) | Same look and class names; every caller migrated in the same PR | No `radix-ui` import left; keyboard + screen-reader check on menus, sheet, select, popover |
+
+From PR 7 on, every shadcn add uses `base-nova`, and handoff code is converted when ported (see ADR 0001).
+
 ## Phase 2: Primitives
 
 | #   | PR                                                                                                                                                                   | ~Lines     | Notes                                      |
