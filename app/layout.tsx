@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { headers } from "next/headers";
 import { ThemeProvider } from "next-themes";
 
@@ -50,6 +50,13 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 };
 
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#F9FAFB" },
+    { media: "(prefers-color-scheme: dark)", color: "#101114" },
+  ],
+};
+
 export default async function RootLayout({
   children,
 }: Readonly<{
@@ -62,7 +69,6 @@ export default async function RootLayout({
     <html
       lang="el"
       className={`${inter.variable} ${firaXC.variable} h-full antialiased`}
-      // next-themes sets the theme class on <html> before hydration.
       suppressHydrationWarning
     >
       <body className="flex min-h-full flex-col">
